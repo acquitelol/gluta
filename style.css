@@ -1,0 +1,740 @@
+
+@font-face {
+  font-family: 'whitneybold';
+  src: url('./fonts/whitneybold-webfont.woff2') format('woff2'),
+       url('./fonts/whitneybold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'whitneybook';
+  src: url('./fonts/whitneybook-webfont.woff2') format('woff2'),
+       url('./fonts/whitneybook-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'whitneybookitalic';
+  src: url('./fonts/whitneybookitalic-webfont.woff2') format('woff2'),
+       url('./fonts/whitneybookitalic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'whitneylight';
+  src: url('./fonts/whitneylight-webfont.woff2') format('woff2'),
+       url('./fonts/whitneylight-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'whitneylightitalic';
+  src: url('./fonts/whitneylightitalic-webfont.woff2') format('woff2'),
+       url('./fonts/whitneylightitalic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'whitneymedium';
+  src: url('./fonts/whitneymedium-webfont.woff2') format('woff2'),
+       url('./fonts/whitneymedium-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'whitneymediumitalic';
+  src: url('./fonts/whitneymediumitalic-webfont.woff2') format('woff2'),
+       url('./fonts/whitneymediumitalic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'whitneysemibold';
+  src: url('./fonts/whitneysemibold-webfont.woff2') format('woff2'),
+       url('./fonts/whitneysemibold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'whitneysemibolditalic';
+  src: url('./fonts/whitneysemibolditalic-webfont.woff2') format('woff2'),
+       url('./fonts/whitneysemibolditalic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #201c1c;
+  animation: fadeInAnimation ease-out 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+      opacity: 0;
+      
+  }
+  100% {
+      opacity: 1;
+   }
+}
+
+#bg {
+  position: relative;
+  top: -50px;
+  left: 0px;
+  background-image: linear-gradient(60deg, #eb4bce, #58085c);
+  -webkit-text-fill-color: transparent;
+  font-size: 125px;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  animation: posAni ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+.pfp {
+  transition-duration: 0.3s;
+  position: relative;
+  top: -170px;
+  left: -80px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 6px;
+  border-color: #201c1c;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  animation: posAni ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.circle {
+  transition-duration: 1s;
+  position: relative;
+  top: -587px;
+  left: -60px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #201c1c;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  animation: posAni ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  transform: rotateX(0deg);
+}
+
+
+.divider {
+  position: relative;
+  top: -535px;
+  left: 0px;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+
+
+.nickname {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -185px;
+  left: -70px;
+  font-family: 'whitneymedium';
+  color: white;
+  font-size: 16px;
+  animation: posAni2 ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0s;
+}
+
+.username {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -215px;
+  left: -53px;
+  font-family: 'whitneybook';
+  color: #818386;
+  font-size: 14px;
+  animation: posAni2 ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.1s;
+}
+
+
+
+.client_id {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -300px;
+  transform: rotate(5deg);
+  transform: scale(0);
+  width: 210px;
+  height: 200px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  animation: posIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.4s;
+}
+
+.state {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -295px;
+  transform: rotate(5deg);
+  transform: scale(0);
+  width: 210px;
+  height: 200px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  animation: posIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.35s;
+}
+
+.details {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -290px;
+  transform: rotate(5deg);
+  transform: scale(0);
+  width: 210px;
+  height: 200px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  animation: posIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.3s;
+}
+
+.large {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -285px;
+  transform: rotate(5deg);
+  transform: scale(0);
+  width: 210px;
+  height: 200px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  animation: posIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.25s;
+}
+
+.small {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -280px;
+  transform: rotate(5deg);
+  transform: scale(0);
+  width: 210px;
+  height: 100px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  animation: posIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.2s;
+}
+
+
+#buttontxt1 {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -275px;
+  transform: rotate(5deg);
+  transform: scale(0);
+  width: 210px;
+  height: 100px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  animation: posIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.15s;
+}
+
+
+#buttonurl1 {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -270px;
+  transform: rotate(5deg);
+  transform: scale(0);
+  width: 210px;
+  height: 100px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  animation: posIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.1s;
+}
+
+
+#buttontxt2 {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -265px;
+  transform: rotate(5deg);
+  transform: scale(0);
+  width: 210px;
+  height: 100px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  animation: posIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.05s;
+}
+
+
+#buttonurl2 {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
+  position: relative;
+  top: -260px;
+  transform: rotate(5deg);
+  transform: scale(0);
+  width: 210px;
+  height: 100px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  animation: posIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.00s;
+}
+.set {
+
+  position: relative;
+  top: 125px;
+  width: 210px;
+  border: none;
+  border-radius: 5px;
+  font-family: 'whitneybook';
+  background-color: rgba(97, 97, 97, 0.61);
+  color: white;
+  font-size: 16px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  float: left;
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  animation: scaleIn ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.4s;
+  transform: scale(0);
+}
+
+
+
+
+
+.export {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.10);
+  
+  position: relative;
+  top: 27px;
+  width: 210px;
+  border: none;
+  border-radius: 5px;
+  font-family: 'whitneybook';
+  background-color: rgba(97, 97, 97, 0.61);
+  color: white;
+  font-size: 16px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  float: left;
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  animation: scaleIn ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.2s;
+  transform: scale(0);
+}
+
+.import {
+  transition-duration: 0.3s;
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.10);
+  
+  position: relative;
+  top: 17px;
+  width: 210px;
+  border: none;
+  border-radius: 5px;
+  font-family: 'whitneybook';
+  background-color: rgba(97, 97, 97, 0.61);
+  color: white;
+  font-size: 16px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  float: left;
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  animation: scaleIn ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0s;
+  transform: scale(0);
+}
+
+.madeby {
+  position: fixed;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  font-family: 'whitneybook';
+  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.10);
+  color: white;
+  font-size: 20px;
+  animation: fadeInAnimation2 ease-out 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+}
+
+.set span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.3s;
+}
+
+.set span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.3s;
+}
+
+.set:hover span {
+  padding-right: 20px;
+}
+
+.set:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.import span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.3s;
+}
+
+.import span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.3s;
+}
+
+.import:hover span {
+  padding-right: 19px;
+}
+
+.import:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.export span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.3s;
+}
+
+.export span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.3s;
+}
+
+.export:hover span {
+  padding-right: 20px;
+}
+
+.export:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.circle:hover {
+  transform: rotateX(360deg);
+
+}
+
+@keyframes fadeInAnimation2 {
+  0% {
+      opacity: 1;
+      top: 500px;
+  }
+  100% {
+      opacity: 0;
+      top: 480px;
+   }
+}
+
+@keyframes posIn {
+  0% {
+      /* transform: translateX(500px); */
+      transform: rotate(5deg);
+      transform: scale(0);
+  }
+
+  100% {
+      /* transform: translateX(250px); */
+      transform: rotate(0deg);
+      transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+      transform: scale(0);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
+
+@keyframes posAni {
+  0% {
+      transform: translateY(-75px);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}
+
+@keyframes posAni2 {
+  0% {
+      transform: translatex(-150px);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}
+
+.set:hover {
+
+
+  box-shadow: 0 0 8px 4px rgba(0,0,0,0.25), 0 0 20px 10px rgba(0,0,0,0.40); 
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.10), 0 0 0 2px rgba(97, 97, 97, 0.61); 
+  color: rgba(97, 97, 97, 0.61);
+  background-color: white;
+  
+}
+
+
+.import:hover {
+  box-shadow: 0 0 8px 4px rgba(0,0,0,0.25), 0 0 20px 10px rgba(0,0,0,0.40); 
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.10), 0 0 0 2px rgba(97, 97, 97, 0.61);
+  background-color: white;
+  color: rgba(97, 97, 97, 0.61);
+
+}
+
+.export:hover {
+  box-shadow: 0 0 8px 4px rgba(0,0,0,0.25), 0 0 20px 10px rgba(0,0,0,0.40); 
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.10), 0 0 0 2px rgba(97, 97, 97, 0.61); 
+  background-color: white;
+  color: rgba(97, 97, 97, 0.61);
+
+}
+
+
+
+.client_id:hover {
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.25), 0 0 12px 0 rgba(0,0,0,0.15); 
+}
+
+.state:hover {
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.25), 0 0 12px 0 rgba(0,0,0,0.15); 
+}
+
+.details:hover {
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.25), 0 0 12px 0 rgba(0,0,0,0.15); 
+}
+
+.large:hover {
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.25), 0 0 12px 0 rgba(0,0,0,0.15); 
+}
+
+.small:hover {
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.25), 0 0 12px 0 rgba(0,0,0,0.15); 
+}
+
+
+
