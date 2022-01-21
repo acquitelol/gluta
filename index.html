@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <title>Genshin Rich Presence</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src='main.js'></script>
+</head>
+<body>
+
+    <h1 id='bg'>____</h1>
+    <img src="./assets/Scrolling-Lines-Pink.gif" alt="Discord PFP" width="60" height="60", class='pfp'>
+
+    <h3 class='nickname'> Testing Only</h3>
+    <h4 class='username'> Test Account#0001</h4>
+
+    <button class="set" id="set"><span>Set as Rich Presence</span></button>
+    <button class="import" id="import"><span>Import Rich Presence</span></button>
+    <button class="export" id="export"><span>Export Rich Presence</span></button>
+    <div id='reply'></div>
+    <input type="text" class="client_id posAM" placeholder="Client ID" id="client" value=''>
+    <input type="text" class="state posAM" placeholder="State" id='state' value=''>
+    <input type="text" class="details posAM" placeholder="Details" id='details' value=''>
+    <input type="text" class="large posAM" placeholder="Large" id='large' value=''>
+    <input type="text" onclick='this.select();' class="small posAM" placeholder="Small" id='small' value=''>
+    <input type="text" class="buttontxt1 posAM" placeholder="Button Text 1" id='buttontxt1' value=''>
+    <input type="text" class="buttonurl1 posAM" placeholder="Button URL 1" id='buttonurl1' value=''>
+    <input type="text" class="buttontxt2 posAM" placeholder="Button Text 2" id='buttontxt2' value=''>
+    <input type="text" class="buttonurl2 posAM" placeholder="Button URL 2" id='buttonurl2' value=''>
+
+
+    <img src="./assets/circle.png" alt="circle" width="10" height="10", class='circle'>
+    <img src="./assets/divider.png" alt="divider" width="230" height="3", class='divider'>
+    <h1 class='madeby'>Made by Acquite.</h1>
+
+    <script>
+        window.onload=function(){
+            let fs = require('fs'); // Load the File System to execute our common tasks (CRUD)
+            const path = require('path');
+            document.querySelector('#set').addEventListener('click', function() {
+                const obj = {
+                    clientVar: document.getElementById('client').value,
+                    stateVar: document.getElementById("state").value,
+                    detailsVar: document.getElementById("details").value,
+                    largeVar: document.getElementById("large").value,
+                    smallVar: document.getElementById("small").value,
+                    btnUrl1Var: document.getElementById("buttonurl1").value,
+                    btnUrl2Var: document.getElementById("buttonurl2").value,
+                    btnTxt1Var: document.getElementById("buttontxt1").value,
+                    btnTxt2Var: document.getElementById("buttontxt2").value,
+                }
+
+                let { clientVar, stateVar, detailsVar, largeVar, smallVar, btnTxt1Var, btnTxt2Var, btnUrl1Var, btnUrl2Var} = obj
+
+
+            const {ipcRenderer} = require('electron');
+
+            // send username to main.js 
+            ipcRenderer.send('asynchronous-message', obj );
+
+            // receive message from main.js
+            ipcRenderer.on('asynchronous-reply', (event, arg) => {
+            console.log(arg) 
+
+            })
+
+            });
+
+            document.querySelector('#export').addEventListener('click', function() {
+
+                const obj2 = {
+                    clientVar2: document.getElementById('client').value,
+                    stateVar2: document.getElementById("state").value,
+                    detailsVar2: document.getElementById("details").value,
+                    largeVar2: document.getElementById("large").value,
+                    smallVar2: document.getElementById("small").value,
+                    btnUrl1Var2: document.getElementById("buttonurl1").value,
+                    btnUrl2Var2: document.getElementById("buttonurl2").value,
+                    btnTxt1Var2: document.getElementById("buttontxt1").value,
+                    btnTxt2Var2: document.getElementById("buttontxt2").value,
+                }
+                ipcRenderer.send("exportAA", obj2 );
+                ipcRenderer.on('asynchronous-reply2', (event, arg) => {
+                    console.log(arg) 
+
+                })
+            });
+            const { ipcRenderer } = require("electron");
+
+            const importButton = document.querySelector("#import");
+
+            importButton.addEventListener("click", () => {
+                ipcRenderer.send("gibData");
+            });
+
+            ipcRenderer.on("parsedData", (event, data) => {
+            const parsedData = JSON.parse(data);
+            document.getElementById("client").setAttribute("value", parsedData.clientVar);
+            document.getElementById("state").setAttribute("value", parsedData.stateVar);
+            document.getElementById("details").setAttribute("value", parsedData.detailsVar);
+            document.getElementById("large").setAttribute("value", parsedData.largeVar);
+            document.getElementById("small").setAttribute("value", parsedData.smallVar);
+            document.getElementById("buttonurl1").setAttribute("value", parsedData.btnUrl1Var);
+            document.getElementById("buttonurl2").setAttribute("value", parsedData.btnUrl2Var);
+            document.getElementById("buttontxt1").setAttribute("value", parsedData.btnTxt1Var);
+            document.getElementById("buttontxt2").setAttribute("value", parsedData.btnTxt2Var);
+            });
+        }
+    </script>
+</body>
+</html>
