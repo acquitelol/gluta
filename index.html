@@ -3,111 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Genshin Rich Presence</title>
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src='main.js'></script>
 </head>
 <body>
 
-    <h1 id='bg'>____</h1>
-    <img src="./assets/Scrolling-Lines-Pink.gif" alt="Discord PFP" width="60" height="60", class='pfp'>
-
-    <h3 class='nickname'> Testing Only</h3>
-    <h4 class='username'> Test Account#0001</h4>
-
-    <button class="set" id="set"><span>Set as Rich Presence</span></button>
-    <button class="import" id="import"><span>Import Rich Presence</span></button>
-    <button class="export" id="export"><span>Export Rich Presence</span></button>
-    <div id='reply'></div>
-    <input type="text" class="client_id posAM" placeholder="Client ID" id="client" value=''>
-    <input type="text" class="state posAM" placeholder="State" id='state' value=''>
-    <input type="text" class="details posAM" placeholder="Details" id='details' value=''>
-    <input type="text" class="large posAM" placeholder="Large" id='large' value=''>
-    <input type="text" onclick='this.select();' class="small posAM" placeholder="Small" id='small' value=''>
-    <input type="text" class="buttontxt1 posAM" placeholder="Button Text 1" id='buttontxt1' value=''>
-    <input type="text" class="buttonurl1 posAM" placeholder="Button URL 1" id='buttonurl1' value=''>
-    <input type="text" class="buttontxt2 posAM" placeholder="Button Text 2" id='buttontxt2' value=''>
-    <input type="text" class="buttonurl2 posAM" placeholder="Button URL 2" id='buttonurl2' value=''>
-
-
-    <img src="./assets/circle.png" alt="circle" width="10" height="10", class='circle'>
-    <img src="./assets/divider.png" alt="divider" width="230" height="3", class='divider'>
-    <h1 class='madeby'>Made by Acquite.</h1>
-
     <script>
-        window.onload=function(){
+        
+        let obj = null;
+        /*
+        var totalSeconds = 0;
+        function countTimer() {
+            ++totalSeconds;
+            var hour = Math.floor(totalSeconds /3600);
+            var minute = Math.floor((totalSeconds - hour*3600)/60);
+            var seconds = totalSeconds - (hour*3600 + minute*60);
+            if(hour < 10)
+                hour = "0"+hour;
+            if(minute < 10)
+                minute = "0"+minute;
+            if(seconds < 10)
+                seconds = "0"+seconds;
+            document.getElementById("elapsed").innerText = hour + ":" + minute + ":" + seconds + " Elapsed";
+            setTimeout(countTimer, 1000);
+        };
+        */
+         
+
+        function countUpFromTime(countFrom) {
+            countFrom = new Date(countFrom).getTime();
+            var now = new Date(),
+                countFrom = new Date(countFrom),
+            timeDifference = (now - countFrom);
+    
+            var secondsInADay = 60 * 60 * 1000 * 24,
+                secondsInAHour = 60 * 60 * 1000;
+
+            hours = Math.floor((timeDifference % (secondsInADay)) / (secondsInAHour) * 1);
+            mins = Math.floor(((timeDifference % (secondsInADay)) % (secondsInAHour)) / (60 * 1000) * 1);
+            secs = Math.floor((((timeDifference % (secondsInADay)) % (secondsInAHour)) % (60 * 1000)) / 1000 * 1);
+
+            let elem = document.getElementById('elapsed');
+            if(hours < 10)
+                hours = "0"+hours;
+            if(mins < 10)
+                mins = "0"+mins;
+            if(secs < 10)
+                secs = "0"+secs;
+            elem.innerText = `${hours}:${mins}:${secs} Elapsed`;
+
+            clearTimeout(countUpFromTime.interval);
+            countUpFromTime.interval = setTimeout(function(){ countUpFromTime(countFrom); }, 1000);
+        }
+        function RPCfunc() {
+            let oldData;
             let fs = require('fs'); // Load the File System to execute our common tasks (CRUD)
             const path = require('path');
-            document.querySelector('#set').addEventListener('click', function() {
-                const obj = {
-                    clientVar: document.getElementById('client').value,
-                    stateVar: document.getElementById("state").value,
-                    detailsVar: document.getElementById("details").value,
-                    largeVar: document.getElementById("large").value,
-                    smallVar: document.getElementById("small").value,
-                    btnUrl1Var: document.getElementById("buttonurl1").value,
-                    btnUrl2Var: document.getElementById("buttonurl2").value,
-                    btnTxt1Var: document.getElementById("buttontxt1").value,
-                    btnTxt2Var: document.getElementById("buttontxt2").value,
-                }
-
-                let { clientVar, stateVar, detailsVar, largeVar, smallVar, btnTxt1Var, btnTxt2Var, btnUrl1Var, btnUrl2Var} = obj
-
-
             const {ipcRenderer} = require('electron');
+            const obj = {
+                clientVar: document.getElementById('client').value,
+                stateVar: document.getElementById("state").value,
+                detailsVar: document.getElementById("details").value,
+                largeTxtVar: document.getElementById("largeImgTxt").value,
+                largeIdtVar: document.getElementById("largeImgIdt").value,
+                smallTxtVar: document.getElementById("smallImgTxt").value,
+                smallIdtVar: document.getElementById("smallImgIdt").value,
+                btnUrl1Var: document.getElementById("btnUrl1").value,
+                btnUrl2Var: document.getElementById("btnUrl2").value,
+                btnTxt1VarLol: document.getElementById("btnTxt1").value,
+                btnTxt2VarLol: document.getElementById("btnTxt2").value,
+            };
 
-            // send username to main.js 
-            ipcRenderer.send('asynchronous-message', obj );
+            const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var} = obj;
 
-            // receive message from main.js
-            ipcRenderer.on('asynchronous-reply', (event, arg) => {
-            console.log(arg) 
 
-            })
+            if (clientVar!='', stateVar!='', detailsVar!='', largeIdtVar!='', largeTxtVar!='', smallIdtVar!='', smallTxtVar!='', btnTxt1VarLol!='', btnTxt2VarLol!='', btnUrl1Var!='', btnUrl2Var!='') {
+                const {ipcRenderer} = require('electron');
 
-            });
+                // send username to main.js 
+                ipcRenderer.send('asynchronous-message', obj );
 
-            document.querySelector('#export').addEventListener('click', function() {
+                // receive message from main.js
+                ipcRenderer.on('asynchronous-reply', (event, arg) => {
+                    let profilePic = document.getElementById('pfp');
+                    let user1 = document.getElementById('nickname');
+                    let user2 = document.getElementById('username');
+                    let bgImg = document.getElementById('bg');
+                    let ColorThief = require('colorthief');
+                    let { avatarIcon, userID, userDisc } = arg;
+                    bgImg.style.backgroundColor="transparent";
+                    profilePic.src = avatarIcon;
+                    user1.innerText = userID;
+                    user2.innerText = userID+"#"+userDisc;
 
-                const obj2 = {
-                    clientVar2: document.getElementById('client').value,
-                    stateVar2: document.getElementById("state").value,
-                    detailsVar2: document.getElementById("details").value,
-                    largeVar2: document.getElementById("large").value,
-                    smallVar2: document.getElementById("small").value,
-                    btnUrl1Var2: document.getElementById("buttonurl1").value,
-                    btnUrl2Var2: document.getElementById("buttonurl2").value,
-                    btnTxt1Var2: document.getElementById("buttontxt1").value,
-                    btnTxt2Var2: document.getElementById("buttontxt2").value,
-                }
-                ipcRenderer.send("exportAA", obj2 );
-                ipcRenderer.on('asynchronous-reply2', (event, arg) => {
-                    console.log(arg) 
+                    
 
+                    profilePic.onload=function(){
+                        ColorThief.getColor(avatarIcon)
+                        .then(color => {
+                            bgImg.style.backgroundColor="rgb("+color+")";
+                        })
+                        .catch(err => { console.log(err) })
+                        
+                    }
+
+                    
+
+                    localStorage.setItem('clientVar', document.getElementById('client').value);
+                    localStorage.setItem('stateVar', document.getElementById('state').value);
+                    localStorage.setItem('detailsVar', document.getElementById('details').value);
+                    localStorage.setItem('largeTxtVar', document.getElementById('largeImgTxt').value);
+                    localStorage.setItem('largeIdtVar', document.getElementById('largeImgIdt').value);
+                    localStorage.setItem('smallTxtVar', document.getElementById('smallImgTxt').value);
+                    localStorage.setItem('smallIdtVar', document.getElementById('smallImgIdt').value);
+                    localStorage.setItem('btnUrl1Var', document.getElementById('btnUrl1').value);
+                    localStorage.setItem('btnUrl2Var', document.getElementById('btnUrl2').value);
+                    localStorage.setItem('btnTxt1Var', document.getElementById('btnTxt1').value);
+                    localStorage.setItem('btnTxt2Var', document.getElementById('btnTxt2').value);
                 })
-            });
-            const { ipcRenderer } = require("electron");
+            } else  {
+                console.log("Not enough Variables to set RPC.")
+            }
+        };
+        function RPCfunc2() {
+            let oldData;
+            let fs = require('fs'); // Load the File System to execute our common tasks (CRUD)
+            const path = require('path');
+            const {ipcRenderer} = require('electron');
+            const obj = {
+                clientVar: document.getElementById('client').value,
+                stateVar: document.getElementById("state").value,
+                detailsVar: document.getElementById("details").value,
+                largeTxtVar: document.getElementById("largeImgTxt").value,
+                largeIdtVar: document.getElementById("largeImgIdt").value,
+                smallTxtVar: document.getElementById("smallImgTxt").value,
+                smallIdtVar: document.getElementById("smallImgIdt").value,
+                btnUrl1Var: document.getElementById("btnUrl1").value,
+                btnUrl2Var: document.getElementById("btnUrl2").value,
+                btnTxt1VarLol: document.getElementById("btnTxt1").value,
+                btnTxt2VarLol: document.getElementById("btnTxt2").value,
+            };
 
-            const importButton = document.querySelector("#import");
+            const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var} = obj;
 
-            importButton.addEventListener("click", () => {
-                ipcRenderer.send("gibData");
-            });
 
-            ipcRenderer.on("parsedData", (event, data) => {
-            const parsedData = JSON.parse(data);
-            document.getElementById("client").setAttribute("value", parsedData.clientVar);
-            document.getElementById("state").setAttribute("value", parsedData.stateVar);
-            document.getElementById("details").setAttribute("value", parsedData.detailsVar);
-            document.getElementById("large").setAttribute("value", parsedData.largeVar);
-            document.getElementById("small").setAttribute("value", parsedData.smallVar);
-            document.getElementById("buttonurl1").setAttribute("value", parsedData.btnUrl1Var);
-            document.getElementById("buttonurl2").setAttribute("value", parsedData.btnUrl2Var);
-            document.getElementById("buttontxt1").setAttribute("value", parsedData.btnTxt1Var);
-            document.getElementById("buttontxt2").setAttribute("value", parsedData.btnTxt2Var);
-            });
+            if (clientVar!='', stateVar!='', detailsVar!='', largeIdtVar!='', largeTxtVar!='', smallIdtVar!='', smallTxtVar!='', btnTxt1VarLol!='', btnTxt2VarLol!='', btnUrl1Var!='', btnUrl2Var!='') {
+                const {ipcRenderer} = require('electron');
+
+                // send username to main.js 
+                ipcRenderer.send('asynchronous-messagelol', obj );
+
+                // receive message from main.js
+                ipcRenderer.on('asynchronous-replylol', (event, arg) => {
+                    
+                    localStorage.setItem('clientVar', document.getElementById('client').value);
+                    localStorage.setItem('stateVar', document.getElementById('state').value);
+                    localStorage.setItem('detailsVar', document.getElementById('details').value);
+                    localStorage.setItem('largeTxtVar', document.getElementById('largeImgTxt').value);
+                    localStorage.setItem('largeIdtVar', document.getElementById('largeImgIdt').value);
+                    localStorage.setItem('smallTxtVar', document.getElementById('smallImgTxt').value);
+                    localStorage.setItem('smallIdtVar', document.getElementById('smallImgIdt').value);
+                    localStorage.setItem('btnUrl1Var', document.getElementById('btnUrl1').value);
+                    localStorage.setItem('btnUrl2Var', document.getElementById('btnUrl2').value);
+                    localStorage.setItem('btnTxt1Var', document.getElementById('btnTxt1').value);
+                    localStorage.setItem('btnTxt2Var', document.getElementById('btnTxt2').value);
+                })
+            } else  {
+                console.log("Not enough Variables to set RPC.")
+            }
+        };
+        window.onload=function(){
+                let clientVar = localStorage.getItem('clientVar');
+                let stateVar = localStorage.getItem('stateVar');
+                let detailsVar = localStorage.getItem('detailsVar');
+                let largeTxtVar = localStorage.getItem('largeTxtVar');
+                let largeIdtVar = localStorage.getItem('largeIdtVar');
+                let smallTxtVar = localStorage.getItem('smallTxtVar');
+                let smallIdtVar = localStorage.getItem('smallIdtVar');
+                let btnUrl1Var = localStorage.getItem('btnUrl1Var');
+                let btnUrl2Var = localStorage.getItem('btnUrl2Var');
+                let btnTxt1Var = localStorage.getItem('btnTxt1Var');
+                let btnTxt2Var = localStorage.getItem('btnTxt2Var');
+    
+                document.getElementById("client").value = clientVar;
+                document.getElementById("state").value = stateVar;
+                document.getElementById("details").value = detailsVar;
+                document.getElementById("largeImgTxt").value = largeTxtVar;
+                document.getElementById("largeImgIdt").value = largeIdtVar;
+                document.getElementById("smallImgTxt").value = smallTxtVar;
+                document.getElementById("smallImgIdt").value = smallIdtVar;
+                document.getElementById("btnUrl1").value = btnUrl1Var;
+                document.getElementById("btnUrl2").value =  btnUrl2Var;
+                document.getElementById("btnTxt1").value = btnTxt1Var;
+                document.getElementById("btnTxt2").value = btnTxt2Var;
+                
+        };
+        window.addEventListener("load", function(){
+            RPCfunc();
+            countUpFromTime(Date.now());
+            // countTimer();
+        });
+        let isOr = false;
+
+        function linethrough() {
+            let item = document.getElementById('elapsed');
+            if (isOr == false) {
+                item.style.textDecorationLine='line-through';
+                item.style.color='#b0b0b0'
+                isOr = true;
+                RPCfunc2();
+                console.log(isOr)
+            } else if (isOr == true){
+                item.style.textDecorationLine= 'none';
+                item.style.color='#FFFFFF'
+                isOr = false;
+                RPCfunc();
+                console.log(isOr)
+            }
+
+        };
+
+
+    </script>
+    <h1 id='bg'>____</h1>
+    <img src="./assets/Scrolling-Lines-Pink.gif" alt="Discord PFP" width="60" height="60", class='pfp' id='pfp'>
+    <input type="text" class="client_id stuff" placeholder="Input Client ID" id="client" value='' onclick="this.select()" onchange="RPCfunc()">
+    <input type="text" class="details stuff things" placeholder="Details" id="details" value='' onclick="this.select()" onchange="RPCfunc()">
+    <input type="text" class="state stuff things" placeholder="State" id="state" value='' onclick="this.select()" onchange="RPCfunc()">
+    <button type="button" class="elapsed thingy" id="elapsed" readonly='true' unselectable="on" contenteditable="false" onselectstart="select=false" onclick='linethrough()'>00:01 Elapsed</button>
+    <button type='button' class="buttons" id='btn1'></button>
+    <button type='button' class="buttons" id='btn2'></button>
+    <input type="text" class="btnTxt1 stuff" placeholder="Button Text 1" id="btnTxt1" value='Button Text 1' onclick="this.select()" onchange="RPCfunc()">
+    <input type="text" class="btnTxt2 stuff" placeholder="Button Text 2" id="btnTxt2" value='Button Text 2' onclick="this.select()" onchange="RPCfunc()">
+
+
+    <h3 class='nickname' id='nickname'> Testing Only</h3>
+    <h4 class='username' id='username'> Test Account#0001</h4>
+    <div class='images things' id='play'>Playing a game</div>
+    <div class='genshin things'>Genshin Impact</div>
+
+    <img src='https://cdn.discordapp.com/app-assets/929391097824821318/929483644731551754.png' alt='paimon' width="60" height="60" class='paimon things' id='paimon' onclick="paimonClick()">
+    <img src='https://cdn.discordapp.com/app-assets/929391097824821318/932754326189903892.png' alt='small' width="20" height="20" class='images things' id='small' onclick='smallClick()'>
+    <img src="./assets/circle.png" alt="circle" width="10" height="10", class='circle'>
+    <img src="./assets/divider.png" alt="divider" width="230" height="1", class='divider'>
+    <img src='./assets/cog-icon.png' alt='cog' width='15' height="15" class="cog things" id='cog1' onclick="url1func()">
+    <img src='./assets/cog-icon.png' alt='cog' width='15' height="15" class="cog things" id='cog2' onclick="url2func()">
+    <div id='Url1' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
+        <div id='box' style="opacity: 75%;"></div>
+        <div class='URL'>Input a URL:</div>
+        <input class='btnUrl1 stuff' placeholder="Button Url 1" id='btnUrl1' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
+    </div>
+    <div id='Url2' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
+        <div id='box' style="opacity: 75%;"></div>
+        <div class='URL'>Input a URL:</div>
+        <input class='btnUrl2 stuff' placeholder="Button Url 2" id='btnUrl2' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
+    </div>
+    <div id='paimonMenu' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
+        <div id='box' style="opacity: 75%;"></div>
+        <div class='paimonTxt'>Edit Large Image:</div>
+        <input class='largeImgTxt stuff' placeholder="Large Image Text" id='largeImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='largeImgIdt stuff' placeholder="Large Image Identifier" id='largeImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
+    </div>
+    <div id='smallMenu' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
+        <div id='box' style="opacity: 75%;"></div>
+        <div class='smallTxt'>Edit Small Image:</div>
+        <input class='smallImgTxt stuff' placeholder="Small Image Text" id='smallImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='smallImgIdt stuff' placeholder="Small Image Identifier" id='smallImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
+    </div>
+
+
+    <script>
+        function url1func() {
+
+            var T = document.getElementById("Url1");
+            T.style.transitionDuration="0.3s"
+            T.style.display = "block";  // <-- Set it to block
+            
+        }
+
+        function url2func() {
+
+            var T = document.getElementById("Url2");
+            T.style.transitionDuration="0.3s"
+            T.style.display = "block";  // <-- Set it to block
+
+        }
+
+        function paimonClick() {
+
+            var T = document.getElementById("paimonMenu");
+            T.style.transitionDuration="0.3s"
+            T.style.display = "block";  // <-- Set it to block
+
+        }
+
+        function smallClick() {
+
+            var T = document.getElementById("smallMenu");
+            T.style.transitionDuration="0.3s"
+            T.style.display = "block";  // <-- Set it to block
+
+        }
+
+        function closeMenu() {
+            var T = document.getElementById("Url1");
+            T.style.transitionDuration="0.3s"
+            T.style.display = "none";  // <-- Set it to block
+            var T2 = document.getElementById("Url2");
+            T2.style.transitionDuration="0.3s"
+            T2.style.display = "none";  // <-- Set it to block
+            var T3 = document.getElementById("paimonMenu");
+            T3.style.transitionDuration="0.3s"
+            T3.style.display = "none";  // <-- Set it to block
+            var T4 = document.getElementById("smallMenu");
+            T4.style.transitionDuration="0.3s"
+            T4.style.display = "none";  // <-- Set it to block
         }
     </script>
+    
 </body>
 </html>

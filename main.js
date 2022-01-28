@@ -6,23 +6,31 @@ const { truncate } = require('fs');
 const client = new RPC.Client({transport: "ipc"});
 const { is } = require('electron-util');
 // const TrayGenerator = require('TrayGenerator.js');
+const { Client, Message, MessageEmbed } = require("discord.js")
+const axios = require('axios')
 const path = require('path');
+const { setInterval } = require('timers/promises');
+const { time } = require('console');
+const { runMain } = require('module');
 let mainWindow = null;
 let tray = null;
 let iconpath = path.join(__dirname, './assets/cc.png')
+let codeRun = false;
+let date = null;
 
 
 const createWindow = () => {
+    
     mainWindow = new BrowserWindow({
         width: 250,
-        height: 550,
-        resizable: false,
+        height: 360,
+        resizable: true,
         fullscreenable: false,
         show: false,
         frame: false,
         icon: __dirname + './assets/cc.png',
         webPreferences: {
-            enableremotemodule: true,
+            enableRemoteModule: true,
             nodeIntegration: true,
             contextIsolation: false,
             webSecurity: false,
@@ -60,19 +68,29 @@ const createWindow = () => {
         iconpath = path.join(__dirname, './assets/cc.png')
     );
     tray = new Tray(image.resize({ width: 20, height: 20 }));
-
+    
     tray.setToolTip("Genshin Rich Presence");
     tray.on('click', () => {
-        mainWindow.loadFile('./index.html');
+        if (codeRun==false) {
+            mainWindow.loadFile('./index.html');
+            date = Date.now();
+            console.log("Successfully Created Application");
+            codeRun = true;
+        } else {
+            
+        }
         mainWindow.isVisible()?mainWindow.hide():showWindow();
     });
-    /*
 
+
+    /*
+    
 
     tray.on('right-click', () => {
         rightClickMenu()
     });
     */
+    /*
     ipcMain.on("gibData", () => {
         const fileNames = dialog.showOpenDialogSync();
         // fileNames is an array that contains all the selected
@@ -135,65 +153,131 @@ const createWindow = () => {
         } catch(err) {
             console.error(err)
         }
-    })
+    })*/
 }
 
 
 // console.log(app);
 
-app.on('ready', () => {
-    createWindow();
-    console.log("Successfully Created Application");
+//app.on('ready', () => {
+    
+//})
 
-})
+app.whenReady().then(function(){
+    createWindow();
+    
+    app.dock.hide();
+});
 
 app.on(
     "window-all-closed",
     () => process.platform !== "darwin" && app.quit() // "darwin" targets macOS only.
+    
 );
 
 
-
-// app.dock.hide();
-
-
 // receive message from index.html 
+
 ipcMain.on('asynchronous-message', (event, arg) => {
     console.log( arg );
   
     // send message to index.html
-    event.sender.send('asynchronous-reply', 'hello' );
-    const { clientVar, stateVar, detailsVar, largeVar, smallVar, btnTxt1Var, btnTxt2Var, btnUrl1Var, btnUrl2Var} = arg;
+    
+    const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var } = arg;
+
     const activity={
         state: stateVar,
         details: detailsVar,
         assets:{
-            large_image: "large",
-            large_text: largeVar,
-            small_image: "small",
-            small_text: smallVar,
+            large_image: largeIdtVar,
+            large_text: largeTxtVar,
+            small_image: smallIdtVar,
+            small_text: smallTxtVar,
         },
         buttons:[
             {
-                "label": btnTxt1Var,
+                "label": btnTxt1VarLol,
                 "url": btnUrl1Var
                 },
             {
-                "label": btnTxt2Var,
+                "label": btnTxt2VarLol,
                 "url": btnUrl2Var
             }
         ],
-        timestamps: {start: Date.now()},
-        instance: true
+            timestamps: {start: date},
+            instance: true
     };
-            
+                
     client.on("ready", () => {
-        console.log(client.user)
         client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
         console.log("Successfully set Rich Presence!");
+        let { id, username, discriminator, avatar } = client.user;
+        const userData = {
+            avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
+            userID: username,
+            userDisc: discriminator,
+        }
+            
+        event.sender.send('asynchronous-reply', userData );
+        console.log(userData);
+        
     
-    })
+    });
+    
+    client.login({ clientId: clientVar })
+
+});
+
+
+
+ipcMain.on('asynchronous-messagelol', (event, arg) => {
+    console.log( arg );
+  
+    // send message to index.html
+    
+    const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var } = arg;
+
+    const activity={
+        state: stateVar,
+        details: detailsVar,
+        assets:{
+            large_image: largeIdtVar,
+            large_text: largeTxtVar,
+            small_image: smallIdtVar,
+            small_text: smallTxtVar,
+        },
+        buttons:[
+            {
+                "label": btnTxt1VarLol,
+                "url": btnUrl1Var
+                },
+            {
+                "label": btnTxt2VarLol,
+                "url": btnUrl2Var
+            }
+        ],
+            instance: true
+    };
+                
+    client.on("ready", () => {
+
+        client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
+        console.log(client.application);
+        console.log("Successfully set Rich Presence!");
+        let { id, username, discriminator, avatar } = client.user;
+        
+        const userData = {
+            avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
+            userID: username,
+            userDisc: discriminator,
+        }
+            
+        event.sender.send('asynchronous-replylol', userData );
+        console.log(userData);
+        
+        
+    
+    });
     
     client.login({ clientId: clientVar })
 });
-
