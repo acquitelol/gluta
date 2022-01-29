@@ -163,7 +163,7 @@ const createWindow = () => {
     
 //})
 
-app.whenReady().then(function(){
+app.on('ready', function(){
     createWindow();
     
     app.dock.hide();
@@ -210,6 +210,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
                 
     client.on("ready", () => {
         client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
+        
         console.log("Successfully set Rich Presence!");
         let { id, username, discriminator, avatar } = client.user;
         const userData = {
@@ -225,6 +226,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     });
     
     client.login({ clientId: clientVar })
+    console.log(client.transport.client);
 
 });
 
@@ -262,7 +264,6 @@ ipcMain.on('asynchronous-messagelol', (event, arg) => {
     client.on("ready", () => {
 
         client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
-        console.log(client.application);
         console.log("Successfully set Rich Presence!");
         let { id, username, discriminator, avatar } = client.user;
         
@@ -280,4 +281,5 @@ ipcMain.on('asynchronous-messagelol', (event, arg) => {
     });
     
     client.login({ clientId: clientVar })
+    console.log(client);
 });

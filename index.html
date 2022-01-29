@@ -11,7 +11,7 @@
 <body>
 
     <script>
-        
+        console.log("The application has launched but sources of RPC have not been detected yet.")
         let obj = null;
         /*
         var totalSeconds = 0;
@@ -57,6 +57,7 @@
             clearTimeout(countUpFromTime.interval);
             countUpFromTime.interval = setTimeout(function(){ countUpFromTime(countFrom); }, 1000);
         }
+        let aaa = false;
         function RPCfunc() {
             let oldData;
             let fs = require('fs'); // Load the File System to execute our common tasks (CRUD)
@@ -75,11 +76,12 @@
                 btnTxt1VarLol: document.getElementById("btnTxt1").value,
                 btnTxt2VarLol: document.getElementById("btnTxt2").value,
             };
-
+            
             const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var} = obj;
 
 
-            if (clientVar!='', stateVar!='', detailsVar!='', largeIdtVar!='', largeTxtVar!='', smallIdtVar!='', smallTxtVar!='', btnTxt1VarLol!='', btnTxt2VarLol!='', btnUrl1Var!='', btnUrl2Var!='') {
+            if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1!='' && btnUrl2!='' && aaa==false) {
+                console.log('Setting Rich Presence (with Elapsed Time)...')
                 const {ipcRenderer} = require('electron');
 
                 // send username to main.js 
@@ -122,10 +124,16 @@
                     localStorage.setItem('btnUrl2Var', document.getElementById('btnUrl2').value);
                     localStorage.setItem('btnTxt1Var', document.getElementById('btnTxt1').value);
                     localStorage.setItem('btnTxt2Var', document.getElementById('btnTxt2').value);
+
+
                 })
-            } else  {
-                console.log("Not enough Variables to set RPC.")
-            }
+            } else if (btnUrl2Var=="") {
+                console.log("Not enough Variables to set RPC. (Btn2 Err)");
+            } else if (btnUrl1Var=="") {
+                console.log("Not enough Variables to set RPC. (Btn2 Err)");
+            } else {
+                console.log("Not enough Variables to set RPC.");
+            };
         };
         function RPCfunc2() {
             let oldData;
@@ -149,7 +157,8 @@
             const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var} = obj;
 
 
-            if (clientVar!='', stateVar!='', detailsVar!='', largeIdtVar!='', largeTxtVar!='', smallIdtVar!='', smallTxtVar!='', btnTxt1VarLol!='', btnTxt2VarLol!='', btnUrl1Var!='', btnUrl2Var!='') {
+            if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1Var!='' && btnUrl2Var!='', aaa==false) {
+                console.log('Setting Rich Presence (without Elapsed Time)...')
                 const {ipcRenderer} = require('electron');
 
                 // send username to main.js 
@@ -226,17 +235,18 @@
         };
 
 
+
     </script>
     <h1 id='bg'>____</h1>
     <img src="./assets/Scrolling-Lines-Pink.gif" alt="Discord PFP" width="60" height="60", class='pfp' id='pfp'>
-    <input type="text" class="client_id stuff" placeholder="Input Client ID" id="client" value='' onclick="this.select()" onchange="RPCfunc()">
-    <input type="text" class="details stuff things" placeholder="Details" id="details" value='' onclick="this.select()" onchange="RPCfunc()">
-    <input type="text" class="state stuff things" placeholder="State" id="state" value='' onclick="this.select()" onchange="RPCfunc()">
-    <button type="button" class="elapsed thingy" id="elapsed" readonly='true' unselectable="on" contenteditable="false" onselectstart="select=false" onclick='linethrough()'>00:01 Elapsed</button>
+    <input type="text" class="client_id stuff items" placeholder="Input Client ID" id="client" value='' onclick="this.select()" onchange="RPCfunc()">
+    <input type="text" class="details stuff things items" placeholder="Details" id="details" value='' onclick="this.select()" onchange="RPCfunc()">
+    <input type="text" class="state stuff things items" placeholder="State" id="state" value='' onclick="this.select()" onchange="RPCfunc()">
+    <button type="button" class="elapsed thingy items" id="elapsed" readonly='true' unselectable="on" contenteditable="false" onselectstart="select=false" onclick='linethrough()'>00:01 Elapsed</button>
     <button type='button' class="buttons" id='btn1'></button>
     <button type='button' class="buttons" id='btn2'></button>
-    <input type="text" class="btnTxt1 stuff" placeholder="Button Text 1" id="btnTxt1" value='Button Text 1' onclick="this.select()" onchange="RPCfunc()">
-    <input type="text" class="btnTxt2 stuff" placeholder="Button Text 2" id="btnTxt2" value='Button Text 2' onclick="this.select()" onchange="RPCfunc()">
+    <input type="text" class="btnTxt1 stuff items" placeholder="Button Text 1" id="btnTxt1" value='Button Text 1' onclick="this.select()" onchange="RPCfunc()">
+    <input type="text" class="btnTxt2 stuff items" placeholder="Button Text 2" id="btnTxt2" value='Button Text 2' onclick="this.select()" onchange="RPCfunc()">
 
 
     <h3 class='nickname' id='nickname'> Testing Only</h3>
@@ -253,27 +263,27 @@
     <div id='Url1' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
         <div id='box' style="opacity: 75%;"></div>
         <div class='URL'>Input a URL:</div>
-        <input class='btnUrl1 stuff' placeholder="Button Url 1" id='btnUrl1' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='btnUrl1 stuff items' placeholder="Button Url 1" id='btnUrl1' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
     </div>
     <div id='Url2' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
         <div id='box' style="opacity: 75%;"></div>
         <div class='URL'>Input a URL:</div>
-        <input class='btnUrl2 stuff' placeholder="Button Url 2" id='btnUrl2' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='btnUrl2 stuff items' placeholder="Button Url 2" id='btnUrl2' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
     </div>
     <div id='paimonMenu' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
         <div id='box' style="opacity: 75%;"></div>
         <div class='paimonTxt'>Edit Large Image:</div>
-        <input class='largeImgTxt stuff' placeholder="Large Image Text" id='largeImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
-        <input class='largeImgIdt stuff' placeholder="Large Image Identifier" id='largeImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='largeImgTxt stuff items' placeholder="Large Image Text" id='largeImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='largeImgIdt stuff items' placeholder="Large Image Identifier" id='largeImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
     </div>
     <div id='smallMenu' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
         <div id='box' style="opacity: 75%;"></div>
         <div class='smallTxt'>Edit Small Image:</div>
-        <input class='smallImgTxt stuff' placeholder="Small Image Text" id='smallImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
-        <input class='smallImgIdt stuff' placeholder="Small Image Identifier" id='smallImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='smallImgTxt stuff items' placeholder="Small Image Text" id='smallImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='smallImgIdt stuff items' placeholder="Small Image Identifier" id='smallImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
     </div>
 
