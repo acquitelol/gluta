@@ -135,6 +135,39 @@ body {
    }
 }
 
+#startElem{
+  animation: startTrans 3s ease 0s 1 normal forwards;
+}
+
+@keyframes startTrans {
+  0.0%{
+      transform: scale(0) rotate3d(0, 360, 360, 180deg) translate3d(0, 300px, 0);
+      border: 3px solid rgba(255, 255, 255, 0);
+      border-radius: 50px;
+      outline: 10px solid rgba(255, 255, 255, 1);
+      padding: 0px 0 0 0;
+      margin: 0px 0px;
+  }
+  25.0%{
+      transform: scale(1.5);
+      outline: 10px solid rgba(255, 255, 255, 0);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      padding: 0px 0 0 0;
+      margin: 0px 0px;
+  }
+  75%{
+    transform: scale(0) rotate3d(0, 360, 0, 180deg) skew(0);
+    border: 3px solid rgba(255, 255, 255, 0);
+    border-radius: 50px;
+    outline: 10px solid rgba(255, 255, 255, 1);
+    padding: 0px 0 0 0;
+    margin: 0px 0px;
+  }
+}
+
+
+
 #bg {
   position: relative;
   top: -75px;

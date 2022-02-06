@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Genshin Rich Presence</title>
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src='main.js'></script>
 </head>
 <body>
 
     <script>
         console.log("The application has launched but sources of RPC have not been detected yet.")
         let obj = null;
+        const path = require('path');
+        const {ipcRenderer} = require('electron');
         /*
         var totalSeconds = 0;
         function countTimer() {
@@ -60,9 +61,6 @@
         let aaa = false;
         function RPCfunc() {
             let oldData;
-            let fs = require('fs'); // Load the File System to execute our common tasks (CRUD)
-            const path = require('path');
-            const {ipcRenderer} = require('electron');
             const obj = {
                 clientVar: document.getElementById('client').value,
                 stateVar: document.getElementById("state").value,
@@ -82,7 +80,6 @@
 
             if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1!='' && btnUrl2!='' && aaa==false) {
                 console.log('Setting Rich Presence (with Elapsed Time)...')
-                const {ipcRenderer} = require('electron');
 
                 // send username to main.js 
                 ipcRenderer.send('asynchronous-message', obj );
@@ -95,13 +92,26 @@
                     let bgImg = document.getElementById('bg');
                     let ColorThief = require('colorthief');
                     let { avatarIcon, userID, userDisc } = arg;
+                    let largeImgIcn = document.getElementById('paimon');
+                    let smallImgIcn = document.getElementById('small');
                     bgImg.style.backgroundColor="transparent";
                     profilePic.src = avatarIcon;
                     user1.innerText = userID;
                     user2.innerText = userID+"#"+userDisc;
+                    // this is an experimental feature and is not working yet
+                    /* -------
 
-                    
+                    const fetchData = require('node-fetch');
+                    let URL = "https://discordapp.com/api/oauth2/applications/"+clientVar+"/assets";
+                    fetchData(URL).then(async (response) => {
+                        console.log(await response.json());
+                        let data = response.json();
+                        console.log(data[0].id);
+                    });
 
+                    largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
+                    smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
+                    */
                     profilePic.onload=function(){
                         ColorThief.getColor(avatarIcon)
                         .then(color => {
@@ -137,9 +147,6 @@
         };
         function RPCfunc2() {
             let oldData;
-            let fs = require('fs'); // Load the File System to execute our common tasks (CRUD)
-            const path = require('path');
-            const {ipcRenderer} = require('electron');
             const obj = {
                 clientVar: document.getElementById('client').value,
                 stateVar: document.getElementById("state").value,
@@ -157,7 +164,7 @@
             const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var} = obj;
 
 
-            if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1Var!='' && btnUrl2Var!='', aaa==false) {
+            if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1Var!='' && btnUrl2Var!='' && aaa==false) {
                 console.log('Setting Rich Presence (without Elapsed Time)...')
                 const {ipcRenderer} = require('electron');
 
@@ -179,9 +186,13 @@
                     localStorage.setItem('btnTxt1Var', document.getElementById('btnTxt1').value);
                     localStorage.setItem('btnTxt2Var', document.getElementById('btnTxt2').value);
                 })
-            } else  {
-                console.log("Not enough Variables to set RPC.")
-            }
+            } else if (btnUrl2Var=="") {
+                console.log("Not enough Variables to set RPC. (Btn2 Err)");
+            } else if (btnUrl1Var=="") {
+                console.log("Not enough Variables to set RPC. (Btn2 Err)");
+            } else {
+                console.log("Not enough Variables to set RPC.");
+            };
         };
         window.onload=function(){
                 let clientVar = localStorage.getItem('clientVar');
@@ -207,6 +218,46 @@
                 document.getElementById("btnUrl2").value =  btnUrl2Var;
                 document.getElementById("btnTxt1").value = btnTxt1Var;
                 document.getElementById("btnTxt2").value = btnTxt2Var;
+
+                ipcRenderer.send('gibData');
+
+                ipcRenderer.on("parsedData", (event, data) => {
+                    const parsedData = JSON.parse(data);
+                    document.getElementById("client").value = parsedData.clientVar;
+                    document.getElementById("state").value = parsedData.stateVar;
+                    document.getElementById("details").value = parsedData.detailsVar;
+                    document.getElementById("largeImgTxt").value = parsedData.largeTxtVar;
+                    document.getElementById("largeImgIdt").value = parsedData.largeIdtVar;
+                    document.getElementById("smallImgTxt").value = parsedData.smallTxtVar;
+                    document.getElementById("smallImgIdt").value = parsedData.smallIdtVar;
+                    document.getElementById("btnUrl1").value = parsedData.btnUrl1Var;
+                    document.getElementById("btnUrl2").value =  parsedData.btnUrl2Var;
+                    document.getElementById("btnTxt1").value = parsedData.btnTxt1Var;
+                    document.getElementById("btnTxt2").value = parsedData.btnTxt2Var;
+                    RPCfunc();
+                    console.log('Successfully imported file.');
+                });
+
+                ipcRenderer.send('clearCache');
+
+                ipcRenderer.on('clearCacheResponse', (event, data) => {
+                    localStorage.setItem('clientVar', "");
+                    localStorage.setItem('stateVar', "");
+                    localStorage.setItem('detailsVar', "");
+                    localStorage.setItem('largeTxtVar', "");
+                    localStorage.setItem('largeIdtVar', "");
+                    localStorage.setItem('smallTxtVar', "");
+                    localStorage.setItem('smallIdtVar', "");
+                    localStorage.setItem('btnUrl1Var', "");
+                    localStorage.setItem('btnUrl2Var', "");
+                    localStorage.setItem('btnTxt1Var', "");
+                    localStorage.setItem('btnTxt2Var', "");
+                    console.log("Successfully Cleared Cache.");
+                })
+
+                ipcRenderer.on('errMsgDtt', (event, arg) => {
+                    console.log(arg);
+                })
                 
         };
         window.addEventListener("load", function(){
