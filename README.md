@@ -1,9 +1,9 @@
-# gluta
+ gluta
 
-# this is a program built in the electron boilerplate to add customization to your rich presence on discord for genshin impact.
-# it includes a preview of the rich presence and you can control everything from the elapsed time state to the button links
+ this is a program built in the electron boilerplate to add customization to your rich presence on discord for genshin impact.
+ it includes a preview of the rich presence and you can control everything from the elapsed time state to the button links
 
-# to use it, its as simple as this:
+ to use it, its as simple as this:
 
 # 1. download the dmg for your mac (intel or m1 aka arm64)
 # 2. install it and open it. you will be greeted with a screen which shows empty boxes (hopefully)
