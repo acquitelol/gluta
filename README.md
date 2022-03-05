@@ -19,10 +19,10 @@
  15. Open Gluta and paste the string in the empty "Client ID" box
  16. Now customize the rich presence to your needs! Here are some things to keep in mind:
  17. The default Large and Small image are clickable, to change the images you need to go back to the discord developer portal, and
- click on the application name, then go to "Rich Presence" and then "Art Assets". once you are here, upload your Large and Small Image
- and give them a name, then click Save.
- 9. Go back to gluta, and click on the default Images, the Large || Small Image hover is what will apppear when you hover over the image in Discord
- 10. The large || small image Identifier is what you called the image in the developer portal. Please make sure it is the exactly same
+     click on the application name, then go to "Rich Presence" and then "Art Assets". once you are here, upload your Large and Small Image
+     and give them a name, then click Save.
+ 18. Go back to gluta, and click on the default Images, the Large || Small Image hover is what will apppear when you hover over the image in Discord
+ 19. The large || small image Identifier is what you called the image in the developer portal. Please make sure it is the exactly same
      as the one in the Developer Portal (its Caps Sensitive!)
 
 
