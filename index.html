@@ -10,27 +10,10 @@
 <body>
 
     <script>
-        console.log("The application has launched but sources of RPC have not been detected yet.")
+        console.log("The application has launched.")
         let obj = null;
         const path = require('path');
         const {ipcRenderer} = require('electron');
-        /*
-        var totalSeconds = 0;
-        function countTimer() {
-            ++totalSeconds;
-            var hour = Math.floor(totalSeconds /3600);
-            var minute = Math.floor((totalSeconds - hour*3600)/60);
-            var seconds = totalSeconds - (hour*3600 + minute*60);
-            if(hour < 10)
-                hour = "0"+hour;
-            if(minute < 10)
-                minute = "0"+minute;
-            if(seconds < 10)
-                seconds = "0"+seconds;
-            document.getElementById("elapsed").innerText = hour + ":" + minute + ":" + seconds + " Elapsed";
-            setTimeout(countTimer, 1000);
-        };
-        */
          
 
         function countUpFromTime(countFrom) {
@@ -60,7 +43,7 @@
         }
         let aaa = false;
         function RPCfunc() {
-            let oldData;
+            // main initalization of rich presence information set as an object
             const obj = {
                 clientVar: document.getElementById('client').value,
                 stateVar: document.getElementById("state").value,
@@ -81,7 +64,7 @@
             if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1!='' && btnUrl2!='' && aaa==false) {
                 console.log('Setting Rich Presence (with Elapsed Time)...')
 
-                // send username to main.js 
+                // send data to main.js 
                 ipcRenderer.send('asynchronous-message', obj );
 
                 // receive message from main.js
@@ -98,31 +81,25 @@
                     profilePic.src = avatarIcon;
                     user1.innerText = userID;
                     user2.innerText = userID+"#"+userDisc;
-                    // this is an experimental feature and is not working yet
-                    /* -------
-
                     const fetchData = require('node-fetch');
-                    let URL = "https://discordapp.com/api/oauth2/applications/"+clientVar+"/assets";
+                    let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
                     fetchData(URL).then(async (response) => {
-                        console.log(await response.json());
-                        let data = response.json();
-                        console.log(data[0].id);
+                        let data = await response.json();
+                        console.log(data);
+                        let largeImgId = data[0].id;
+                        let smallImgId = data[1].id;
+                        largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
+                        smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                     });
-
-                    largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
-                    smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
-                    */
-                    profilePic.onload=function(){
+                    
+                    profilePic.onload = () => {
                         ColorThief.getColor(avatarIcon)
                         .then(color => {
                             bgImg.style.backgroundColor="rgb("+color+")";
                         })
                         .catch(err => { console.log(err) })
                         
-                    }
-
-                    
-
+                    };
                     localStorage.setItem('clientVar', document.getElementById('client').value);
                     localStorage.setItem('stateVar', document.getElementById('state').value);
                     localStorage.setItem('detailsVar', document.getElementById('details').value);
@@ -146,7 +123,6 @@
             };
         };
         function RPCfunc2() {
-            let oldData;
             const obj = {
                 clientVar: document.getElementById('client').value,
                 stateVar: document.getElementById("state").value,
@@ -160,20 +136,52 @@
                 btnTxt1VarLol: document.getElementById("btnTxt1").value,
                 btnTxt2VarLol: document.getElementById("btnTxt2").value,
             };
-
+            
             const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var} = obj;
 
 
-            if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1Var!='' && btnUrl2Var!='' && aaa==false) {
-                console.log('Setting Rich Presence (without Elapsed Time)...')
-                const {ipcRenderer} = require('electron');
+            if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1!='' && btnUrl2!='' && aaa==false) {
+                console.log('Setting Rich Presence (with Elapsed Time)...')
 
                 // send username to main.js 
                 ipcRenderer.send('asynchronous-messagelol', obj );
 
                 // receive message from main.js
                 ipcRenderer.on('asynchronous-replylol', (event, arg) => {
-                    
+                    let profilePic = document.getElementById('pfp');
+                    let user1 = document.getElementById('nickname');
+                    let user2 = document.getElementById('username');
+                    let bgImg = document.getElementById('bg');
+                    let ColorThief = require('colorthief');
+                    let { avatarIcon, userID, userDisc } = arg;
+                    let largeImgIcn = document.getElementById('paimon');
+                    let smallImgIcn = document.getElementById('small');
+                    bgImg.style.backgroundColor="transparent";
+                    profilePic.src = avatarIcon;
+                    user1.innerText = userID;
+                    user2.innerText = userID+"#"+userDisc;
+
+                    const fetchData = require('node-fetch');
+
+                    let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
+
+                    fetchData(URL).then(async (response) => {
+                        let data = await response.json();
+                        console.log(data);
+                        let largeImgId = data[0].id;
+                        let smallImgId = data[1].id;
+                        largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
+                        smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
+                    });
+
+                    profilePic.onload = () => {
+                        ColorThief.getColor(avatarIcon)
+                        .then(color => {
+                            bgImg.style.backgroundColor="rgb("+color+")";
+                        })
+                        .catch(err => { console.log(err) })
+                        
+                    }
                     localStorage.setItem('clientVar', document.getElementById('client').value);
                     localStorage.setItem('stateVar', document.getElementById('state').value);
                     localStorage.setItem('detailsVar', document.getElementById('details').value);
@@ -185,6 +193,8 @@
                     localStorage.setItem('btnUrl2Var', document.getElementById('btnUrl2').value);
                     localStorage.setItem('btnTxt1Var', document.getElementById('btnTxt1').value);
                     localStorage.setItem('btnTxt2Var', document.getElementById('btnTxt2').value);
+
+
                 })
             } else if (btnUrl2Var=="") {
                 console.log("Not enough Variables to set RPC. (Btn2 Err)");
@@ -253,6 +263,12 @@
                     localStorage.setItem('btnTxt1Var', "");
                     localStorage.setItem('btnTxt2Var', "");
                     console.log("Successfully Cleared Cache.");
+
+                    // setLocalStorageItems([
+                    //     {},
+                    //     {},
+
+                    // ]);
                 })
 
                 ipcRenderer.on('errMsgDtt', (event, arg) => {
@@ -306,7 +322,7 @@
     <div class='genshin things'>Genshin Impact</div>
 
     <img src='https://cdn.discordapp.com/app-assets/929391097824821318/929483644731551754.png' alt='paimon' width="60" height="60" class='paimon things' id='paimon' onclick="paimonClick()">
-    <img src='https://cdn.discordapp.com/app-assets/929391097824821318/932754326189903892.png' alt='small' width="20" height="20" class='images things' id='small' onclick='smallClick()'>
+    <img src='assets/yae.png' alt='small' width="20" height="20" class='images things' id='small' onclick='smallClick()'>
     <img src="./assets/circle.png" alt="circle" width="10" height="10", class='circle'>
     <img src="./assets/divider.png" alt="divider" width="230" height="1", class='divider'>
     <img src='./assets/cog-icon.png' alt='cog' width='15' height="15" class="cog things" id='cog1' onclick="url1func()">
