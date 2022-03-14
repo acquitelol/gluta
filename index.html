@@ -10,6 +10,19 @@
 <body>
 
     <script>
+        // function setAllLocalStorage({
+        //     key: value
+        // }) {
+        //     key.forEach(() => {
+        //         if (key == null) {
+        //             return "A key is Null or Obstructed."
+        //         } else if (value == null) {
+        //             return "A value is Null or Obstructed."
+        //         } else {
+        //             localStorage.setItem(key, value);
+        //         };
+        //     });
+        // }
         console.log("The application has launched.")
         let obj = null;
         const path = require('path');
@@ -91,7 +104,7 @@
                         largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
                         smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                     });
-                    
+
                     profilePic.onload = () => {
                         ColorThief.getColor(avatarIcon)
                         .then(color => {
@@ -100,6 +113,19 @@
                         .catch(err => { console.log(err) })
                         
                     };
+                    // setAllLocalStorage({
+                    //     'clientVar': document.getElementById('client').value,
+                    //     'stateVar': document.getElementById('state').value,
+                    //     'detailsVar': document.getElementById('state').value,
+                    //     'largeTxtVar': document.getElementById('largeImgTxt').value,
+                    //     'largeIdtVar': document.getElementById('largeImgIdt').value,
+                    //     'smallTxtVar': document.getElementById('smallImgTxt').value,
+                    //     'smallIdtVar': document.getElementById('smallImgIdt').value,
+                    //     'btnUrl1Var': document.getElementById('btnUrl1').value,
+                    //     'btnUrl2Var': document.getElementById('btnUrl2').value,
+                    //     'btnTxt1Var': document.getElementById('btnTxt1').value,
+                    //     'btnTxt2Var': document.getElementById('btnTxt2').value
+                    // })
                     localStorage.setItem('clientVar', document.getElementById('client').value);
                     localStorage.setItem('stateVar', document.getElementById('state').value);
                     localStorage.setItem('detailsVar', document.getElementById('details').value);
@@ -111,13 +137,14 @@
                     localStorage.setItem('btnUrl2Var', document.getElementById('btnUrl2').value);
                     localStorage.setItem('btnTxt1Var', document.getElementById('btnTxt1').value);
                     localStorage.setItem('btnTxt2Var', document.getElementById('btnTxt2').value);
+                    localStorage.setItem('gameName', document.getElementById('name').value);
 
 
                 })
             } else if (btnUrl2Var=="") {
                 console.log("Not enough Variables to set RPC. (Btn2 Err)");
             } else if (btnUrl1Var=="") {
-                console.log("Not enough Variables to set RPC. (Btn2 Err)");
+                console.log("Not enough Variables to set RPC. (Btn1 Err)");
             } else {
                 console.log("Not enough Variables to set RPC.");
             };
@@ -193,6 +220,7 @@
                     localStorage.setItem('btnUrl2Var', document.getElementById('btnUrl2').value);
                     localStorage.setItem('btnTxt1Var', document.getElementById('btnTxt1').value);
                     localStorage.setItem('btnTxt2Var', document.getElementById('btnTxt2').value);
+                    localStorage.setItem('gameName', document.getElementById('name').value);
 
 
                 })
@@ -216,7 +244,18 @@
                 let btnUrl2Var = localStorage.getItem('btnUrl2Var');
                 let btnTxt1Var = localStorage.getItem('btnTxt1Var');
                 let btnTxt2Var = localStorage.getItem('btnTxt2Var');
-    
+                let gameId = localStorage.getItem('gameName');
+
+                if (gameId=="") {
+                    gameId = 'Genshin Impact';
+                } else if (gameId==null) {
+                    gameId = 'Genshin Impact';
+                } else if (gameId==undefined) {
+                    gameId = 'Genshin Impact';
+                } else {
+                    gameId = gameId;
+                }
+                document.getElementById('name').value = gameId;
                 document.getElementById("client").value = clientVar;
                 document.getElementById("state").value = stateVar;
                 document.getElementById("details").value = detailsVar;
@@ -319,7 +358,7 @@
     <h3 class='nickname' id='nickname'> Testing Only</h3>
     <h4 class='username' id='username'> Test Account#0001</h4>
     <div class='images things' id='play'>Playing a game</div>
-    <div class='genshin things'>Genshin Impact</div>
+    <input type="text" class='genshin things' id='name' value='Genshin Impact' placeholder="Game Name" onclick="this.select()" onchange="RPCfunc()"></input>
 
     <img src='https://cdn.discordapp.com/app-assets/929391097824821318/929483644731551754.png' alt='paimon' width="60" height="60" class='paimon things' id='paimon' onclick="paimonClick()">
     <img src='assets/yae.png' alt='small' width="20" height="20" class='images things' id='small' onclick='smallClick()'>
