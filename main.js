@@ -1,22 +1,14 @@
 const {app, BrowserWindow, ipcMain, dialog, Tray, Menu, nativeImage} = require('electron');
 let fs = require('fs');
 const RPC = require("discord-rpc");
-const { ipc } = require('discord-rpc/src/transports');
-const { truncate } = require('fs');
 const client = new RPC.Client({transport: "ipc"});
-const { is } = require('electron-util');
-// const TrayGenerator = require('TrayGenerator.js');
-const { Client, Message, MessageEmbed } = require("discord.js")
-const axios = require('axios')
 const path = require('path');
-const { setInterval } = require('timers/promises');
-const { time } = require('console');
-const { runMain } = require('module');
 let mainWindow = null;
 let tray = null;
 let iconpath = path.join(__dirname, './assets/cc.png')
 let codeRun = false;
 let date = null;
+let version = '1.5.83';
 
 
 const createWindow = () => {
@@ -28,6 +20,7 @@ const createWindow = () => {
         fullscreenable: false,
         show: false,
         frame: false,
+        refreshable: false,
         icon: __dirname + './assets/cc.png',
         webPreferences: {
             enableRemoteModule: true,
@@ -96,7 +89,7 @@ const createWindow = () => {
     );
     tray = new Tray(image.resize({ width: 20, height: 20 }));
     
-    tray.setToolTip("Genshin Rich Presence");
+    tray.setToolTip(`Gluta v${version}`);
     tray.on('click', () => {
         if (codeRun==false) {
             mainWindow.loadFile('./index.html');
@@ -112,79 +105,7 @@ const createWindow = () => {
     tray.on('right-click', () => {
         rightClickMenu();
     });
-
-    /*
-    ipcMain.on("gibData", () => {
-        const fileNames = dialog.showOpenDialogSync();
-        // fileNames is an array that contains all the selected
-        if (fileNames === undefined) {
-          console.log("No file selected");
-          return;
-        }
-    
-        const filePath = fileNames[0];
-    
-        fs.readFile(filePath, "utf-8", (err, data) => {
-          if (err) {
-            return;
-          }
-          mainWindow.webContents.send("parsedData", data);
-        });
-      });
-    ipcMain.on("exportAA", (event, arg) => {
-        event.sender.send('asynchronous-reply2', 'some data lol' );
-        const { clientVar2, stateVar2, detailsVar2, largeVar2, smallVar2, btnTxt1Var2, btnTxt2Var2, btnUrl1Var2, btnUrl2Var2} = arg;
-        let name = "untitled";
-        let amount = 0;
-        let fileName = name;
-        let options = {
-            title: "Export Rich Presence",
-            buttonLabel : "Export File",
-            filters :[
-                {name: 'Text Files', extensions: ['json']},
-                {name: 'All Files', extensions: ['*']}
-            ]
-        };
-        let pathName  = dialog.showSaveDialogSync(options);
-
-        const obj2 = {
-            clientVar: clientVar2,
-            stateVar: stateVar2,
-            detailsVar: detailsVar2,
-            largeVar: largeVar2,
-            smallVar: smallVar2,
-            btnUrl1Var: btnTxt1Var2,
-            btnUrl2Var: btnTxt2Var2,
-            btnTxt1Var: btnUrl1Var2,
-            btnTxt2Var: btnUrl2Var2,
-        }
-
-        var dictstring = JSON.stringify(obj2);
-        try {
-            if (fs.existsSync(pathName)) {
-                amount++;
-
-                let nameNew = name+"_"+amount;
-                pathName = './saves/' + nameNew + ".json"
-            }
-            else {
-                fs.writeFile(pathName, dictstring, function(err, result) {
-                    if(err) console. log('error', err);
-                    console.log("a")
-                });   
-            }
-        } catch(err) {
-            console.error(err)
-        }
-    })*/
-}
-
-
-// console.log(app);
-
-//app.on('ready', () => {
-    
-//})
+};
 
 app.on('ready', function(){
     createWindow();

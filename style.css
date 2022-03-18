@@ -357,6 +357,13 @@ body {
   animation-delay: 0.1s;
 }
 
+#name {
+  outline: none;
+  border: none;
+  background: transparent;
+}
+
+
 #elapsed {
   transition-duration: 0.5s;
   position: relative;

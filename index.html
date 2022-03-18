@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genshin Rich Presence</title>
+    <title>Gluta</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <script>
+        // this function does not work yet and is experimental. coming in next update..
         // function setAllLocalStorage({
         //     key: value
         // }) {
@@ -23,13 +24,16 @@
         //         };
         //     });
         // }
+        // main initialization and global variables
         console.log("The application has launched.")
         let obj = null;
+        let iterations = 0;
         const path = require('path');
         const {ipcRenderer} = require('electron');
          
 
         function countUpFromTime(countFrom) {
+            // count up timer in the Rich Presence application which resets every 24 hours as per official discord RPC.
             countFrom = new Date(countFrom).getTime();
             var now = new Date(),
                 countFrom = new Date(countFrom),
@@ -54,6 +58,7 @@
             clearTimeout(countUpFromTime.interval);
             countUpFromTime.interval = setTimeout(function(){ countUpFromTime(countFrom); }, 1000);
         }
+        // if check
         let aaa = false;
         function RPCfunc() {
             // main initalization of rich presence information set as an object
@@ -82,18 +87,32 @@
 
                 // receive message from main.js
                 ipcRenderer.on('asynchronous-reply', (event, arg) => {
-                    let profilePic = document.getElementById('pfp');
-                    let user1 = document.getElementById('nickname');
-                    let user2 = document.getElementById('username');
-                    let bgImg = document.getElementById('bg');
-                    let ColorThief = require('colorthief');
-                    let { avatarIcon, userID, userDisc } = arg;
-                    let largeImgIcn = document.getElementById('paimon');
-                    let smallImgIcn = document.getElementById('small');
-                    bgImg.style.backgroundColor="transparent";
-                    profilePic.src = avatarIcon;
-                    user1.innerText = userID;
-                    user2.innerText = userID+"#"+userDisc;
+                        // collects variables of all selectors and arguments
+                        let profilePic = document.getElementById('pfp');
+                        let user1 = document.getElementById('nickname');
+                        let user2 = document.getElementById('username');
+                        let bgImg = document.getElementById('bg');
+                        let ColorThief = require('colorthief');
+                        let { avatarIcon, userID, userDisc } = arg;
+                        let largeImgIcn = document.getElementById('paimon');
+                        let smallImgIcn = document.getElementById('small');
+                        if (iterations<1) {
+                            bgImg.style.backgroundColor="transparent";
+                            iterations++;
+                        }
+                         // checks if the old avatar is the same as the new one; if it isnt, it sets the banner again.
+                        profilePic.src = avatarIcon;
+                        profilePic.onload = () => {
+                            ColorThief.getColor(avatarIcon)
+                        .then(color => {
+                            bgImg.style.backgroundColor="rgb("+color+")";
+                        })
+                        .catch(err => { console.log(err) })
+                        };
+
+                        user1.innerText = userID;
+                        user2.innerText = userID+"#"+userDisc;
+                        // fetches the id of the images used in the rich presence and sets them to the preview of it
                     const fetchData = require('node-fetch');
                     let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
                     fetchData(URL).then(async (response) => {
@@ -105,14 +124,9 @@
                         smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                     });
 
-                    profilePic.onload = () => {
-                        ColorThief.getColor(avatarIcon)
-                        .then(color => {
-                            bgImg.style.backgroundColor="rgb("+color+")";
-                        })
-                        .catch(err => { console.log(err) })
+
                         
-                    };
+                   // experimental, not working yet.
                     // setAllLocalStorage({
                     //     'clientVar': document.getElementById('client').value,
                     //     'stateVar': document.getElementById('state').value,
@@ -343,6 +357,7 @@
 
 
     </script>
+    <!-- main HTML elements to recreate the rich presence preview-->
     <h1 id='bg'>____</h1>
     <img src="./assets/Scrolling-Lines-Pink.gif" alt="Discord PFP" width="60" height="60", class='pfp' id='pfp'>
     <input type="text" class="client_id stuff items" placeholder="Input Client ID" id="client" value='' onclick="this.select()" onchange="RPCfunc()">
@@ -395,6 +410,7 @@
 
 
     <script>
+        // main div click functions2
         function url1func() {
 
             var T = document.getElementById("Url1");
