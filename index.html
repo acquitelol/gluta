@@ -10,20 +10,16 @@
 <body>
 
     <script>
-        // this function does not work yet and is experimental. coming in next update..
-        // function setAllLocalStorage({
-        //     key: value
-        // }) {
-        //     key.forEach(() => {
-        //         if (key == null) {
-        //             return "A key is Null or Obstructed."
-        //         } else if (value == null) {
-        //             return "A value is Null or Obstructed."
-        //         } else {
-        //             localStorage.setItem(key, value);
-        //         };
-        //     });
-        // }
+        const setAllLocalStorage = (object) => {
+            const keys = Object.keys(object);
+            console.log(keys);
+            // iterate over object
+
+            keys.forEach((key, index) => {
+                console.log(`${key}: ${object[key]}`);
+                localStorage.setItem(key, object[key]);
+            });
+        }
         // main initialization and global variables
         console.log("The application has launched.")
         let obj = null;
@@ -74,9 +70,9 @@
                 btnUrl2Var: document.getElementById("btnUrl2").value,
                 btnTxt1VarLol: document.getElementById("btnTxt1").value,
                 btnTxt2VarLol: document.getElementById("btnTxt2").value,
+                gameName: document.getElementById('name').value
             };
-            
-            const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var} = obj;
+            const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var, gameName} = obj;
 
 
             if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1!='' && btnUrl2!='' && aaa==false) {
@@ -86,7 +82,10 @@
                 ipcRenderer.send('asynchronous-message', obj );
 
                 // receive message from main.js
-                ipcRenderer.on('asynchronous-reply', (event, arg) => {
+                let loopReply = setInterval(() => {
+                    ipcRenderer.removeAllListeners('asynchronous-reply')
+                    ipcRenderer.on('asynchronous-reply', (event, arg) => {
+
                         // collects variables of all selectors and arguments
                         let profilePic = document.getElementById('pfp');
                         let user1 = document.getElementById('nickname');
@@ -100,7 +99,7 @@
                             bgImg.style.backgroundColor="transparent";
                             iterations++;
                         }
-                         // checks if the old avatar is the same as the new one; if it isnt, it sets the banner again.
+                        // checks if the old avatar is the same as the new one; if it isnt, it sets the banner again.
                         profilePic.src = avatarIcon;
                         profilePic.onload = () => {
                             ColorThief.getColor(avatarIcon)
@@ -113,48 +112,129 @@
                         user1.innerText = userID;
                         user2.innerText = userID+"#"+userDisc;
                         // fetches the id of the images used in the rich presence and sets them to the preview of it
-                    const fetchData = require('node-fetch');
-                    let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
-                    fetchData(URL).then(async (response) => {
+                        const fetchData = require('node-fetch');
+                        let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
+                        fetchData(URL).then(async (response) => {
                         let data = await response.json();
                         console.log(data);
                         let largeImgId = data[0].id;
                         let smallImgId = data[1].id;
                         largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
                         smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
-                    });
+                        });  
 
 
-                        
-                   // experimental, not working yet.
-                    // setAllLocalStorage({
-                    //     'clientVar': document.getElementById('client').value,
-                    //     'stateVar': document.getElementById('state').value,
-                    //     'detailsVar': document.getElementById('state').value,
-                    //     'largeTxtVar': document.getElementById('largeImgTxt').value,
-                    //     'largeIdtVar': document.getElementById('largeImgIdt').value,
-                    //     'smallTxtVar': document.getElementById('smallImgTxt').value,
-                    //     'smallIdtVar': document.getElementById('smallImgIdt').value,
-                    //     'btnUrl1Var': document.getElementById('btnUrl1').value,
-                    //     'btnUrl2Var': document.getElementById('btnUrl2').value,
-                    //     'btnTxt1Var': document.getElementById('btnTxt1').value,
-                    //     'btnTxt2Var': document.getElementById('btnTxt2').value
-                    // })
-                    localStorage.setItem('clientVar', document.getElementById('client').value);
-                    localStorage.setItem('stateVar', document.getElementById('state').value);
-                    localStorage.setItem('detailsVar', document.getElementById('details').value);
-                    localStorage.setItem('largeTxtVar', document.getElementById('largeImgTxt').value);
-                    localStorage.setItem('largeIdtVar', document.getElementById('largeImgIdt').value);
-                    localStorage.setItem('smallTxtVar', document.getElementById('smallImgTxt').value);
-                    localStorage.setItem('smallIdtVar', document.getElementById('smallImgIdt').value);
-                    localStorage.setItem('btnUrl1Var', document.getElementById('btnUrl1').value);
-                    localStorage.setItem('btnUrl2Var', document.getElementById('btnUrl2').value);
-                    localStorage.setItem('btnTxt1Var', document.getElementById('btnTxt1').value);
-                    localStorage.setItem('btnTxt2Var', document.getElementById('btnTxt2').value);
-                    localStorage.setItem('gameName', document.getElementById('name').value);
+
+                        })
+                }, 1100);
+                const localObj = {
+                        'clientVar': clientVar,
+                        'stateVar': stateVar,
+                        'detailsVar': detailsVar,
+                        'largeTxtVar': largeTxtVar,
+                        'largeIdtVar': largeIdtVar,
+                        'smallTxtVar': smallTxtVar,
+                        'smallIdtVar': smallIdtVar,
+                        'btnUrl1Var': btnUrl1Var,
+                        'btnUrl2Var': btnUrl2Var,
+                        'btnTxt1VarLol': btnTxt1VarLol,
+                        'btnTxt2VarLol': btnTxt2VarLol,
+                        'gameName': gameName
+                    };
+                setAllLocalStorage(localObj)
+
+            } else if (btnUrl2Var=="") {
+                console.log("Not enough Variables to set RPC. (Btn2 Err)");
+            } else if (btnUrl1Var=="") {
+                console.log("Not enough Variables to set RPC. (Btn1 Err)");
+            } else {
+                console.log("Not enough Variables to set RPC.");
+            };
+        };
+        function RPCfuncWithoutLargeLoop() {
+            // main initalization of rich presence information set as an object
+            const obj = {
+                clientVar: document.getElementById('client').value,
+                stateVar: document.getElementById("state").value,
+                detailsVar: document.getElementById("details").value,
+                largeTxtVar: document.getElementById("largeImgTxt").value,
+                largeIdtVar: document.getElementById("largeImgIdt").value,
+                smallTxtVar: document.getElementById("smallImgTxt").value,
+                smallIdtVar: document.getElementById("smallImgIdt").value,
+                btnUrl1Var: document.getElementById("btnUrl1").value,
+                btnUrl2Var: document.getElementById("btnUrl2").value,
+                btnTxt1VarLol: document.getElementById("btnTxt1").value,
+                btnTxt2VarLol: document.getElementById("btnTxt2").value,
+                gameName: document.getElementById('name').value
+            };
+            const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var, gameName} = obj;
 
 
-                })
+            if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1!='' && btnUrl2!='' && aaa==false) {
+                console.log('Setting Rich Presence (with Elapsed Time)...')
+
+                // send data to main.js 
+                ipcRenderer.send('asynchronous-message', obj );
+
+                // receive message from main.js
+                    ipcRenderer.on('asynchronous-reply', (event, arg) => {
+
+                        // collects variables of all selectors and arguments
+                        let profilePic = document.getElementById('pfp');
+                        let user1 = document.getElementById('nickname');
+                        let user2 = document.getElementById('username');
+                        let bgImg = document.getElementById('bg');
+                        let ColorThief = require('colorthief');
+                        let { avatarIcon, userID, userDisc } = arg;
+                        let largeImgIcn = document.getElementById('paimon');
+                        let smallImgIcn = document.getElementById('small');
+                        if (iterations<1) {
+                            bgImg.style.backgroundColor="transparent";
+                            iterations++;
+                        }
+                        // checks if the old avatar is the same as the new one; if it isnt, it sets the banner again.
+                        profilePic.src = avatarIcon;
+                        profilePic.onload = () => {
+                            ColorThief.getColor(avatarIcon)
+                        .then(color => {
+                            bgImg.style.backgroundColor="rgb("+color+")";
+                        })
+                        .catch(err => { console.log(err) })
+                        };
+
+                        user1.innerText = userID;
+                        user2.innerText = userID+"#"+userDisc;
+                        // fetches the id of the images used in the rich presence and sets them to the preview of it
+                        const fetchData = require('node-fetch');
+                        let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
+                        fetchData(URL).then(async (response) => {
+                        let data = await response.json();
+                        console.log(data);
+                        let largeImgId = data[0].id;
+                        let smallImgId = data[1].id;
+                        largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
+                        smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
+                        });  
+
+
+
+                        })
+                const localObj = {
+                        'clientVar': clientVar,
+                        'stateVar': stateVar,
+                        'detailsVar': detailsVar,
+                        'largeTxtVar': largeTxtVar,
+                        'largeIdtVar': largeIdtVar,
+                        'smallTxtVar': smallTxtVar,
+                        'smallIdtVar': smallIdtVar,
+                        'btnUrl1Var': btnUrl1Var,
+                        'btnUrl2Var': btnUrl2Var,
+                        'btnTxt1VarLol': btnTxt1VarLol,
+                        'btnTxt2VarLol': btnTxt2VarLol,
+                        'gameName': gameName
+                    };
+                setAllLocalStorage(localObj)
+
             } else if (btnUrl2Var=="") {
                 console.log("Not enough Variables to set RPC. (Btn2 Err)");
             } else if (btnUrl1Var=="") {
@@ -176,9 +256,10 @@
                 btnUrl2Var: document.getElementById("btnUrl2").value,
                 btnTxt1VarLol: document.getElementById("btnTxt1").value,
                 btnTxt2VarLol: document.getElementById("btnTxt2").value,
+                gameName: document.getElementById('name').value
             };
             
-            const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var} = obj;
+            const {clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var, gameName} = obj;
 
 
             if (clientVar!='' && stateVar!='' && detailsVar!='' && largeIdtVar!='' && largeTxtVar!='' && smallIdtVar!='' && smallTxtVar!='' && btnTxt1VarLol!='' && btnTxt2VarLol!='' && btnUrl1!='' && btnUrl2!='' && aaa==false) {
@@ -188,56 +269,66 @@
                 ipcRenderer.send('asynchronous-messagelol', obj );
 
                 // receive message from main.js
-                ipcRenderer.on('asynchronous-replylol', (event, arg) => {
-                    let profilePic = document.getElementById('pfp');
-                    let user1 = document.getElementById('nickname');
-                    let user2 = document.getElementById('username');
-                    let bgImg = document.getElementById('bg');
-                    let ColorThief = require('colorthief');
-                    let { avatarIcon, userID, userDisc } = arg;
-                    let largeImgIcn = document.getElementById('paimon');
-                    let smallImgIcn = document.getElementById('small');
-                    bgImg.style.backgroundColor="transparent";
-                    profilePic.src = avatarIcon;
-                    user1.innerText = userID;
-                    user2.innerText = userID+"#"+userDisc;
+                let loopReply = setInterval(() => {
+                    ipcRenderer.removeAllListeners('asynchronous-replylol')
+                    ipcRenderer.on('asynchronous-replylol', (event, arg) => {
 
-                    const fetchData = require('node-fetch');
+                        // collects variables of all selectors and arguments
+                        let profilePic = document.getElementById('pfp');
+                        let user1 = document.getElementById('nickname');
+                        let user2 = document.getElementById('username');
+                        let bgImg = document.getElementById('bg');
+                        let ColorThief = require('colorthief');
+                        let { avatarIcon, userID, userDisc } = arg;
+                        let largeImgIcn = document.getElementById('paimon');
+                        let smallImgIcn = document.getElementById('small');
+                        if (iterations<1) {
+                            bgImg.style.backgroundColor="transparent";
+                            iterations++;
+                        }
+                        // checks if the old avatar is the same as the new one; if it isnt, it sets the banner again.
+                        profilePic.src = avatarIcon;
+                        profilePic.onload = () => {
+                            ColorThief.getColor(avatarIcon)
+                        .then(color => {
+                            bgImg.style.backgroundColor="rgb("+color+")";
+                        })
+                        .catch(err => { console.log(err) })
+                        };
 
-                    let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
-
-                    fetchData(URL).then(async (response) => {
+                        user1.innerText = userID;
+                        user2.innerText = userID+"#"+userDisc;
+                        // fetches the id of the images used in the rich presence and sets them to the preview of it
+                        const fetchData = require('node-fetch');
+                        let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
+                        fetchData(URL).then(async (response) => {
                         let data = await response.json();
                         console.log(data);
                         let largeImgId = data[0].id;
                         let smallImgId = data[1].id;
                         largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
                         smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
-                    });
+                        });  
 
-                    profilePic.onload = () => {
-                        ColorThief.getColor(avatarIcon)
-                        .then(color => {
-                            bgImg.style.backgroundColor="rgb("+color+")";
+
+
                         })
-                        .catch(err => { console.log(err) })
-                        
-                    }
-                    localStorage.setItem('clientVar', document.getElementById('client').value);
-                    localStorage.setItem('stateVar', document.getElementById('state').value);
-                    localStorage.setItem('detailsVar', document.getElementById('details').value);
-                    localStorage.setItem('largeTxtVar', document.getElementById('largeImgTxt').value);
-                    localStorage.setItem('largeIdtVar', document.getElementById('largeImgIdt').value);
-                    localStorage.setItem('smallTxtVar', document.getElementById('smallImgTxt').value);
-                    localStorage.setItem('smallIdtVar', document.getElementById('smallImgIdt').value);
-                    localStorage.setItem('btnUrl1Var', document.getElementById('btnUrl1').value);
-                    localStorage.setItem('btnUrl2Var', document.getElementById('btnUrl2').value);
-                    localStorage.setItem('btnTxt1Var', document.getElementById('btnTxt1').value);
-                    localStorage.setItem('btnTxt2Var', document.getElementById('btnTxt2').value);
-                    localStorage.setItem('gameName', document.getElementById('name').value);
-
-
-                })
+                    }, 1100);
+                    const localObj = {
+                        'clientVar': clientVar,
+                        'stateVar': stateVar,
+                        'detailsVar': detailsVar,
+                        'largeTxtVar': largeTxtVar,
+                        'largeIdtVar': largeIdtVar,
+                        'smallTxtVar': smallTxtVar,
+                        'smallIdtVar': smallIdtVar,
+                        'btnUrl1Var': btnUrl1Var,
+                        'btnUrl2Var': btnUrl2Var,
+                        'btnTxt1VarLol': btnTxt1VarLol,
+                        'btnTxt2VarLol': btnTxt2VarLol,
+                        'gameName': gameName
+                    };
+                    setAllLocalStorage(localObj)
             } else if (btnUrl2Var=="") {
                 console.log("Not enough Variables to set RPC. (Btn2 Err)");
             } else if (btnUrl1Var=="") {
@@ -281,59 +372,15 @@
                 document.getElementById("btnUrl2").value =  btnUrl2Var;
                 document.getElementById("btnTxt1").value = btnTxt1Var;
                 document.getElementById("btnTxt2").value = btnTxt2Var;
-
-                ipcRenderer.send('gibData');
-
-                ipcRenderer.on("parsedData", (event, data) => {
-                    const parsedData = JSON.parse(data);
-                    document.getElementById("client").value = parsedData.clientVar;
-                    document.getElementById("state").value = parsedData.stateVar;
-                    document.getElementById("details").value = parsedData.detailsVar;
-                    document.getElementById("largeImgTxt").value = parsedData.largeTxtVar;
-                    document.getElementById("largeImgIdt").value = parsedData.largeIdtVar;
-                    document.getElementById("smallImgTxt").value = parsedData.smallTxtVar;
-                    document.getElementById("smallImgIdt").value = parsedData.smallIdtVar;
-                    document.getElementById("btnUrl1").value = parsedData.btnUrl1Var;
-                    document.getElementById("btnUrl2").value =  parsedData.btnUrl2Var;
-                    document.getElementById("btnTxt1").value = parsedData.btnTxt1Var;
-                    document.getElementById("btnTxt2").value = parsedData.btnTxt2Var;
-                    RPCfunc();
-                    console.log('Successfully imported file.');
-                });
-
-                ipcRenderer.send('clearCache');
-
-                ipcRenderer.on('clearCacheResponse', (event, data) => {
-                    localStorage.setItem('clientVar', "");
-                    localStorage.setItem('stateVar', "");
-                    localStorage.setItem('detailsVar', "");
-                    localStorage.setItem('largeTxtVar', "");
-                    localStorage.setItem('largeIdtVar', "");
-                    localStorage.setItem('smallTxtVar', "");
-                    localStorage.setItem('smallIdtVar', "");
-                    localStorage.setItem('btnUrl1Var', "");
-                    localStorage.setItem('btnUrl2Var', "");
-                    localStorage.setItem('btnTxt1Var', "");
-                    localStorage.setItem('btnTxt2Var', "");
-                    console.log("Successfully Cleared Cache.");
-
-                    // setLocalStorageItems([
-                    //     {},
-                    //     {},
-
-                    // ]);
-                })
-
-                ipcRenderer.on('errMsgDtt', (event, arg) => {
-                    console.log(arg);
-                })
                 
         };
         window.addEventListener("load", function(){
-            RPCfunc();
-            countUpFromTime(Date.now());
-            // countTimer();
-        });
+            let waitForOther = setTimeout(() => {
+                RPCfuncWithoutLargeLoop();
+                countUpFromTime(Date.now());
+                // countTimer();
+            }, 500);
+        })
         let isOr = false;
 
         function linethrough() {

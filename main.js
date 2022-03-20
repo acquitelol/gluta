@@ -3,13 +3,14 @@ let fs = require('fs');
 const RPC = require("discord-rpc");
 const client = new RPC.Client({transport: "ipc"});
 const path = require('path');
+const { ipc } = require('discord-rpc/src/transports');
 let mainWindow = null;
 let tray = null;
 let iconpath = path.join(__dirname, './assets/cc.png')
 let codeRun = false;
 let date = null;
-let version = '1.5.83';
-
+let version = '1.5.84';
+let instances = 0;
 
 const createWindow = () => {
     
@@ -121,202 +122,228 @@ app.on(
 
 
 // receive message from index.html 
-
-ipcMain.on('asynchronous-message', (event, arg) => {
-    console.log( arg );
-  
-    // send message to index.html
+let loop = setInterval(() => {
     
-    const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var } = arg;
+    ipcMain.removeAllListeners('asynchronous-message');
+    console.log('Removed listener...')
 
-
-    if (clientVar=="") {
-        let errMsg = "Client Var is Empty, put in a Client ID!! (Example: 9238401841280140)";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (stateVar=="") {
-        let errMsg = "State Variable is Empty. It needs to be at least 2 Characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (detailsVar=="") {
-        let errMsg = "Details Variable is Empty. It needs to be at least 2 Characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (largeIdtVar=="") {
-        let errMsg = 'Large Identity Variable is Empty!! Please enter the image name for the asset of the image in the Discord Developer Portal.';
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (smallIdtVar=="") {
-        let errMsg = 'Small Identity Variable is Empty!! Please enter the image name for the asset of the image in the Discord Developer Portal.';
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (smallTxtVar=="") {
-        let errMsg = "Small Text Variable is Empty. It must be at least 2 characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (largeTxtVar=="") {
-        let errMsg = "Large Text Variable is Empty. It must be at least 2 characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (btnTxt1VarLol=="") {
-        let errMsg = "Button 1 Text Variable is Empty. It must be at least 2 characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (btnTxt2VarLol=="") {
-        let errMsg = "Button 2 Text Variable is Empty. It must be at least 2 characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (btnUrl1Var.startsWith('https://')!=true) {
-        let errMsg = "Button 1 Url is not a real URL. It needs to start with 'https://'";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (btnUrl2Var.startsWith('https://')!=true) {
-        let errMsg = "Button 2 Url is not a real URL. It needs to start with 'https://'";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else {
-        const activity={
-            state: stateVar,
-            details: detailsVar,
-            assets:{
-                large_image: largeIdtVar,
-                large_text: largeTxtVar,
-                small_image: smallIdtVar,
-                small_text: smallTxtVar,
-            },
-            buttons:[
-                {
-                    "label": btnTxt1VarLol,
-                    "url": btnUrl1Var
-                    },
-                {
-                    "label": btnTxt2VarLol,
-                    "url": btnUrl2Var
-                }
-            ],
-                timestamps: {start: date},
-                instance: true
-        };
-                    
-        client.on("ready", () => {
-            client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
-            
-            console.log("Successfully set Rich Presence!");
-            let { id, username, discriminator, avatar } = client.user;
-            const userData = {
-                avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
-                userID: username,
-                userDisc: discriminator,
-            }
-                
-            event.sender.send('asynchronous-reply', userData );
-            console.log(userData);
-            
+    ipcMain.on('asynchronous-message', (event, arg) => {
+        console.log( arg );
+        if (instances<1) {
+            instanceVar = true;
+            instances++;
+        } else {
+            instanceVar = false;
+        }
+        // send message to index.html
         
-        });
-        
-        client.login({ clientId: clientVar })
-        console.log(client.transport.client);
-    };
-
-
-});
-
-
-
-ipcMain.on('asynchronous-messagelol', (event, arg) => {
-    console.log( arg );
-  
-    // send message to index.html
+        const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var } = arg;
     
-    const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var } = arg;
-
-
-    if (clientVar=="") {
-        let errMsg = "Client Var is Empty, put in a Client ID!! (Example: 9238401841280140)";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (stateVar=="") {
-        let errMsg = "State Variable is Empty. It needs to be at least 2 Characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (detailsVar=="") {
-        let errMsg = "Details Variable is Empty. It needs to be at least 2 Characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (largeIdtVar=="") {
-        let errMsg = 'Large Identity Variable is Empty!! Please enter the image name for the asset of the image in the Discord Developer Portal.';
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (smallIdtVar=="") {
-        let errMsg = 'Small Identity Variable is Empty!! Please enter the image name for the asset of the image in the Discord Developer Portal.';
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (smallTxtVar=="") {
-        let errMsg = "Small Text Variable is Empty. It must be at least 2 characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (largeTxtVar=="") {
-        let errMsg = "Large Text Variable is Empty. It must be at least 2 characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (btnTxt1VarLol=="") {
-        let errMsg = "Button 1 Text Variable is Empty. It must be at least 2 characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (btnTxt2VarLol=="") {
-        let errMsg = "Button 2 Text Variable is Empty. It must be at least 2 characters.";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (btnUrl1Var.startsWith('https://')!=true) {
-        let errMsg = "Button 1 Url is not a real URL. It needs to start with 'https://'";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else if (btnUrl2Var.startsWith('https://')!=true) {
-        let errMsg = "Button 2 Url is not a real URL. It needs to start with 'https://'";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-    } else {
-        const activity={
-            state: stateVar,
-            details: detailsVar,
-            assets:{
-                large_image: largeIdtVar,
-                large_text: largeTxtVar,
-                small_image: smallIdtVar,
-                small_text: smallTxtVar,
-            },
-            buttons:[
-                {
-                    "label": btnTxt1VarLol,
-                    "url": btnUrl1Var
-                    },
-                {
-                    "label": btnTxt2VarLol,
-                    "url": btnUrl2Var
-                }
-            ],
-                instance: true
-        };
-                    
-        client.on("ready", () => {
-            client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
-            
-            console.log("Successfully set Rich Presence!");
-            let { id, username, discriminator, avatar } = client.user;
-            const userData = {
-                avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
-                userID: username,
-                userDisc: discriminator,
-            }
+    
+        if (clientVar=="") {
+            let errMsg = "Client Var is Empty, put in a Client ID!! (Example: 9238401841280140)";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (stateVar=="") {
+            let errMsg = "State Variable is Empty. It needs to be at least 2 Characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (detailsVar=="") {
+            let errMsg = "Details Variable is Empty. It needs to be at least 2 Characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (largeIdtVar=="") {
+            let errMsg = 'Large Identity Variable is Empty!! Please enter the image name for the asset of the image in the Discord Developer Portal.';
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (smallIdtVar=="") {
+            let errMsg = 'Small Identity Variable is Empty!! Please enter the image name for the asset of the image in the Discord Developer Portal.';
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (smallTxtVar=="") {
+            let errMsg = "Small Text Variable is Empty. It must be at least 2 characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (largeTxtVar=="") {
+            let errMsg = "Large Text Variable is Empty. It must be at least 2 characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (btnTxt1VarLol=="") {
+            let errMsg = "Button 1 Text Variable is Empty. It must be at least 2 characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (btnTxt2VarLol=="") {
+            let errMsg = "Button 2 Text Variable is Empty. It must be at least 2 characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (btnUrl1Var.startsWith('https://')!=true) {
+            let errMsg = "Button 1 Url is not a real URL. It needs to start with 'https://'";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (btnUrl2Var.startsWith('https://')!=true) {
+            let errMsg = "Button 2 Url is not a real URL. It needs to start with 'https://'";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else {
+            const activity={
+                state: stateVar,
+                details: detailsVar,
+                assets:{
+                    large_image: largeIdtVar,
+                    large_text: largeTxtVar,
+                    small_image: smallIdtVar,
+                    small_text: smallTxtVar,
+                },
+                buttons:[
+                    {
+                        "label": btnTxt1VarLol,
+                        "url": btnUrl1Var
+                        },
+                    {
+                        "label": btnTxt2VarLol,
+                        "url": btnUrl2Var
+                    }
+                ],
+                    timestamps: {start: date},
+                    instance: instanceVar
+            };
+                        
+            client.on("ready", () => {
+                client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
                 
-            event.sender.send('asynchronous-reply', userData );
-            console.log(userData);
+                console.log("Successfully set Rich Presence!");
+                let { id, username, discriminator, avatar } = client.user;
+                const userData = {
+                    avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
+                    userID: username,
+                    userDisc: discriminator,
+                }
+                    
+                event.sender.send('asynchronous-reply', userData );
+                console.log(userData);
+                
             
+            });
+            
+            client.login({ clientId: clientVar })
+            console.log(client.transport.client);
+        }
+    
+    
+    });
+    console.log('Added listener...')
+}, 1000)
+
+
+
+// receive message from index.html 
+let loop2 = setInterval(() => {
+    
+    ipcMain.removeAllListeners('asynchronous-messagelol');
+    console.log('Removed listener...')
+    
+    ipcMain.on('asynchronous-messagelol', (event, arg) => {
+        console.log( arg );
+        if (instances<1) {
+            instanceVar = true;
+            instances++;
+        } else {
+            instanceVar = false;
+        }
+        // send message to index.html
         
-        });
-        
-        client.login({ clientId: clientVar })
-        console.log(client.transport.client);
-    };
-});
+        const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var } = arg;
+    
+    
+        if (clientVar=="") {
+            let errMsg = "Client Var is Empty, put in a Client ID!! (Example: 9238401841280140)";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (stateVar=="") {
+            let errMsg = "State Variable is Empty. It needs to be at least 2 Characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (detailsVar=="") {
+            let errMsg = "Details Variable is Empty. It needs to be at least 2 Characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (largeIdtVar=="") {
+            let errMsg = 'Large Identity Variable is Empty!! Please enter the image name for the asset of the image in the Discord Developer Portal.';
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (smallIdtVar=="") {
+            let errMsg = 'Small Identity Variable is Empty!! Please enter the image name for the asset of the image in the Discord Developer Portal.';
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (smallTxtVar=="") {
+            let errMsg = "Small Text Variable is Empty. It must be at least 2 characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (largeTxtVar=="") {
+            let errMsg = "Large Text Variable is Empty. It must be at least 2 characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (btnTxt1VarLol=="") {
+            let errMsg = "Button 1 Text Variable is Empty. It must be at least 2 characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (btnTxt2VarLol=="") {
+            let errMsg = "Button 2 Text Variable is Empty. It must be at least 2 characters.";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (btnUrl1Var.startsWith('https://')!=true) {
+            let errMsg = "Button 1 Url is not a real URL. It needs to start with 'https://'";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else if (btnUrl2Var.startsWith('https://')!=true) {
+            let errMsg = "Button 2 Url is not a real URL. It needs to start with 'https://'";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+        } else {
+            const activity={
+                state: stateVar,
+                details: detailsVar,
+                assets:{
+                    large_image: largeIdtVar,
+                    large_text: largeTxtVar,
+                    small_image: smallIdtVar,
+                    small_text: smallTxtVar,
+                },
+                buttons:[
+                    {
+                        "label": btnTxt1VarLol,
+                        "url": btnUrl1Var
+                        },
+                    {
+                        "label": btnTxt2VarLol,
+                        "url": btnUrl2Var
+                    }
+                ],
+                    instance: instanceVar
+            };
+                        
+            client.on("ready", () => {
+                client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
+                
+                console.log("Successfully set Rich Presence!");
+                let { id, username, discriminator, avatar } = client.user;
+                const userData = {
+                    avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
+                    userID: username,
+                    userDisc: discriminator,
+                }
+                    
+                event.sender.send('asynchronous-replylol', userData );
+                console.log(userData);
+                
+            
+            });
+            
+            client.login({ clientId: clientVar })
+            console.log(client.transport.client);
+        }
+    
+    
+    });
+    console.log('Added listener...')
+}, 1000)
