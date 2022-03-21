@@ -26,7 +26,7 @@
         let iterations = 0;
         const path = require('path');
         const {ipcRenderer} = require('electron');
-         
+        
 
         function countUpFromTime(countFrom) {
             // count up timer in the Rich Presence application which resets every 24 hours as per official discord RPC.
@@ -117,8 +117,18 @@
                         fetchData(URL).then(async (response) => {
                         let data = await response.json();
                         console.log(data);
-                        let largeImgId = data[0].id;
-                        let smallImgId = data[1].id;
+                        let largeImgIdentifier = document.getElementById("largeImgIdt").value
+                        let largeImgId;
+                        let smallImgId;
+                        if (data[0].id==largeImgIdentifier) {
+                            largeImgId = data[1].id;
+                            smallImgId = data[0].id;
+                        } else {
+                            largeImgId = data[0].id;
+                            smallImgId = data[1].id;
+                        }
+                        
+                        
                         largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
                         smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                         });  
@@ -210,8 +220,18 @@
                         fetchData(URL).then(async (response) => {
                         let data = await response.json();
                         console.log(data);
-                        let largeImgId = data[0].id;
-                        let smallImgId = data[1].id;
+                        let largeImgIdentifier = document.getElementById("largeImgIdt").value
+                        let largeImgId;
+                        let smallImgId;
+                        if (data[0].id==largeImgIdentifier) {
+                            largeImgId = data[1].id;
+                            smallImgId = data[0].id;
+                        } else {
+                            largeImgId = data[0].id;
+                            smallImgId = data[1].id;
+                        }
+                        
+
                         largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
                         smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                         });  
@@ -304,8 +324,17 @@
                         fetchData(URL).then(async (response) => {
                         let data = await response.json();
                         console.log(data);
-                        let largeImgId = data[0].id;
-                        let smallImgId = data[1].id;
+                        let largeImgIdentifier = document.getElementById("largeImgIdt").value
+                        let largeImgId;
+                        let smallImgId;
+                        if (data[0].id==largeImgIdentifier) {
+                            largeImgId = data[1].id;
+                            smallImgId = data[0].id;
+                        } else {
+                            largeImgId = data[0].id;
+                            smallImgId = data[1].id;
+                        }
+                        
                         largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
                         smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                         });  

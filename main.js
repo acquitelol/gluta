@@ -9,7 +9,7 @@ let tray = null;
 let iconpath = path.join(__dirname, './assets/cc.png')
 let codeRun = false;
 let date = null;
-let version = '1.5.84';
+let version = '1.5.85';
 let instances = 0;
 
 const createWindow = () => {
