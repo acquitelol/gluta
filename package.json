@@ -1,7 +1,7 @@
 {
   "name": "gluta",
   "productName": "Gluta",
-  "version": "1.5.87",
+  "version": "1.5.88",
   "description": "A discord Rich Presence script built for Genshin Impact made to be as easy as possible to use.",
   "main": "main.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "start": "npm install && electron ./app",
     "begin": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --x64",
+    "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [],
