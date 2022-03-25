@@ -100,24 +100,19 @@ app.on(
 let loop = setInterval(() => {
     
     ipcMain.removeAllListeners('asynchronous-message');
-    console.log('Removed listener...')
 
     ipcMain.on('asynchronous-message', (event, arg) => {
         console.log( arg );
         // checks if it should set a new instance of the RPC or not.
-        let instanceVar;
-        if (instances<1) {
-            instanceVar = true;
-            instances++;
-        } else {
-            instanceVar = false;
-        }
+        let instanceVar = true;
 
         // checks if any values are empty
         const checkProperties = (obj) => {
             for (var key in obj) {
                 if (obj[key] == null || obj[key] == "")
-                    return `${key} is Empty. Please Add a valid input to it.`;
+                    if (key != "elapsed") {
+                        return `${key} is Empty. Please Add a valid input to it.`;
+                    }
                     
             }
             return false;
@@ -126,7 +121,7 @@ let loop = setInterval(() => {
         let response = checkProperties(arg)
         console.log(response)
 
-        if (response.includes('Empty')) {
+        if (response.toString().includes("Empty")) {
             event.sender.send('errmMsgDDt', response)
             return;
         };
@@ -148,8 +143,8 @@ let loop = setInterval(() => {
         }
 
         // checks if it should have elapsed time or not
-        const activity;
-        if (elapsed==false) {
+        let activity = {};
+        if (!elapsed) {
             activity={
                 state: stateVar,
                 details: detailsVar,
@@ -218,5 +213,4 @@ let loop = setInterval(() => {
         // logs into the client with the client ID to set the Rich presence
         client.login({ clientId: clientVar })
     });
-    console.log('Added listener...')
 }, 1000)
