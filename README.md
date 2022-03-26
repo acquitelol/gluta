@@ -9,8 +9,8 @@
  4. After this, type "Terminal" and click ENTER.
  5. You will then be greeted with a terminal window.
  6. Please make sure you have administrator permissions of the Mac before proceeding, it is required for the following commands
- 7. Type `xattr -cr` and drag the Gluta.app File there (without Pressing ENTER!)
- 9. Press enter. Type your password, and then try again. (Please note that a White "G" should appear at the top of your mac if it is working!)
+ 7. Type `xattr -cr /Applications/Gluta.app` or copy and paste it.
+ 9. Type your password, and then try again. (Please note that a White "G" should appear at the top of your mac if it is working!)
  10. If it still does not open, please wait for a little while, it will open eventually.
  11. You will be greeted with a screen which shows empty boxes (hopefully!)
  12. Go to the Discord Developer Portal (https://discord.com/developers/applications) and create a New Application.
