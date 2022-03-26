@@ -8,11 +8,14 @@ let tray = null;
 let iconpath = path.join(__dirname, './assets/cc.png')
 let codeRun = false;
 let date = null;
-let version = '1.5.88';
+let version = '1.5.89';
 let instances = 0;
 
+
+
 const createWindow = () => {
-    
+
+
     mainWindow = new BrowserWindow({
         width: 250,
         height: 360,
@@ -47,21 +50,23 @@ const createWindow = () => {
         mainWindow.setVisibleOnAllWorkspaces(true);
       };
     
-
-    const clearCache = () => {
-        let response = "Successfully cleared cache.";
-        mainWindow.webContents.send('clearCacheResponse', response);
-        console.log(response)
-    };
-    
-    rightClickMenu = () => {
+    rightClick = () => {
+        // clear cache function
+        const clearCache = () => {
+            let response = "Successfully cleared cache.";
+            mainWindow.webContents.send('clearCacheResponse', response);
+            console.log(response)
+        };
         const menu = [
-            { label: '╸Clear all Cache╺', role: clearCache() },
+            { label: '╸Clear all Cache╺', click: clearCache },
             { label: 'Separator',       type: 'separator'},
             { label: '╸Quit Rich Presence╺', role: 'quit' },
-          ];
-          tray.popUpContextMenu(Menu.buildFromTemplate(menu));
-    };
+        ];
+        tray.popUpContextMenu(Menu.buildFromTemplate(menu))
+    }
+
+
+
     const image = nativeImage.createFromPath(
         iconpath = path.join(__dirname, './assets/cc.png')
     );
@@ -79,7 +84,7 @@ const createWindow = () => {
     });
 
     tray.on('right-click', () => {
-        rightClickMenu();
+        rightClick()
     });
 };
 
