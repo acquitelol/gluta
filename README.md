@@ -27,7 +27,7 @@
 
 
  Here are some more things to keep in mind:
-
+ 
  • Please note that **all** boxes must be filled for the rich presence to begin.
 
  • Please also note you must have the Regular, Canary, or PTB client open *before* you start the rich presence.
@@ -41,4 +41,5 @@
  • Lastly, Please note that the Preview in the program is just a *representation* and is not the actual Rich Presence, it was recreated with HTML + CSS
  as a vizualisation of the Rich Presence.
 
+(Here is a short video showing how to get it to work quickly incase you are stuck with something: https://bit.ly/gluta-setup)
 Made with **<3** by *acquite#0001* with help from *eeradaa#3643*!
