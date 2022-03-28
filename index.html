@@ -320,13 +320,13 @@
 
         function linethrough() {
             let item = document.getElementById('elapsed');
-            if (isOr == false) {
+            if (!isOr) {
                 item.style.textDecorationLine = 'line-through';
                 item.style.color = '#b0b0b0'
                 isOr = true;
                 RPCfunc();
                 console.log(isOr)
-            } else if (isOr == true) {
+            } else if (isOr) {
                 item.style.textDecorationLine = 'none';
                 item.style.color = '#FFFFFF'
                 isOr = false;

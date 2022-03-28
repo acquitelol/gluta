@@ -1,5 +1,4 @@
 const {app, BrowserWindow, ipcMain, Tray, Menu, nativeImage} = require('electron');
-let fs = require('fs');
 const RPC = require("discord-rpc");
 const client = new RPC.Client({transport: "ipc"});
 const path = require('path');
@@ -8,7 +7,7 @@ let tray = null;
 let iconpath = path.join(__dirname, './assets/cc.png')
 let codeRun = false;
 let date = null;
-let version = '1.5.89';
+let version = '1.5.9';
 let instances = 0;
 
 
@@ -98,6 +97,15 @@ app.on(
     () => process.platform !== "darwin" && app.quit() // "darwin" targets macOS only.
     
 );
+
+app.on('browser-window-blur', (event, win) => {
+    if (win.webContents.isDevToolsFocused()) {
+      console.log('Ignore this case')
+    } else {
+      console.log('Hidden window until needed again.')
+      mainWindow.hide()
+    }
+})
 
 
 // receive message from index.html 
