@@ -12,7 +12,7 @@
     "start": "npm install && electron ./app",
     "begin": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder",
+    "dist": "electron-builder --x64",
     "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [],

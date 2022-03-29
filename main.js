@@ -1,3 +1,4 @@
+// all variables and initializations
 const {app, BrowserWindow, ipcMain, Tray, Menu, nativeImage} = require('electron');
 const RPC = require("discord-rpc");
 const client = new RPC.Client({transport: "ipc"});
@@ -12,6 +13,7 @@ let instances = 0;
 
 
 
+// main window function
 const createWindow = () => {
 
 
@@ -34,6 +36,7 @@ const createWindow = () => {
 
     });
 
+    // gets the window position
     getWindowPosition = () => {
         const windowBounds = mainWindow.getBounds();
         const trayBounds = tray.getBounds();
@@ -42,6 +45,7 @@ const createWindow = () => {
         return { x, y };
       };
     
+    // shows the window
     showWindow = () => {
         const position = getWindowPosition();
         mainWindow.setPosition(position.x, position.y, false);
@@ -49,6 +53,7 @@ const createWindow = () => {
         mainWindow.setVisibleOnAllWorkspaces(true);
       };
     
+    // function for right click menu in main window function scope
     rightClick = () => {
         // clear cache function
         const clearCache = () => {
@@ -66,11 +71,14 @@ const createWindow = () => {
 
 
 
+    // icon
     const image = nativeImage.createFromPath(
         iconpath = path.join(__dirname, './assets/cc.png')
     );
     tray = new Tray(image.resize({ width: 20, height: 20 }));
     
+
+    // metadata and extra settings
     tray.setToolTip(`Gluta v${version}`);
     tray.on('click', () => {
         if (!codeRun) {
@@ -85,6 +93,7 @@ const createWindow = () => {
     tray.on('right-click', rightClick);
 };
 
+// extras
 app.on('ready', function(){
     createWindow();
     app.dock.hide();
@@ -96,6 +105,7 @@ app.on(
     
 );
 
+// closes browser window if dev tools is not focused and the window is also not focused to increase performance
 app.on('browser-window-blur', (event, win) => {
     if (!win.webContents.isDevToolsFocused()) mainWindow.hide();
 })

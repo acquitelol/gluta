@@ -174,127 +174,12 @@
         ipcRenderer.on('asynchronous-reply', () => {
             getClient();
         })
-        function RPCfuncWithoutLargeLoop() {
-            // main initalization of rich presence information set as an object
-            const obj = {
-                clientVar: document.getElementById('client').value,
-                stateVar: document.getElementById("state").value,
-                detailsVar: document.getElementById("details").value,
-                largeTxtVar: document.getElementById("largeImgTxt").value,
-                largeIdtVar: document.getElementById("largeImgIdt").value,
-                smallTxtVar: document.getElementById("smallImgTxt").value,
-                smallIdtVar: document.getElementById("smallImgIdt").value,
-                btnUrl1Var: document.getElementById("btnUrl1").value,
-                btnUrl2Var: document.getElementById("btnUrl2").value,
-                btnTxt1VarLol: document.getElementById("btnTxt1").value,
-                btnTxt2VarLol: document.getElementById("btnTxt2").value,
-                gameName: document.getElementById('name').value
-            };
-            const {
-                clientVar,
-                stateVar,
-                detailsVar,
-                largeIdtVar,
-                largeTxtVar,
-                smallIdtVar,
-                smallTxtVar,
-                btnTxt1VarLol,
-                btnTxt2VarLol,
-                btnUrl1Var,
-                btnUrl2Var,
-                gameName
-            } = obj;
-            console.log('Setting Rich Presence (with Elapsed Time)...')
-
-            // send data to main.js 
-            ipcRenderer.send('asynchronous-message', obj);
-
-            // receive message from main.js
-            ipcRenderer.on('asynchronous-reply', (event, arg) => {
-
-                // collects variables of all selectors and arguments
-                let profilePic = document.getElementById('pfp');
-                let user1 = document.getElementById('nickname');
-                let user2 = document.getElementById('username');
-                let bgImg = document.getElementById('bg');
-                let ColorThief = require('colorthief');
-                let {
-                    avatarIcon,
-                    userID,
-                    userDisc
-                } = arg;
-                let largeImgIcn = document.getElementById('paimon');
-                let smallImgIcn = document.getElementById('small');
-                if (iterations < 1) {
-                    bgImg.style.backgroundColor = "transparent";
-                    iterations++;
-                }
-                // checks if the old avatar is the same as the new one; if it isnt, it sets the banner again.
-                profilePic.src = avatarIcon;
-                profilePic.onload = () => {
-                    ColorThief.getColor(avatarIcon)
-                        .then(color => {
-                            bgImg.style.backgroundColor = "rgb(" + color + ")";
-                        })
-                        .catch(err => {
-                            console.log(err)
-                        })
-                };
-
-                user1.innerText = userID;
-                user2.innerText = userID + "#" + userDisc;
-                // fetches the id of the images used in the rich presence and sets them to the preview of it
-                const fetchData = require('node-fetch');
-                let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
-                fetchData(URL).then(async (response) => {
-                    let data = await response.json();
-                    console.log(data);
-                    let largeImgIdentifier = document.getElementById("largeImgIdt").value
-                    let largeImgId;
-                    let smallImgId;
-                    if (data[0].id == largeImgIdentifier) {
-                        largeImgId = data[1].id;
-                        smallImgId = data[0].id;
-                    } else {
-                        largeImgId = data[0].id;
-                        smallImgId = data[1].id;
-                    }
-
-
-                    largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
-                    smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
-                });
-
-
-
-            })
-            const localObj = {
-                'clientVar': clientVar,
-                'stateVar': stateVar,
-                'detailsVar': detailsVar,
-                'largeTxtVar': largeTxtVar,
-                'largeIdtVar': largeIdtVar,
-                'smallTxtVar': smallTxtVar,
-                'smallIdtVar': smallIdtVar,
-                'btnUrl1Var': btnUrl1Var,
-                'btnUrl2Var': btnUrl2Var,
-                'btnTxt1Var': btnTxt1VarLol,
-                'btnTxt2Var': btnTxt2VarLol,
-                'gameName': gameName
-            };
-            setAllLocalStorage(localObj)
-        };
         window.onload = function() {
             let gameId = localStorage.getItem('gameName');
-            if (gameId == "") {
-                gameId = 'Genshin Impact';
-            } else if (gameId == null) {
-                gameId = 'Genshin Impact';
-            } else if (gameId == undefined) {
-                gameId = 'Genshin Impact';
-            } else {
-                gameId = gameId;
+            if (!gameId) {
+                gameId = "Genshin Impact"
             }
+
             document.getElementById('name').value = gameId;
             document.getElementById("client").value = localStorage.getItem('clientVar');
             document.getElementById("state").value = localStorage.getItem('stateVar');
@@ -310,11 +195,8 @@
 
         };
         window.addEventListener("load", function() {
-            let waitForOther = setTimeout(() => {
-                RPCfuncWithoutLargeLoop();
+                RPCfunc();
                 countUpFromTime(Date.now());
-                // countTimer();
-            }, 500);
         })
 
 
@@ -414,6 +296,7 @@
 
 
     <script>
+        //ignore this part its really old lmaoooo
         // main div click functions2
         function url1func() {
 
