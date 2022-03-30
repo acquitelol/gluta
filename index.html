@@ -113,8 +113,7 @@
             };
             setAllLocalStorage(localObj)
 
-            function getClient(event, arg) {
-
+            ipcRenderer.once('asynchronous-reply', (event, arg) => {
                 // collects variables of all selectors and arguments
                 let profilePic = document.getElementById('pfp');
                 let user1 = document.getElementById('nickname');
@@ -168,12 +167,8 @@
                     smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                 });
 
-            }
-        };
-
-        ipcRenderer.on('asynchronous-reply', () => {
-            getClient();
-        })
+            })
+        }
         window.onload = function() {
             let gameId = localStorage.getItem('gameName');
             if (!gameId) {
@@ -195,6 +190,7 @@
 
         };
         window.addEventListener("load", function() {
+                console.log("Window Loaded;")
                 RPCfunc();
                 countUpFromTime(Date.now());
         })
