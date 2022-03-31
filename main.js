@@ -1,5 +1,5 @@
 // all variables and initializations
-const {app, BrowserWindow, ipcMain, Tray, Menu, nativeImage} = require('electron');
+const {app, BrowserWindow, ipcMain, Tray, Menu, nativeImage, webContents} = require('electron');
 const RPC = require("discord-rpc");
 const client = new RPC.Client({transport: "ipc"});
 const path = require('path');
@@ -7,9 +7,8 @@ let mainWindow = null;
 let tray = null;
 let iconpath = path.join(__dirname, './assets/cc.png')
 let codeRun = false;
-let date = null;
-let version = '1.5.91';
-let instances = 0;
+let date;
+let version = '1.5.92';
 
 
 
@@ -83,7 +82,6 @@ const createWindow = () => {
     tray.on('click', () => {
         if (!codeRun) {
             mainWindow.loadFile('./index.html');
-            date = Date.now();
             console.log("Successfully Created Application");
             codeRun = true;
         }
@@ -91,6 +89,12 @@ const createWindow = () => {
     });
 
     tray.on('right-click', rightClick);
+
+    mainWindow.webContents.on('did-finish-load', (e) => {
+        date = Date.now();
+        console.log(`Successfully Reloaded Application, and the date is ${date}`);
+    })
+      
 };
 
 // extras
@@ -98,6 +102,7 @@ app.on('ready', function(){
     createWindow();
     app.dock.hide();
 });
+
 
 app.on(
     "window-all-closed",
@@ -114,114 +119,116 @@ app.on('browser-window-blur', (event, win) => {
 // receive message from index.html 
 console.log("Initialized a listener");
 ipcMain.on('asynchronous-message', (event, arg) => {
-    console.log( arg );
-    // checks if it should set a new instance of the RPC or not.
-    let instanceVar = true;
+    setTimeout(() => {
+        console.log( arg );
+        // checks if it should set a new instance of the RPC or not.
+        let instanceVar = true;
 
-    // checks if any values are empty
-    const checkProperties = (obj) => {
-        for (var key in obj) {
-            if (obj[key] == null || obj[key] == "")
-                if (key != "elapsed") {
-                    return `${key} is Empty. Please Add a valid input to it.`;
-                }
-                
+        // checks if any values are empty
+        const checkProperties = (obj) => {
+            for (var key in obj) {
+                if (obj[key] == null || obj[key] == "")
+                    if (key != "elapsed") {
+                        return `${key} is Empty. Please Add a valid input to it.`;
+                    }
+                    
+            }
+            return false;
         }
-        return false;
-    }
-    
-    let response = checkProperties(arg)
-    console.log(response)
-
-    if (response.toString().includes("Empty")) {
-        event.sender.send('errmMsgDDt', response)
-        return;
-    };
-
-    // takes out all keys and converts into usable variables
-    const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var, elapsed } = arg;
-
-    // further checks the urls for the correct link
-    if (!btnUrl1Var.startsWith('https://')) {
-        let errMsg = "Button 1 Url is not a real URL. It needs to start with 'https://'";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-        return;
-    } else if (!btnUrl2Var.startsWith('https://')) {
-        let errMsg = "Button 2 Url is not a real URL. It needs to start with 'https://'";
-        console.log(errMsg);
-        event.sender.send('errMsgDtt', errMsg );
-        return;
-    }
-
-    // checks if it should have elapsed time or not
-    let activity = {};
-    if (!elapsed) {
-        activity={
-            state: stateVar,
-            details: detailsVar,
-            assets:{
-                large_image: largeIdtVar,
-                large_text: largeTxtVar,
-                small_image: smallIdtVar,
-                small_text: smallTxtVar,
-            },
-            buttons:[
-                {
-                    "label": btnTxt1VarLol,
-                    "url": btnUrl1Var
-                    },
-                {
-                    "label": btnTxt2VarLol,
-                    "url": btnUrl2Var
-                }
-            ],
-                timestamps: {start: date},
-                instance: instanceVar
-        };
-    } else {
-        activity={
-            state: stateVar,
-            details: detailsVar,
-            assets:{
-                large_image: largeIdtVar,
-                large_text: largeTxtVar,
-                small_image: smallIdtVar,
-                small_text: smallTxtVar,
-            },
-            buttons:[
-                {
-                    "label": btnTxt1VarLol,
-                    "url": btnUrl1Var
-                    },
-                {
-                    "label": btnTxt2VarLol,
-                    "url": btnUrl2Var
-                }
-            ],
-                instance: instanceVar
-        };
-    }
-                
-    // sets the rich presence based on the "activity" object
-    client.on("ready", () => {
-        client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
         
-        console.log("Successfully set Rich Presence!");
-        // collects client information for setting avatar and username in preview
-        let { id, username, discriminator, avatar } = client.user;
-        const userData = {
-            avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
-            userID: username,
-            userDisc: discriminator,
+        let response = checkProperties(arg)
+        console.log(response)
+
+        if (response.toString().includes("Empty")) {
+            event.sender.send('errmMsgDDt', response)
+            return;
+        };
+
+        // takes out all keys and converts into usable variables
+        const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var, elapsed } = arg;
+
+        // further checks the urls for the correct link
+        if (!btnUrl1Var.startsWith('https://')) {
+            let errMsg = "Button 1 Url is not a real URL. It needs to start with 'https://'";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+            return;
+        } else if (!btnUrl2Var.startsWith('https://')) {
+            let errMsg = "Button 2 Url is not a real URL. It needs to start with 'https://'";
+            console.log(errMsg);
+            event.sender.send('errMsgDtt', errMsg );
+            return;
         }
-        // send message to index.html
-        event.sender.send('asynchronous-reply', userData );
-        console.log(userData);
+
+        // checks if it should have elapsed time or not
+        let activity = {};
+        if (!elapsed) {
+            activity={
+                state: stateVar,
+                details: detailsVar,
+                assets:{
+                    large_image: largeIdtVar,
+                    large_text: largeTxtVar,
+                    small_image: smallIdtVar,
+                    small_text: smallTxtVar,
+                },
+                buttons:[
+                    {
+                        "label": btnTxt1VarLol,
+                        "url": btnUrl1Var
+                        },
+                    {
+                        "label": btnTxt2VarLol,
+                        "url": btnUrl2Var
+                    }
+                ],
+                    timestamps: {start: date},
+                    instance: instanceVar
+            };
+        } else {
+            activity={
+                state: stateVar,
+                details: detailsVar,
+                assets:{
+                    large_image: largeIdtVar,
+                    large_text: largeTxtVar,
+                    small_image: smallIdtVar,
+                    small_text: smallTxtVar,
+                },
+                buttons:[
+                    {
+                        "label": btnTxt1VarLol,
+                        "url": btnUrl1Var
+                        },
+                    {
+                        "label": btnTxt2VarLol,
+                        "url": btnUrl2Var
+                    }
+                ],
+                    instance: instanceVar
+            };
+        }
+                    
+        // sets the rich presence based on the "activity" object
+        client.on("ready", () => {
+            client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
+            
+            console.log("Successfully set Rich Presence!");
+            // collects client information for setting avatar and username in preview
+            let { id, username, discriminator, avatar } = client.user;
+            const userData = {
+                avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
+                userID: username,
+                userDisc: discriminator,
+            }
+            // send message to index.html
+            event.sender.send('asynchronous-reply', userData );
+            console.log(userData);
+            
         
-    
-    });
-    
-    // logs into the client with the client ID to set the Rich presence
-    client.login({ clientId: clientVar })
+        });
+        
+        // logs into the client with the client ID to set the Rich presence
+        client.login({ clientId: clientVar })
+    }, 100);
 });
