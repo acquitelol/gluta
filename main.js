@@ -11,6 +11,8 @@ let date;
 let version = '1.5.93';
 let rpcState = true;
 let rpcLabel = '╸Toggle RPC╺ (✓)';
+let globalClient;
+
 // main window function
 const createWindow = () => {
 
@@ -243,10 +245,12 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         });
         
         // logs into the client with the client ID to set the Rich presence
+        globalClient = clientVar
         client.login({ clientId: clientVar })
     }, 100);
 });
 
 ipcMain.on('disableRpcCallback', (event, arg) => {
+    if (!globalClient) return
     client.request("SET_ACTIVITY", {pid: process.pid});
 })
