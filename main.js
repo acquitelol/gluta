@@ -8,10 +8,9 @@ let tray = null;
 let iconpath = path.join(__dirname, './assets/cc.png')
 let codeRun = false;
 let date;
-let version = '1.5.92';
-
-
-
+let version = '1.5.93';
+let rpcState = true;
+let rpcLabel = '╸Toggle RPC╺ (✓)';
 // main window function
 const createWindow = () => {
 
@@ -60,7 +59,22 @@ const createWindow = () => {
             mainWindow.webContents.send('clearCacheResponse', response);
             console.log(response)
         };
+
+        const toggle = () => {
+            if (rpcState==true) {
+                rpcState=false;
+                mainWindow.webContents.send('toggle', rpcState)
+                rpcLabel = '╸Toggle RPC╺ (×)'
+            } else {
+                rpcState=true;
+                mainWindow.webContents.send('toggle', rpcState)
+                rpcLabel = '╸Toggle RPC╺ (✓)'
+            }
+        }
+
         const menu = [
+            { label: rpcLabel, click: toggle },
+            { label: 'Separator',       type: 'separator'},
             { label: '╸Clear all Cache╺', click: clearCache },
             { label: 'Separator',       type: 'separator'},
             { label: '╸Quit Rich Presence╺', role: 'quit' },
@@ -107,7 +121,6 @@ app.on('ready', function(){
 app.on(
     "window-all-closed",
     () => process.platform !== "darwin" && app.quit() // "darwin" targets macOS only.
-    
 );
 
 // closes browser window if dev tools is not focused and the window is also not focused to increase performance
@@ -123,7 +136,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         console.log( arg );
         // checks if it should set a new instance of the RPC or not.
         let instanceVar = true;
-
+        let activity = {};
         // checks if any values are empty
         const checkProperties = (obj) => {
             for (var key in obj) {
@@ -148,6 +161,8 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var, elapsed } = arg;
 
         // further checks the urls for the correct link
+        if (rpcState==false) return;
+        
         if (!btnUrl1Var.startsWith('https://')) {
             let errMsg = "Button 1 Url is not a real URL. It needs to start with 'https://'";
             console.log(errMsg);
@@ -161,7 +176,6 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         }
 
         // checks if it should have elapsed time or not
-        let activity = {};
         if (!elapsed) {
             activity={
                 state: stateVar,
@@ -232,3 +246,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         client.login({ clientId: clientVar })
     }, 100);
 });
+
+ipcMain.on('disableRpcCallback', (event, arg) => {
+    client.request("SET_ACTIVITY", {pid: process.pid});
+})

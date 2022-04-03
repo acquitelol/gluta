@@ -16,12 +16,10 @@
             // iterate over object
 
             keys.forEach((key, index) => {
-                console.log(`${key}: ${object[key]}`);
                 localStorage.setItem(key, object[key]);
             });
         }
         // main initialization and global variables
-        console.log("The application has launched.")
         let obj = null;
         let iterations = 0;
         const path = require('path');
@@ -58,6 +56,9 @@
                 countUpFromTime(countFrom);
             }, 1000);
         }
+        function DisableFunc() {
+            ipcRenderer.send('disableRpcCallback')
+        }
 
         function RPCfunc() {
             // main initalization of rich presence information set as an object
@@ -90,7 +91,7 @@
                 btnUrl2Var,
                 gameName
             } = obj;
-            console.log('Setting Rich Presence (with Elapsed Time)...')
+            console.log('Setting Rich Presence')
 
             // send data to main.js 
             ipcRenderer.send('asynchronous-message', obj);
@@ -149,7 +150,6 @@
                 let URL = `https://discordapp.com/api/oauth2/applications/${clientVar}/assets`;
                 fetchData(URL).then(async (response) => {
                     let data = await response.json();
-                    console.log(data);
                     let largeImgIdentifier = document.getElementById("largeImgIdt").value
                     let largeImgId;
                     let smallImgId;
@@ -189,7 +189,6 @@
 
         };
         window.addEventListener("load", function() {
-                console.log("Window Loaded;")
                 RPCfunc();
                 countUpFromTime(Date.now());
         })
@@ -229,12 +228,19 @@
                 'gameName': "",
             };
             setAllLocalStorage(clearObj)
-            console.log(arg)
 
         })
 
         ipcRenderer.on('errMsgDDt', (event, arg) => {
             console.log(arg);
+        })
+
+        ipcRenderer.on('toggle', (event, arg) => {
+            if (arg==true) {
+                RPCfunc();
+            } else {
+                DisableFunc();
+            }
         })
 
     </script>
