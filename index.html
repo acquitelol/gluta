@@ -10,14 +10,75 @@
 <body>
 
     <script>
-        const setAllLocalStorage = (object) => {
-            const keys = Object.keys(object);
-            console.log(keys);
-            // iterate over object
+        let saves = 1;
+        let gamesaves = 1;
+        let changed = 0;
+        let iterationCheck = false;
+        let saveCheck = localStorage.getItem('saveCheck')
+        const setAllLocalStorage = (type, object) => {
+            if (type=="alternative") {
+                if (saves==1) {
+                    const keys = Object.keys(object);
+                    console.log(keys);
+                    // iterate over object
 
-            keys.forEach((key, index) => {
-                localStorage.setItem(key, object[key]);
-            });
+                    keys.forEach((key, index) => {
+                        localStorage.setItem(key, object[key]);
+                    });
+                    saves++;
+                } else if (saves==2) {
+                    const keys = Object.keys(object);
+                    console.log(keys);
+                    // iterate over object
+
+                    keys.forEach((key, index) => {
+                        localStorage.setItem(`${key}2`, object[key]);
+                    });
+                    saves = saves - 1;
+                }
+            } else if (type=="game") {
+                if (gamesaves==1) {
+                    const keys = Object.keys(object);
+                    console.log(keys);
+                    // iterate over object
+
+                    keys.forEach((key, index) => {
+                        localStorage.setItem(key, object[key]);
+                    });
+                    gamesaves++;
+                } else if (gamesaves==2) {
+                    const keys = Object.keys(object);
+                    console.log(keys);
+                    // iterate over object
+
+                    keys.forEach((key, index) => {
+                        localStorage.setItem(`${key}2`, object[key]);
+                    });
+                    gamesaves = gamesaves - 1;
+                }
+            } else if (type=="normal") {
+                const keys = Object.keys(object);
+                    console.log(keys);
+                    // iterate over object
+
+                    keys.forEach((key, index) => {
+                        localStorage.setItem(key, object[key]);
+                });
+            } else {
+                return 1;
+            }
+ 
+        }
+
+
+        const getAllLocalStorage = (array) => {
+            const object = [];
+            array.forEach((key) => {
+                object.push(localStorage.getItem(key))
+                console.log(object);
+                key++;
+            })
+            return object;
         }
         // main initialization and global variables
         let obj = null;
@@ -27,7 +88,7 @@
             ipcRenderer
         } = require('electron');
         let isOr = false;
-
+        
         function countUpFromTime(countFrom) {
             // count up timer in the Rich Presence application which resets every 24 hours as per official discord RPC.
             countFrom = new Date(countFrom).getTime();
@@ -61,6 +122,15 @@
         }
 
         function RPCfunc() {
+
+            if (changed==1) {
+                const game = {
+                'game': document.getElementById('name').value
+                }
+                setAllLocalStorage("game", game)
+                changed = 0;
+            }
+
             // main initalization of rich presence information set as an object
             const obj = {
                 clientVar: document.getElementById('client').value,
@@ -75,6 +145,8 @@
                 btnTxt1VarLol: document.getElementById("btnTxt1").value,
                 btnTxt2VarLol: document.getElementById("btnTxt2").value,
                 gameName: document.getElementById('name').value,
+                game: localStorage.getItem('game'),
+                game2: localStorage.getItem('game2'),
                 elapsed: isOr
             };
             const {
@@ -92,28 +164,30 @@
                 gameName
             } = obj;
             console.log('Setting Rich Presence')
-
             // send data to main.js 
             ipcRenderer.send('asynchronous-message', obj);
-
-            // receive message from main.js
-            const localObj = {
-                'clientVar': clientVar,
-                'stateVar': stateVar,
-                'detailsVar': detailsVar,
-                'largeTxtVar': largeTxtVar,
-                'largeIdtVar': largeIdtVar,
-                'smallTxtVar': smallTxtVar,
-                'smallIdtVar': smallIdtVar,
-                'btnUrl1Var': btnUrl1Var,
-                'btnUrl2Var': btnUrl2Var,
-                'btnTxt1Var': btnTxt1VarLol,
-                'btnTxt2Var': btnTxt2VarLol,
-                'gameName': gameName
-            };
-            setAllLocalStorage(localObj)
-
             ipcRenderer.once('asynchronous-reply', (event, arg) => {
+                console.log('sending save data')
+                iterationCheck = true;
+                ipcRenderer.send('setSave', obj)
+                            // receive message from main.js
+                    const localObj = {
+                        'clientVar': clientVar,
+                        'stateVar': stateVar,
+                        'detailsVar': detailsVar,
+                        'largeTxtVar': largeTxtVar,
+                        'largeIdtVar': largeIdtVar,
+                        'smallTxtVar': smallTxtVar,
+                        'smallIdtVar': smallIdtVar,
+                        'btnUrl1Var': btnUrl1Var,
+                        'btnUrl2Var': btnUrl2Var,
+                        'btnTxt1Var': btnTxt1VarLol,
+                        'btnTxt2Var': btnTxt2VarLol,
+                        'gameName': gameName
+                    };
+                
+                    setAllLocalStorage("alternative", localObj)
+
                 // collects variables of all selectors and arguments
                 let profilePic = document.getElementById('pfp');
                 let user1 = document.getElementById('nickname');
@@ -169,27 +243,90 @@
             })
         }
         window.onload = function() {
-            let gameId = localStorage.getItem('gameName');
-            if (!gameId) {
-                gameId = "Genshin Impact"
-            }
+            document.getElementById('client').addEventListener('change', () => {
+                changed++;
+                alert(changed)
+            }) 
 
-            document.getElementById('name').value = gameId;
-            document.getElementById("client").value = localStorage.getItem('clientVar');
-            document.getElementById("state").value = localStorage.getItem('stateVar');
-            document.getElementById("details").value = localStorage.getItem('detailsVar');
-            document.getElementById("largeImgTxt").value = localStorage.getItem('largeTxtVar');
-            document.getElementById("largeImgIdt").value = localStorage.getItem('largeIdtVar');
-            document.getElementById("smallImgTxt").value = localStorage.getItem('smallTxtVar');
-            document.getElementById("smallImgIdt").value = localStorage.getItem('smallIdtVar');
-            document.getElementById("btnUrl1").value = localStorage.getItem('btnUrl1Var');
-            document.getElementById("btnUrl2").value = localStorage.getItem('btnUrl2Var');
-            document.getElementById("btnTxt1").value = localStorage.getItem('btnTxt1Var');
-            document.getElementById("btnTxt2").value = localStorage.getItem('btnTxt2Var');
-
-        };
-        window.addEventListener("load", function() {
+            const loadFunc = () => {
+                console.log('save 1')
                 RPCfunc();
+                localStorage.setItem('saveCheck', "1")
+
+            }
+            ipcRenderer.on('getSave1', (event, arg) => {
+                loadFunc();
+            })
+            ipcRenderer.on('getSave2', (event, arg) => {
+                console.log('save 2')
+                RPCfunc();
+                localStorage.setItem('saveCheck', "2")
+            })
+
+        
+        };
+
+
+        window.addEventListener("load", function() {
+            const loadPastSave = () => {
+                if (!saveCheck) {
+                    return
+                } else if (saveCheck===2) {
+                    const all = getAllLocalStorage([
+                        'clientVar2',
+                        'stateVar2',
+                        'detailsVar2',
+                        'largeTxtVar2',
+                        'largeIdtVar2',
+                        'smallTxtVar2',
+                        'smallIdtVar2',
+                        'btnUrl1Var2',
+                        'btnUrl2Var2',
+                        'btnTxt1Var2',
+                        'btnTxt2Var2'
+                    ])
+
+                    let gameId = localStorage.getItem('gameName');
+                    if (!gameId) {
+                        gameId = "Genshin Impact"
+                    }
+                } else if (saveCheck===1) {
+                    const all = getAllLocalStorage([
+                        'clientVar',
+                        'stateVar',
+                        'detailsVar',
+                        'largeTxtVar',
+                        'largeIdtVar',
+                        'smallTxtVar',
+                        'smallIdtVar',
+                        'btnUrl1Var',
+                        'btnUrl2Var',
+                        'btnTxt1Var',
+                        'btnTxt2Var',
+                    ])
+                    let gameId = localStorage.getItem('gameName2');
+                    if (!gameId) {
+                        gameId = "Genshin Impact"
+                    }
+                }
+
+                document.getElementById('name').value = gameId;
+                document.getElementById("client").value = all[0];
+                document.getElementById("state").value = all[1];
+                document.getElementById("details").value = all[2];
+                document.getElementById("largeImgTxt").value = all[3];
+                document.getElementById("largeImgIdt").value = all[4];
+                document.getElementById("smallImgTxt").value = all[5];
+                document.getElementById("smallImgIdt").value = all[6];
+                document.getElementById("btnUrl1").value = all[7];
+                document.getElementById("btnUrl2").value = all[8];
+                document.getElementById("btnTxt1").value = all[9];
+                document.getElementById("btnTxt2").value = all[10]
+                window.location.reload();
+                RPCfunc()
+
+            }
+                loadPastSave();
                 countUpFromTime(Date.now());
         })
 
@@ -225,9 +362,23 @@
                 'btnUrl2Var': "",
                 'btnTxt1Var': "",
                 'btnTxt2Var': "",
+                'game': "",
                 'gameName': "",
+                'clientVar2': "",
+                'stateVar2': "",
+                'detailsVar2': "",
+                'largeTxtVar2': "",
+                'largeIdtVar2': "",
+                'smallTxtVar2': "",
+                'smallIdtVar2': "",
+                'btnUrl1Var2': "",
+                'btnUrl2Var2': "",
+                'btnTxt1Var2': "",
+                'btnTxt2Var2': "",
+                'game2': "",
+                'gameName2': "",
             };
-            setAllLocalStorage(clearObj)
+            setAllLocalStorage("normal", clearObj)
 
         })
 
@@ -236,7 +387,7 @@
         })
 
         ipcRenderer.on('toggle', (event, arg) => {
-            if (arg==true) {
+            if (arg) {
                 RPCfunc();
             } else {
                 DisableFunc();

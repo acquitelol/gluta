@@ -3,17 +3,27 @@ const {app, BrowserWindow, ipcMain, Tray, Menu, nativeImage, webContents} = requ
 const RPC = require("discord-rpc");
 const client = new RPC.Client({transport: "ipc"});
 const path = require('path');
+const { ipc } = require('discord-rpc/src/transports');
 let mainWindow = null;
 let tray = null;
 let iconpath = path.join(__dirname, './assets/cc.png')
 let codeRun = false;
 let date;
-let version = '1.5.93';
+let version = '1.6.0';
 let rpcState = true;
 let rpcLabel = '╸Toggle RPC╺ (✓)';
 let globalClient;
-
+let saveIterations = 0;
+let stuff = 0;
 // main window function
+
+const TwoObjectsToArray = (loc, a, b, parent) => {
+    parent.splice(loc, 0, a)
+    loc++;
+    parent.splice(loc, 0, b)
+}
+
+
 const createWindow = () => {
 
 
@@ -54,37 +64,71 @@ const createWindow = () => {
       };
     
     // function for right click menu in main window function scope
-    rightClick = () => {
-        // clear cache function
-        const clearCache = () => {
-            let response = "Successfully cleared cache.";
-            mainWindow.webContents.send('clearCacheResponse', response);
-            console.log(response)
-        };
+    // clear cache function
+    const clearCache = () => {
+        let response = "Successfully cleared cache.";
+        mainWindow.webContents.send('clearCacheResponse', response);
+        console.log(response)
+    };
 
-        const toggle = () => {
-            if (rpcState==true) {
-                rpcState=false;
-                mainWindow.webContents.send('toggle', rpcState)
-                rpcLabel = '╸Toggle RPC╺ (×)'
-            } else {
-                rpcState=true;
-                mainWindow.webContents.send('toggle', rpcState)
-                rpcLabel = '╸Toggle RPC╺ (✓)'
-            }
+    const toggle = () => {
+        if (rpcState==true) {
+            rpcState=false;
+            mainWindow.webContents.send('toggle', rpcState)
+            rpcLabel = '╸Toggle RPC╺ (×)'
+        } else {
+            rpcState=true;
+            mainWindow.webContents.send('toggle', rpcState)
+            rpcLabel = '╸Toggle RPC╺ (✓)'
         }
-
-        const menu = [
-            { label: rpcLabel, click: toggle },
-            { label: 'Separator',       type: 'separator'},
-            { label: '╸Clear all Cache╺', click: clearCache },
-            { label: 'Separator',       type: 'separator'},
-            { label: '╸Quit Rich Presence╺', role: 'quit' },
-        ];
+    }
+    const menu = [
+        { label: rpcLabel, click: toggle },
+        { label: 'Separator',       type: 'separator'},
+        { label: '╸Clear all Cache╺', click: clearCache },
+        { label: 'Separator',       type: 'separator'},
+        { label: 'Separator',       type: 'separator'},
+        { label: '╸Quit Rich Presence╺', role: 'quit' },
+    ];
+    rightClick = () => {
         tray.popUpContextMenu(Menu.buildFromTemplate(menu))
     }
 
+        const setSaved1 = () => {
+            console.log('AAAA')
+            mainWindow.webContents.send('getSave1')
+        }
+        const setSaved2 = () => {
+            console.log("BBBB")
+            mainWindow.webContents.send('getSave2')
+        };
+        ipcMain.on('setSave', (event, arg) => {
+            console.log("SLICED")
+            const { game, game2 } = arg;
+            console.log(game)
+            console.log(game2)
+            const states = { label: '╸States╺', type: 'submenu', submenu: [        // object 1
+                { label: game || "Game Save 1", click: setSaved1},
+                { label: game2 || "Game Save 2", click: setSaved2}
+            ]}
 
+            
+            if (stuff<1) {
+                stuff++;
+            } else {
+                console.log("SLICING")
+                menu.splice(5, 2)
+            }
+
+            // takes out all keys and converts into usable variables
+            console.log("AAAAAAA")
+            TwoObjectsToArray(
+                5,                                          // location || index
+                states,                                     // object 1
+                { label: 'Separator', type: 'separator'},   // object 2
+                menu                                        // parent array
+            )
+        });
 
     // icon
     const image = nativeImage.createFromPath(
@@ -143,7 +187,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         const checkProperties = (obj) => {
             for (var key in obj) {
                 if (obj[key] == null || obj[key] == "")
-                    if (key != "elapsed") {
+                    if (key != "elapsed" && key != "game" && key != 'game2') {
                         return `${key} is Empty. Please Add a valid input to it.`;
                     }
                     
@@ -160,10 +204,10 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         };
 
         // takes out all keys and converts into usable variables
-        const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var, elapsed } = arg;
+        const { clientVar, stateVar, detailsVar, largeIdtVar, largeTxtVar, smallIdtVar, smallTxtVar, btnTxt1VarLol, btnTxt2VarLol, btnUrl1Var, btnUrl2Var, gameName, elapsed } = arg;
 
         // further checks the urls for the correct link
-        if (rpcState==false) return;
+        if (!rpcState) return;
         
         if (!btnUrl1Var.startsWith('https://')) {
             let errMsg = "Button 1 Url is not a real URL. It needs to start with 'https://'";
@@ -248,9 +292,12 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         globalClient = clientVar
         client.login({ clientId: clientVar })
     }, 100);
+
 });
 
 ipcMain.on('disableRpcCallback', (event, arg) => {
-    if (!globalClient) return
+    if (!globalClient) {
+        return
+    }
     client.request("SET_ACTIVITY", {pid: process.pid});
 })
