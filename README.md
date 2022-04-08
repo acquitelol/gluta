@@ -3,6 +3,7 @@
 
  To use it, it's as simple as this:
 
+Chapter 1: **Installing the program**.
  1. Download the DMG for your mac (Intel or M1 aka arm64)
  2. Once it is done installing, open it and drag the application to the Applications folder like shown
  3. If you try to open it, it will not work straight away! You need to type CMD + SPACE on your keyboard
@@ -13,17 +14,20 @@
  9. Type your password, and then try again. (Please note that a White "G" should appear at the top of your mac if it is working!)
  10. If it still does not open, please wait for a little while, it will open eventually.
  11. You will be greeted with a screen which shows empty boxes (hopefully!)
- 12. Go to the Discord Developer Portal (https://discord.com/developers/applications) and create a New Application.
- 13. The name that you give this is the name of the Rich Presence, so be careful (calling it Genshin Impact is the best way to go)
- 14. Go to the oAuth2 tab and click "Copy" on the Client ID box.
- 15. Open Gluta and paste the string in the empty "Client ID" box
- 16. Now customize the rich presence to your needs! Here are some things to keep in mind:
- 17. The default Large and Small image are clickable, to change the images you need to go back to the discord developer portal, and
+
+Chapter 2: **Filling in all boxes**.
+ 13. Go to the Discord Developer Portal (https://discord.com/developers/applications) and create a New Application.
+ 14. The name that you give this is the name of the Rich Presence, so be careful (calling it Genshin Impact is the best way to go)
+ 15. Go to the oAuth2 tab and click "Copy" on the Client ID box.
+ 16. Open Gluta and paste the string in the empty "Client ID" box
+ 17. Now customize the rich presence to your needs! Here are some things to keep in mind:
+ 18. The default Large and Small image are clickable, to change the images you need to go back to the discord developer portal, and
      click on the application name, then go to "Rich Presence" and then "Art Assets". once you are here, upload your Large and Small Image
      and give them a name, then click Save.
  18. Go back to gluta, and click on the default Images, the Large || Small Image hover is what will apppear when you hover over the image in Discord
  19. The large || small image Identifier is what you called the image in the developer portal. Please make sure it is the exactly same
      as the one in the Developer Portal (its Caps Sensitive!)
+ 20. The URLs are shows by clicking on the little "cog" next to the button. They need to both start with 'https://'
 
 
  Here are some more things to keep in mind:
@@ -37,9 +41,12 @@
     only stored on your Local Device.)
 
  • As well as this, Please also note that the Timer/Stopwatch in the program is Clickable (It can be turned On and Off!).
+ 
+ • Also note that if it is not working, do CMD+OPT+I on your keyboard, and go to Console, where I have logged any empty boxes.
 
  • Lastly, Please note that the Preview in the program is just a *representation* and is not the actual Rich Presence, it was recreated with HTML + CSS
  as a vizualisation of the Rich Presence.
+ 
 
 (Here is a short video showing how to get it to work quickly incase you are stuck with something: https://bit.ly/gluta-setup)
 Made with **<3** by *acquite#0001* with help from *eeradaa#3643*!
