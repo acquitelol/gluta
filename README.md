@@ -16,18 +16,19 @@ Chapter 1: **Installing the program**.
  11. You will be greeted with a screen which shows empty boxes (hopefully!)
 
 Chapter 2: **Filling in all boxes**.
- 13. Go to the Discord Developer Portal (https://discord.com/developers/applications) and create a New Application.
- 14. The name that you give this is the name of the Rich Presence, so be careful (calling it Genshin Impact is the best way to go)
- 15. Go to the oAuth2 tab and click "Copy" on the Client ID box.
- 16. Open Gluta and paste the string in the empty "Client ID" box
- 17. Now customize the rich presence to your needs! Here are some things to keep in mind:
- 18. The default Large and Small image are clickable, to change the images you need to go back to the discord developer portal, and
+
+ 1. Go to the Discord Developer Portal (https://discord.com/developers/applications) and create a New Application.
+ 2. The name that you give this is the name of the Rich Presence, so be careful (calling it Genshin Impact is the best way to go)
+ 3. Go to the oAuth2 tab and click "Copy" on the Client ID box.
+ 4. Open Gluta and paste the string in the empty "Client ID" box
+ 5. Now customize the rich presence to your needs! Here are some things to keep in mind:
+ 6. The default Large and Small image are clickable, to change the images you need to go back to the discord developer portal, and
      click on the application name, then go to "Rich Presence" and then "Art Assets". once you are here, upload your Large and Small Image
      and give them a name, then click Save.
- 18. Go back to gluta, and click on the default Images, the Large || Small Image hover is what will apppear when you hover over the image in Discord
- 19. The large || small image Identifier is what you called the image in the developer portal. Please make sure it is the exactly same
+ 7. Go back to gluta, and click on the default Images, the Large || Small Image hover is what will apppear when you hover over the image in Discord
+ 8. The large || small image Identifier is what you called the image in the developer portal. Please make sure it is the exactly same
      as the one in the Developer Portal (its Caps Sensitive!)
- 20. The URLs are shows by clicking on the little "cog" next to the button. They need to both start with 'https://'
+ 9. The URLs are shows by clicking on the little "cog" next to the button. They need to both start with 'https://'
 
 
  Here are some more things to keep in mind:
