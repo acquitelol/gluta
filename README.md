@@ -47,6 +47,10 @@ Chapter 2: **Filling in all boxes**.
  
  • Also note that if it is not working, do CMD+OPT+I on your keyboard, and go to Console, where I have logged any empty boxes.
 
+ • Furthermore, you can toggle the Rich Presence on and off by going into the Right Click Menu.
+ 
+ • Also, if you, for some reason, Reload or Quit Discord, you will have to Quit & Reopen Gluta for the Rich Presence to start again. (should be fine as it saves to cache.)
+
  • Lastly, Please note that the Preview in the program is just a *representation* and is not the actual Rich Presence, it was recreated with HTML + CSS
  as a vizualisation of the Rich Presence.
  
