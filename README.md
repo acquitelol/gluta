@@ -15,6 +15,8 @@ Chapter 1: **Installing the program**.
  10. If it still does not open, please wait for a little while, it will open eventually.
  11. You will be greeted with a screen which shows empty boxes (hopefully!)
 
+**Please note that Gluta is a Menu Bar Application, not a full window.**
+
 Chapter 2: **Filling in all boxes**.
 
  1. Go to the Discord Developer Portal (https://discord.com/developers/applications) and create a New Application.
