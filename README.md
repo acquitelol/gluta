@@ -28,7 +28,7 @@ Chapter 2: **Filling in all boxes**.
  7. Go back to gluta, and click on the default Images, the Large || Small Image hover is what will apppear when you hover over the image in Discord
  8. The large || small image Identifier is what you called the image in the developer portal. Please make sure it is the exactly same
      as the one in the Developer Portal (its Caps Sensitive!)
- 9. The URLs are shows by clicking on the little "cog" next to the button. They need to both start with 'https://'
+ 9. The URLs are shown by clicking on the little "cog" next to the button. They need to both start with 'https://'
 
 
  Here are some more things to keep in mind:
