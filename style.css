@@ -113,309 +113,95 @@ html.disable-high-contrast * {
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  height: 100vh;
-  background-color: #201c1c;
-  opacity: 0;
-  animation: fadeInAnimation ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: #201c1c;
+  animation: scaleDown 1000ms ease;
+  transform-origin: bottom;
 }
 
-@keyframes fadeInAnimation {
+@keyframes scaleDown {
   0% {
-      opacity: 0;
-      
+    opacity: 0;
+    transform: translateY(-10em) scale(2);
   }
   100% {
-      opacity: 1;
-   }
-}
-
-#startElem{
-  animation: startTrans 3s ease 0s 1 normal forwards;
-}
-
-@keyframes startTrans {
-  0.0%{
-      transform: scale(0) rotate3d(0, 360, 360, 180deg) translate3d(0, 300px, 0);
-      border: 3px solid rgba(255, 255, 255, 0);
-      border-radius: 50px;
-      outline: 10px solid rgba(255, 255, 255, 1);
-      padding: 0px 0 0 0;
-      margin: 0px 0px;
-  }
-  25.0%{
-      transform: scale(1.5);
-      outline: 10px solid rgba(255, 255, 255, 0);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50px;
-      padding: 0px 0 0 0;
-      margin: 0px 0px;
-  }
-  75%{
-    transform: scale(0) rotate3d(0, 360, 0, 180deg) skew(0);
-    border: 3px solid rgba(255, 255, 255, 0);
-    border-radius: 50px;
-    outline: 10px solid rgba(255, 255, 255, 1);
-    padding: 0px 0 0 0;
-    margin: 0px 0px;
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-
+body > * {
+  position: absolute;
+}
 
 #bg {
-  position: relative;
-  top: -75px;
-  left: -25px;
-  background-color: #850c8b;
-  -webkit-text-fill-color: transparent;
-  font-size: 130px;
-  width: 500px;
-  -webkit-user-select: none; /* Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
-  animation: posAni ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
+  width: 100vw;
+  height: 3em;
+  background: #850c8b;
 }
-.pfp {
-  transition-duration: 0.3s;
-  position: relative;
-  top: -200px;
-  left: 0px;
 
+#pfp {
   border-radius: 50%;
   border-style: solid;
   border-width: 6px;
   border-color: #201c1c;
-  -webkit-user-select: none; /* Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
-  animation: posAni ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
+
+  transform: translateY(1em) translateX(0.5em);
 }
 
 .circle {
-  transition-duration: 1s;
-  position: relative;
-  top: -507.5px;
-  left: 50px;
   border-radius: 50%;
+  transform: translateY(4.25em) translateX(3.75em);
   border-style: solid;
   border-width: 3px;
   border-color: #201c1c;
-  -webkit-user-select: none; /* Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
-  animation: posAni ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  transform: rotateX(0deg);
 }
-
-
-.divider {
-  position: relative;
-  top: -455px;
-  left: 0px;
-  -webkit-user-select: none; /* Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
-  animation: posAni ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
-}
-
 
 
 .nickname {
-  text-align: left;
-  transition-duration: 0.3s;
-  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
-  position: relative;
-  top: -398px;
-  left: 5px;
-  font-family: 'whitneymedium';
+  border-radius: 8px;
+  font-family: 'whitneybook';
   text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 16px;
-
-  animation: posAni ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
+  text-align: left;
+  transform: translateY(4.5em) translateX(1em); 
 }
 
 .username {
-  transition-duration: 0.3s;
-  box-shadow: 0 0 14px 0 rgba(0,0,0,0.01), 0 0 16px 0 rgba(0,0,0,0.05);
-  position: relative;
-  top: -430px;
-  left: 5px;
+  border-radius: 8px;
   font-family: 'whitneybook';
   text-shadow: 2px 2px 2px #0000005d;
   color: #818386;
   font-size: 14px;
   text-align: left;
-  animation: posAni ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.1s;
+  transform: translateY(6.5em) translateX(1.10em); 
 }
 
 .client_id {
-  transition-duration: 0.3s;
-  position: relative;
-  top: -90px;
-  left: 5px;
-  transform: scale(0);
-  width: 210px;
-  height: 200px;
+  width: 75vw;
+  height: 6vh;
   border: none;
-  resize: none;
   outline: none;
-  border-radius: 8px;
+  transform: translateY(10em) translateX(0.9em);
+  border-radius: .5em;
   font-family: 'whitneybook';
   background-color: rgba(0, 0, 0, 0.603);
   text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 15px;
   text-align: center; 
-  padding-left: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.1s;
 }
 
-.details {
-  transform: translateY(0px);
-  transition-duration: 0.3s;
-  position: relative;
-  top: -44px;
-  left: 78px;
-  transform: scale(0);
-  width: 125px;
-  height: 200px;
-  border: none;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: transparent;
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 12px;
-  text-align: left; 
-  padding-left: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.2s;
-}
-
-.state {
-  transform: translateY(0px);
-  transition-duration: 0.3s;
-  position: relative;
-  top: -46px;
-  left: 78px;
-  transform: scale(0);
-  width: 125px;
-  height: 200px;
-  border: none;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: transparent;
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 12px;
-  text-align: left; 
-  padding-left: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.1s;
-}
-
-#name {
-  outline: none;
-  border: none;
-  background: transparent;
-}
-
-
-#elapsed {
-  transition-duration: 0.5s;
-  position: relative;
-  top: -48px;
-  left: 78px;
-  transform: scale(0);
-  width: 125px;
-  height: 200px;
-  border: none;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: transparent;
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 12px;
-  text-align: left; 
-  padding-left: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
-  cursor: pointer;
-  -webkit-user-select: none; /* Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
-
- 
-  
-}
-
-.paimon {
-  position: absolute;
-  transition-duration: 0.3s;
-  border-radius: 8px;
-  left: -80px;
-  top: 200px;
-  animation: posIn2 ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
+.divider {
+  width: 90vw;
+  transform: translateX(0.75em) translateY(8.5em);
+  z-index: 0;
 }
 
 .images {
-
-  position: absolute;
-  left: -80px;
-  top: 180px;
+  transform: translateX(1.5em) translateY(15em);
   border-radius: 50px;
   font-family: 'whitneybold';
   text-transform: uppercase;
@@ -424,467 +210,291 @@ body {
   border: none;
   resize: none;
   outline: none;
-  animation: posIn2 ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
+  text-shadow: 2px 2px 2px #00000008;
 }
 
-.buttons {
-  position: relative;
-  top: -40px;
-  left: 7px;
-  transition-duration: 0.3s;
-  color: #fff;
-  background-color: #4F545C;
-  height: 28px;
-  min-height: 28px;
-  width: 210px;
-  user-select: none;
-  outline: 0;
-  border: none;
-  border-radius: 4px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
-
-}
-
-.btnTxt1 {
-  position: relative;
-  transition-duration: 0.3s;
-  top: -94px;
-  left: 40px;
-  transform: scale(0);
-  width: 125px;
-  height: 160px;
-  border: 4px;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: transparent;
-  text-align: center;
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 14px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.2s;
-}
-
-.btnTxt2 {
-  position: relative;
-  transition-duration: 0.3s;
-  top: -78px;
-  left: 40px;
+.devportal {
+  border-radius: 50%;
+  transform: translateY(9.60em) translateX(13.35em) scale(1.05) rotateZ(0deg);
+  filter: invert(0.45);
+  width: 1em;
+  height: 1em;
   align-items: center;
-  transform: scale(0);
-  width: 125px;
-  height: 200px;
-  border: 4px;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: transparent;
-  text-align: center;
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 14px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.2s;
+  transition: all 600ms ease;
 }
 
-#small {
-  top: 245px;
-  left: -30px;
-  transition-duration: 0.3s;
-  animation: posIn2 ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
+.devportal:hover {
+  cursor: pointer;
+  transform: translateY(9.6em) translateX(13.35em) scale(1.15);
+  filter: invert(1);
 }
 
-#btn2 {
-  position: relative;
-  top: -30px;
+.paimon {
+  transition: all 300ms ease;
+  border-radius: 0.5em;
+  transform: translateY(12.5em) translateX(1em);
 }
 
+.yae {
+  transition: all 300ms ease;
+  border-radius: 50%;
+  transform: translateY(15.25em) translateX(4em);
+}
+
+.paimon:hover, .yae:hover {
+  cursor: pointer;
+  filter: brightness(0.6);
+}
 
 .genshin {
-  position: absolute;
   font-family: 'whitneybold';
   color: #DCDDDE;
   font-size: 14px;
-  top: 198px;
-  left: 95px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
+  transform: translateY(14.25em) translateX(6.4em);
+  text-align: left; 
+}
+
+#name {
+  outline: none;
+  border: none;
+  background: transparent;
+}
+
+.details {
+  border: none;
+  resize: none;
+  outline: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: transparent;
+  text-shadow: 2px 2px 2px #0000005d;
+  color: white;
+  font-size: 12px;
+  text-align: left; 
+  transform: translateY(18.15em) translateX(7.5em);
+}
+
+.state {
+  border: none;
+  resize: none;
+  outline: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: transparent;
+  text-shadow: 2px 2px 2px #0000005d;
+  color: white;
+  font-size: 12px;
+  text-align: left; 
+  transform: translateY(19.45em) translateX(7.5em);
+}
+
+.elapsed {
+  border: none;
+  resize: none;
+  outline: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: transparent;
+  text-shadow: 2px 2px 2px #0000005d;
+  color: white;
+  font-size: 12px;
+  text-align: left; 
+  transform: translateY(20.75em) translateX(7.25em);
+  transition: all 400ms ease;
+}
+
+.elapsed:hover {
+  cursor: pointer;
+  transform: translateY(20.75em) translateX(7.25em) scale(1.01);
+}
+
+.btnTxt1 {
+  width: 85vw;
+  height: 2em;
+  border: 4px;
+  resize: none;
+  outline: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: #4f545c;
+  text-align: center;
+  text-shadow: 2px 2px 2px #0000005d;
+  color: white;
+  font-size: 14px;
+  transform: translateY(19.5em) translateX(1.1em);
+}
+
+.btnTxt2 {
+  width: 85vw;
+  height: 2em;
+  border: 4px;
+  resize: none;
+  outline: none;
+  border-radius: 8px;
+  font-family: 'whitneybook';
+  background-color: #4f545c;
+  text-align: center;
+  text-shadow: 2px 2px 2px #0000005d;
+  color: white;
+  font-size: 14px;
+  transform: translateY(22.25em) translateX(1.1em);
 }
 
 .cog {
-  transition-duration: 0.3s;
-  position: absolute;
-  top: 280px;
-  left: 200px;
-  transform:rotateZ(0deg);
-  transform: scale(1);
-
+  transition: all 400ms ease;
 }
 
 #cog1 {
-  top: 282.5px;
-  animation: posAni2 ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: backwards;
-  animation-delay: 0s;
+  transform: translateY(17.5em) translateX(13em);
 }
 
 #cog2 {
-  top: 321px;
-  animation: posAni2 ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: backwards;
-  animation-delay: 0s;
+  transform: translateY(19.9em) translateX(13em);
 }
 
 .cog:hover {
-  filter: brightness(1.2);
-  transform: scale(1.2) rotateZ(90deg);
   cursor: pointer;
 }
 
-#box {
-  transition-duration: 0.3s;
+#cog1:hover {
+  filter: brightness(1.6);
+  transform: translateY(17.5em) translateX(13em) scale(1.25) rotateZ(25deg);
+}
+
+#cog2:hover {
+  filter: brightness(1.6);
+  transform: translateY(19.9em) translateX(13em) scale(1.25) rotateZ(25deg);
+}
+
+.buttons {
+  transition: all 400ms ease;
+}
+
+.buttons:hover {
+  background-color: #696f79;
+}
+
+#Url1, #Url2, #paimonMenu, #smallMenu {
   position: absolute;
-  width: 250px;
-  height: 400px;
-  background-color: black;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,.75);
+  z-index: -1;
+  filter: opacity(0);
+  transition: filter 400ms ease;
 }
 
 .URL {
   position: absolute;
   font-family: 'whitneybold';
-  top: 170px;
-  left: 25px;
   color: #DCDDDE;
   font-size: 14px;
-  width: 200px;
   height: fit-content;
   text-align: center;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
+  transform: translateY(8em) translateX(6em);
 }
-
 
 .paimonTxt {
-  position: absolute;
-  font-family: 'whitneybold';
-  top: 130px;
-  left: 25px;
-  color: #DCDDDE;
-  font-size: 14px;
-  width: 200px;
-  height: fit-content;
-  text-align: center;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
+  transform: translateY(8em) translateX(5.5em);
 }
 
 
-.smallTxt {
+.btnUrls {
   position: absolute;
-  font-family: 'whitneybold';
-  top: 130px;
-  left: 25px;
-  color: #DCDDDE;
-  font-size: 14px;
-  width: 200px;
-  height: fit-content;
-  text-align: center;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
-}
-
-.btnUrl1 {
-  transition-duration: 0.3s;
-  position: absolute;
-  transform: scale(0);
-  top: 200px;
-  left: 10px;
-  width: 220px;
-  height: 25px;
+  width: 80vw;
+  height: 6vh;
+  transform: translateY(9.5em) translateX(10vw);
   border: none;
   resize: none;
   outline: none;
-  border-radius: 8px;
+  border-radius: 0.25em;
+  border-width: 0.05em;
+  border-color: rgba(255,255,255,.1);
+  border-style: solid;
   font-family: 'whitneybook';
   background-color: rgba(0, 0, 0, 0.753);
   text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 15px;
   text-align: center; 
-  padding-left: 10px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.1s;
-}
-
-
-.btnUrl2 {
-  transition-duration: 0.3s;
-  position: absolute;
-  transform: scale(0);
-  top: 200px;
-  left: 10px;
-  width: 220px;
-  height: 25px;
-  border: none;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: rgba(0, 0, 0, 0.753);
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 15px;
-  text-align: center; 
-  padding-left: 10px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.1s;
-}
-
-
-.largeImgTxt {
-  transition-duration: 0.3s;
-  position: absolute;
-  transform: scale(0);
-  top: 160px;
-  left: 5px;
-  width: 220px;
-  height: 25px;
-  border: none;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: rgba(0, 0, 0, 0.753);
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 15px;
-  text-align: center; 
-  padding-left: 10px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.1s;
-}
-
-
-.largeImgIdt {
-  transition-duration: 0.3s;
-  position: absolute;
-  transform: scale(0);
-  top: 200px;
-  left: 5px;
-  width: 220px;
-  height: 25px;
-  border: none;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: rgba(0, 0, 0, 0.753);
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 15px;
-  text-align: center; 
-  padding-left: 10px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.1s;
-}
-
-.smallImgIdt {
-  transition-duration: 0.3s;
-  position: absolute;
-  transform: scale(0);
-  top: 200px;
-  left: 5px;
-  width: 220px;
-  height: 25px;
-  border: none;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: rgba(0, 0, 0, 0.753);
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 15px;
-  text-align: center; 
-  padding-left: 10px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.1s;
-}
-
-.smallImgTxt {
-  transition-duration: 0.3s;
-  position: absolute;
-  transform: scale(0);
-  top: 160px;
-  left: 5px;
-  width: 220px;
-  height: 25px;
-  border: none;
-  resize: none;
-  outline: none;
-  border-radius: 8px;
-  font-family: 'whitneybook';
-  background-color: rgba(0, 0, 0, 0.753);
-  text-shadow: 2px 2px 2px #0000005d;
-  color: white;
-  font-size: 15px;
-  text-align: center; 
-  padding-left: 10px;
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.1s;
-}
-#Url1 {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  top: 0px;
-  left: -5px;
-
-}
-
-#Url2 {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  top: 0px;
-  left: 0px;
-}
-
-#paimonMenu {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  top: 0px;
-  left: 0px;
-}
-
-#smallMenu {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  top: 0px;
-  left: 0px;
 }
 
 .closeBtn {
   position: absolute;
-  transition-duration: 0.3s;
-  left: 50px;
-  top: 240px;
+  transition: all 400ms ease;
+  width: 60vw;
+  height: 7vh;
+  transform: translateY(15em) translateX(20vw) scale(1);
   color: #fff;
   background-image: linear-gradient(135deg, #eb4bce, #58085c);
   font-size: 12px;
   font-family: 'whitneybold';
-  height: 10px;
-  min-height: 24px;
-  width: 150px;
-  user-select: none;
-  outline: 0;
   border: none;
-  border-radius: 4px;
-  transform: scale(0);
-  animation: posIn ease 1s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.4s;
+  border-radius: 0.25em;
   cursor: pointer;
 }
 
-.buttons:hover {
-  filter: brightness(1.1);
+#closeBtn3, #closeBtn4 {
+  transform: translateY(18em) translateX(20vw) scale(1);
 }
 
-.paimon:hover {
-  filter: brightness(0.6);
+.largeImgIdt, .smallImgIdt {
+  transform: translateY(12em) translateX(10vw) scale(1);
+}
+
+.closeBtn:hover{
+  --btnClr: #fa14ad;
+  transform: translateY(15em) translateX(20vw) scale(1.2);
+  background: transparent;
+  border: 0.05em solid var(--btnClr);
+  color: var(--btnClr);
+}
+
+.badge {
+  transform: translateX(13.75em) translateY(4em) scale(2);
   cursor: pointer;
+  transition: all 400ms ease;
 }
 
-#small:hover {
-  filter: brightness(0.6);
-  cursor: pointer;
+#badgeTooltipText {
+  width: 30vw;
+  text-align: center;
+  border: none;
+  resize: none;
+  outline: none;
+  border-radius: 0.3em;
+  font-family: 'whitneybook';
+  background-color: transparent;
+  text-shadow: 2px 2px 2px #0000005d;
+  color: white;
+  font-size: 12px;
+  background: #0f0d0d;
+  padding: 0.25em;
+  z-index: 2;
 }
 
-@keyframes posIn {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
+#badgeTooltipWrapper:after {
+  content: '';
+  position: absolute;
+  width: 0.85em;
+  height: 0.85em;
+  background: #0f0d0d;
+  border-radius: 0.15em;
+  transform: translateY(-.5em) translateX(3.75em) translateZ(-4em) rotateZ(45deg) scale(1);
 }
 
-
-@keyframes posIn2 {
-  0% {
-    transform: translateX(0px)
-  }
-  100% {
-    transform: translateX(100px)
-  }
+#badgeTooltipWrapper {
+  opacity: 0;
+  transition: all 300ms ease;
+  transform-origin: bottom;
+  transform: translateX(9.75em) translateY(0.75em) scale(0);
 }
 
-
-@keyframes posAni {
-  0% {
-    transform: translateY(0px);
-  }
-  100% {
-    transform: translateY(50px);
-  }
+.badge:hover + #badgeTooltipWrapper {
+  opacity: 1;
+  transform: translateX(9.75em) translateY(0.75em) scale(1);
 }
 
-@keyframes posAni2 {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
+.badge:hover {
+  transform: translateX(13.75em) translateY(4em) scale(2.25);
 }
-

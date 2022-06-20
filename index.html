@@ -8,87 +8,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <script>
-        let saves = 1;
-        let gamesaves = 1;
-        let changed = 0;
-        let iterationCheck = false;
-        let saveCheck = localStorage.getItem('saveCheck')
-        const setAllLocalStorage = (type, object) => {
-            if (type=="alternative") {
-                if (saves==1) {
-                    const keys = Object.keys(object);
-                    console.log(keys);
-                    // iterate over object
+        const setAllLocalStorage = (object) => {
+            const keys = Object.keys(object);
+            console.log(keys);
+            // iterate over object
 
-                    keys.forEach((key, index) => {
-                        localStorage.setItem(key, object[key]);
-                    });
-                    saves++;
-                } else if (saves==2) {
-                    const keys = Object.keys(object);
-                    console.log(keys);
-                    // iterate over object
-
-                    keys.forEach((key, index) => {
-                        localStorage.setItem(`${key}2`, object[key]);
-                    });
-                    saves = saves - 1;
-                }
-            } else if (type=="game") {
-                if (gamesaves==1) {
-                    const keys = Object.keys(object);
-                    console.log(keys);
-                    // iterate over object
-
-                    keys.forEach((key, index) => {
-                        localStorage.setItem(key, object[key]);
-                    });
-                    gamesaves++;
-                } else if (gamesaves==2) {
-                    const keys = Object.keys(object);
-                    console.log(keys);
-                    // iterate over object
-
-                    keys.forEach((key, index) => {
-                        localStorage.setItem(`${key}2`, object[key]);
-                    });
-                    gamesaves = gamesaves - 1;
-                }
-            } else if (type=="normal") {
-                const keys = Object.keys(object);
-                    console.log(keys);
-                    // iterate over object
-
-                    keys.forEach((key, index) => {
-                        localStorage.setItem(key, object[key]);
-                });
-            } else {
-                return 1;
-            }
- 
-        }
-
-
-        const getAllLocalStorage = (array) => {
-            const object = [];
-            array.forEach((key) => {
-                object.push(localStorage.getItem(key))
-                console.log(object);
-                key++;
-            })
-            return object;
+            keys.forEach((key, index) => {
+                localStorage.setItem(key, object[key]);
+            });
         }
         // main initialization and global variables
         let obj = null;
         let iterations = 0;
         const path = require('path');
         const {
-            ipcRenderer
+            ipcRenderer,
+            shell
         } = require('electron');
+        const {version} = require('./package.json')
         let isOr = false;
-        
+
         function countUpFromTime(countFrom) {
             // count up timer in the Rich Presence application which resets every 24 hours as per official discord RPC.
             countFrom = new Date(countFrom).getTime();
@@ -122,15 +62,6 @@
         }
 
         function RPCfunc() {
-
-            if (changed==1) {
-                const game = {
-                'game': document.getElementById('name').value
-                }
-                setAllLocalStorage("game", game)
-                changed = 0;
-            }
-
             // main initalization of rich presence information set as an object
             const obj = {
                 clientVar: document.getElementById('client').value,
@@ -145,8 +76,6 @@
                 btnTxt1VarLol: document.getElementById("btnTxt1").value,
                 btnTxt2VarLol: document.getElementById("btnTxt2").value,
                 gameName: document.getElementById('name').value,
-                game: localStorage.getItem('game'),
-                game2: localStorage.getItem('game2'),
                 elapsed: isOr
             };
             const {
@@ -164,30 +93,28 @@
                 gameName
             } = obj;
             console.log('Setting Rich Presence')
+
             // send data to main.js 
             ipcRenderer.send('asynchronous-message', obj);
-            ipcRenderer.once('asynchronous-reply', (event, arg) => {
-                console.log('sending save data')
-                iterationCheck = true;
-                ipcRenderer.send('setSave', obj)
-                            // receive message from main.js
-                    const localObj = {
-                        'clientVar': clientVar,
-                        'stateVar': stateVar,
-                        'detailsVar': detailsVar,
-                        'largeTxtVar': largeTxtVar,
-                        'largeIdtVar': largeIdtVar,
-                        'smallTxtVar': smallTxtVar,
-                        'smallIdtVar': smallIdtVar,
-                        'btnUrl1Var': btnUrl1Var,
-                        'btnUrl2Var': btnUrl2Var,
-                        'btnTxt1Var': btnTxt1VarLol,
-                        'btnTxt2Var': btnTxt2VarLol,
-                        'gameName': gameName
-                    };
-                
-                    setAllLocalStorage("alternative", localObj)
 
+            // receive message from main.js
+            const localObj = {
+                'clientVar': clientVar,
+                'stateVar': stateVar,
+                'detailsVar': detailsVar,
+                'largeTxtVar': largeTxtVar,
+                'largeIdtVar': largeIdtVar,
+                'smallTxtVar': smallTxtVar,
+                'smallIdtVar': smallIdtVar,
+                'btnUrl1Var': btnUrl1Var,
+                'btnUrl2Var': btnUrl2Var,
+                'btnTxt1Var': btnTxt1VarLol,
+                'btnTxt2Var': btnTxt2VarLol,
+                'gameName': gameName
+            };
+            setAllLocalStorage(localObj)
+
+            ipcRenderer.once('asynchronous-reply', (event, arg) => {
                 // collects variables of all selectors and arguments
                 let profilePic = document.getElementById('pfp');
                 let user1 = document.getElementById('nickname');
@@ -243,91 +170,29 @@
             })
         }
         window.onload = function() {
-            document.getElementById('client').addEventListener('change', () => {
-                changed++;
-                alert(changed)
-            }) 
-
-            const loadFunc = () => {
-                console.log('save 1')
-                RPCfunc();
-                localStorage.setItem('saveCheck', "1")
-
+            let gameId = localStorage.getItem('gameName');
+            if (!gameId) {
+                gameId = "Genshin Impact"
             }
-            ipcRenderer.on('getSave1', (event, arg) => {
-                loadFunc();
-            })
-            ipcRenderer.on('getSave2', (event, arg) => {
-                console.log('save 2')
-                RPCfunc();
-                localStorage.setItem('saveCheck', "2")
-            })
 
-        
+            document.getElementById('name').value = gameId;
+            document.getElementById("client").value = localStorage.getItem('clientVar');
+            document.getElementById("state").value = localStorage.getItem('stateVar');
+            document.getElementById("details").value = localStorage.getItem('detailsVar');
+            document.getElementById("largeImgTxt").value = localStorage.getItem('largeTxtVar');
+            document.getElementById("largeImgIdt").value = localStorage.getItem('largeIdtVar');
+            document.getElementById("smallImgTxt").value = localStorage.getItem('smallTxtVar');
+            document.getElementById("smallImgIdt").value = localStorage.getItem('smallIdtVar');
+            document.getElementById("btnUrl1").value = localStorage.getItem('btnUrl1Var');
+            document.getElementById("btnUrl2").value = localStorage.getItem('btnUrl2Var');
+            document.getElementById("btnTxt1").value = localStorage.getItem('btnTxt1Var');
+            document.getElementById("btnTxt2").value = localStorage.getItem('btnTxt2Var');
+
         };
-
-
         window.addEventListener("load", function() {
-            const loadPastSave = () => {
-                if (!saveCheck) {
-                    return
-                } else if (saveCheck===2) {
-                    const all = getAllLocalStorage([
-                        'clientVar2',
-                        'stateVar2',
-                        'detailsVar2',
-                        'largeTxtVar2',
-                        'largeIdtVar2',
-                        'smallTxtVar2',
-                        'smallIdtVar2',
-                        'btnUrl1Var2',
-                        'btnUrl2Var2',
-                        'btnTxt1Var2',
-                        'btnTxt2Var2'
-                    ])
-
-                    let gameId = localStorage.getItem('gameName');
-                    if (!gameId) {
-                        gameId = "Genshin Impact"
-                    }
-                } else if (saveCheck===1) {
-                    const all = getAllLocalStorage([
-                        'clientVar',
-                        'stateVar',
-                        'detailsVar',
-                        'largeTxtVar',
-                        'largeIdtVar',
-                        'smallTxtVar',
-                        'smallIdtVar',
-                        'btnUrl1Var',
-                        'btnUrl2Var',
-                        'btnTxt1Var',
-                        'btnTxt2Var',
-                    ])
-                    let gameId = localStorage.getItem('gameName2');
-                    if (!gameId) {
-                        gameId = "Genshin Impact"
-                    }
-                }
-
-                document.getElementById('name').value = gameId;
-                document.getElementById("client").value = all[0];
-                document.getElementById("state").value = all[1];
-                document.getElementById("details").value = all[2];
-                document.getElementById("largeImgTxt").value = all[3];
-                document.getElementById("largeImgIdt").value = all[4];
-                document.getElementById("smallImgTxt").value = all[5];
-                document.getElementById("smallImgIdt").value = all[6];
-                document.getElementById("btnUrl1").value = all[7];
-                document.getElementById("btnUrl2").value = all[8];
-                document.getElementById("btnTxt1").value = all[9];
-                document.getElementById("btnTxt2").value = all[10]
-                window.location.reload();
-                RPCfunc()
-
-            }
-                loadPastSave();
+                RPCfunc();
                 countUpFromTime(Date.now());
+                document.getElementById('badgeTooltipText').innerText = `v${version} @ 20.06.22`
         })
 
 
@@ -362,23 +227,9 @@
                 'btnUrl2Var': "",
                 'btnTxt1Var': "",
                 'btnTxt2Var': "",
-                'game': "",
                 'gameName': "",
-                'clientVar2': "",
-                'stateVar2': "",
-                'detailsVar2': "",
-                'largeTxtVar2': "",
-                'largeIdtVar2': "",
-                'smallTxtVar2': "",
-                'smallIdtVar2': "",
-                'btnUrl1Var2': "",
-                'btnUrl2Var2': "",
-                'btnTxt1Var2': "",
-                'btnTxt2Var2': "",
-                'game2': "",
-                'gameName2': "",
             };
-            setAllLocalStorage("normal", clearObj)
+            setAllLocalStorage(clearObj)
 
         })
 
@@ -394,18 +245,76 @@
             }
         })
 
+        ipcRenderer.on('errMsgDDtAlert', (event, arg) => {
+            alert(arg)
+        })
+
+        const devPortalFunc = () => {
+            shell.openExternal("https://discord.com/developers/applications");
+        }
+
+        const url1func = () => {
+            let url1div = document.getElementById('Url1');
+            url1div.style.transition = "all 500ms ease";
+            url1div.style.filter = "opacity(1)";
+            url1div.style.zIndex = "1"
+        }
+
+        const url2func = () => {
+            let url1div = document.getElementById('Url2');
+            url1div.style.transition = "all 500ms ease";
+            url1div.style.filter = "opacity(1)";
+            url1div.style.zIndex = "1"
+        }
+
+        const paimonClick = () => {
+            let url1div = document.getElementById('paimonMenu');
+            url1div.style.transition = "all 500ms ease";
+            url1div.style.filter = "opacity(1)";
+            url1div.style.zIndex = "1"
+        }
+
+        const smallClick = () => {
+            let url1div = document.getElementById('smallMenu');
+            url1div.style.transition = "all 500ms ease";
+            url1div.style.filter = "opacity(1)";
+            url1div.style.zIndex = "1"
+        }
+
+        const closeFunc = (arg) => {
+            switch(arg) {
+                case 1: {
+                    let closeBtn = document.getElementById('closeBtn1');
+                    closeBtn.parentElement.style.filter = "opacity(0)";
+                    closeBtn.parentElement.style.zIndex = "-1";
+                } case 2: {
+                    let closeBtn = document.getElementById('closeBtn2');
+                    closeBtn.parentElement.style.filter = "opacity(0)";
+                    closeBtn.parentElement.style.zIndex = "-1";
+                } case 3: {
+                    let closeBtn = document.getElementById('closeBtn3');
+                    closeBtn.parentElement.style.filter = "opacity(0)";
+                    closeBtn.parentElement.style.zIndex = "-1";
+                } case 4: {
+                    let closeBtn = document.getElementById('closeBtn4');
+                    closeBtn.parentElement.style.filter = "opacity(0)";
+                    closeBtn.parentElement.style.zIndex = "-1";
+                }
+                
+            }
+
+            
+        }
     </script>
     <!-- main HTML elements to recreate the rich presence preview-->
-    <h1 id='bg'>____</h1>
+    <div id='bg'></div>
     <img src="./assets/Scrolling-Lines-Pink.gif" alt="Discord PFP" width="60" height="60", class='pfp' id='pfp'>
-    <input type="text" class="client_id stuff items" placeholder="Input Client ID" id="client" value='' onclick="this.select()" onchange="RPCfunc()">
+    <input type="number" class="client_id stuff items" placeholder="Input Client ID" id="client" value='' onclick="this.select()" onchange="RPCfunc()">
     <input type="text" class="details stuff things items" placeholder="Details" id="details" value='' onclick="this.select()" onchange="RPCfunc()">
     <input type="text" class="state stuff things items" placeholder="State" id="state" value='' onclick="this.select()" onchange="RPCfunc()">
     <button type="button" class="elapsed thingy items" id="elapsed" readonly='true' unselectable="on" contenteditable="false" onselectstart="select=false" onclick='linethrough()'>00:01 Elapsed</button>
-    <button type='button' class="buttons" id='btn1'></button>
-    <button type='button' class="buttons" id='btn2'></button>
-    <input type="text" class="btnTxt1 stuff items" placeholder="Button Text 1" id="btnTxt1" value='Button Text 1' onclick="this.select()" onchange="RPCfunc()">
-    <input type="text" class="btnTxt2 stuff items" placeholder="Button Text 2" id="btnTxt2" value='Button Text 2' onclick="this.select()" onchange="RPCfunc()">
+    <input type="text" class="btnTxt1 stuff items buttons" placeholder="Button Text 1" id="btnTxt1" value='Button Text 1' onclick="this.select()" onchange="RPCfunc()">
+    <input type="text" class="btnTxt2 stuff items buttons" placeholder="Button Text 2" id="btnTxt2" value='Button Text 2' onclick="this.select()" onchange="RPCfunc()">
 
 
     <h3 class='nickname' id='nickname'> Testing Only</h3>
@@ -414,89 +323,44 @@
     <input type="text" class='genshin things' id='name' value='Genshin Impact' placeholder="Game Name" onclick="this.select()" onchange="RPCfunc()"></input>
 
     <img src='https://cdn.discordapp.com/app-assets/929391097824821318/929483644731551754.png' alt='paimon' width="60" height="60" class='paimon things' id='paimon' onclick="paimonClick()">
-    <img src='assets/yae.png' alt='small' width="20" height="20" class='images things' id='small' onclick='smallClick()'>
+    <img src='assets/yae.png' alt='small' width="20" height="20" class='yae things' id='small' onclick='smallClick()'>
     <img src="./assets/circle.png" alt="circle" width="10" height="10", class='circle'>
+    <img src="./assets/devportal.png" alt="discord-dev-portal" width="10" height="10", class='devportal' onclick="devPortalFunc()">
+
+    <img src="./assets/badge-dev.png" alt="developer-badge" width="10" height="10", class='badge' id='badge'>
+    <div id="badgeTooltipWrapper">
+        <div id="badgeTooltipText">v9.99.9 @ undefined</div>
+        <div class='triangle'></div>
+    </div> 
+    
+
     <img src="./assets/divider.png" alt="divider" width="230" height="1", class='divider'>
     <img src='./assets/cog-icon.png' alt='cog' width='15' height="15" class="cog things" id='cog1' onclick="url1func()">
     <img src='./assets/cog-icon.png' alt='cog' width='15' height="15" class="cog things" id='cog2' onclick="url2func()">
-    <div id='Url1' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
-        <div id='box' style="opacity: 75%;"></div>
+    <div id='Url1'>
         <div class='URL'>Input a URL:</div>
-        <input class='btnUrl1 stuff items' placeholder="Button Url 1" id='btnUrl1' value="" onclick="this.select()" onchange="RPCfunc()"></input>
-        <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
+        <input class='btnUrl1 stuff items btnUrls' placeholder="Button Url 1" id='btnUrl1' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <button type="button" class="closeBtn" onclick="closeFunc(1)" id="closeBtn1" data-type="closeBtn">Close Menu</button>
     </div>
-    <div id='Url2' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
-        <div id='box' style="opacity: 75%;"></div>
+    <div id='Url2'>
+        <div id='box'></div>
         <div class='URL'>Input a URL:</div>
-        <input class='btnUrl2 stuff items' placeholder="Button Url 2" id='btnUrl2' value="" onclick="this.select()" onchange="RPCfunc()"></input>
-        <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
+        <input class='btnUrl2 stuff items btnUrls' placeholder="Button Url 2" id='btnUrl2' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <button type="button" class="closeBtn" onclick="closeFunc(2)" id="closeBtn2" data-type="closeBtn">Close Menu</button>
     </div>
-    <div id='paimonMenu' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
-        <div id='box' style="opacity: 75%;"></div>
-        <div class='paimonTxt'>Edit Large Image:</div>
-        <input class='largeImgTxt stuff items' placeholder="Large Image Text" id='largeImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
-        <input class='largeImgIdt stuff items' placeholder="Large Image Identifier" id='largeImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
-        <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
+    <div id='paimonMenu'>
+        <div id='box'></div>
+        <div class='paimonTxt URL'>Edit Large Image:</div>
+        <input class='largeImgTxt stuff items btnUrls' placeholder="Large Image Text" id='largeImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='largeImgIdt stuff items btnUrls' placeholder="Large Image Identifier" id='largeImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <button type="button" class="closeBtn" onclick="closeFunc(3)" id="closeBtn3" data-type="closeBtn">Close Menu</button>
     </div>
-    <div id='smallMenu' style="display: none; animation-duration: 0.3s; transition-duration: 0.3s; opacity: 100%; position: absolute;">
-        <div id='box' style="opacity: 75%;"></div>
-        <div class='smallTxt'>Edit Small Image:</div>
-        <input class='smallImgTxt stuff items' placeholder="Small Image Text" id='smallImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
-        <input class='smallImgIdt stuff items' placeholder="Small Image Identifier" id='smallImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
-        <button type="button" class="closeBtn" onclick="closeMenu()">Close Menu</button>
+    <div id='smallMenu'>
+        <div id='box'></div>
+        <div class='smallTxt URL'>Edit Small Image:</div>
+        <input class='smallImgTxt stuff items btnUrls' placeholder="Small Image Text" id='smallImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <input class='smallImgIdt stuff items btnUrls' placeholder="Small Image Identifier" id='smallImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
+        <button type="button" class="closeBtn" onclick="closeFunc(4)" id="closeBtn4" data-type="closeBtn">Close Menu</button>
     </div>
-
-
-    <script>
-        //ignore this part its really old lmaoooo
-        // main div click functions2
-        function url1func() {
-
-            var T = document.getElementById("Url1");
-            T.style.transitionDuration="0.3s"
-            T.style.display = "block";  // <-- Set it to block
-            
-        }
-
-        function url2func() {
-
-            var T = document.getElementById("Url2");
-            T.style.transitionDuration="0.3s"
-            T.style.display = "block";  // <-- Set it to block
-
-        }
-
-        function paimonClick() {
-
-            var T = document.getElementById("paimonMenu");
-            T.style.transitionDuration="0.3s"
-            T.style.display = "block";  // <-- Set it to block
-
-        }
-
-        function smallClick() {
-
-            var T = document.getElementById("smallMenu");
-            T.style.transitionDuration="0.3s"
-            T.style.display = "block";  // <-- Set it to block
-
-        }
-
-        function closeMenu() {
-            var T = document.getElementById("Url1");
-            T.style.transitionDuration="0.3s"
-            T.style.display = "none";  // <-- Set it to block
-            var T2 = document.getElementById("Url2");
-            T2.style.transitionDuration="0.3s"
-            T2.style.display = "none";  // <-- Set it to block
-            var T3 = document.getElementById("paimonMenu");
-            T3.style.transitionDuration="0.3s"
-            T3.style.display = "none";  // <-- Set it to block
-            var T4 = document.getElementById("smallMenu");
-            T4.style.transitionDuration="0.3s"
-            T4.style.display = "none";  // <-- Set it to block
-        }
-    </script>
-    
 </body>
 </html>
