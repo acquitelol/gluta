@@ -189,62 +189,36 @@
                         largeImgId = data[0].id;
                         smallImgId = data[1].id;
                     }
-
-
                     largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
                     smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                 });
-
             })
         }
-        window.onload = function() {
-
-
-            let elem1 = document.getElementById('save1')
-            let elem2 = document.getElementById('save2')
-
-            if (elem1.dataset.selected=='true') {
-                let gameId = localStorage.getItem('gameName');
-                if (!gameId) {
-                    gameId = "Genshin Impact"
-                }
-                document.getElementById('name').value = gameId;
-                document.getElementById("client").value = localStorage.getItem('clientVar');
-                document.getElementById("state").value = localStorage.getItem('stateVar');
-                document.getElementById("details").value = localStorage.getItem('detailsVar');
-                document.getElementById("largeImgTxt").value = localStorage.getItem('largeTxtVar');
-                document.getElementById("largeImgIdt").value = localStorage.getItem('largeIdtVar');
-                document.getElementById("smallImgTxt").value = localStorage.getItem('smallTxtVar');
-                document.getElementById("smallImgIdt").value = localStorage.getItem('smallIdtVar');
-                document.getElementById("btnUrl1").value = localStorage.getItem('btnUrl1Var');
-                document.getElementById("btnUrl2").value = localStorage.getItem('btnUrl2Var');
-                document.getElementById("btnTxt1").value = localStorage.getItem('btnTxt1Var');
-                document.getElementById("btnTxt2").value = localStorage.getItem('btnTxt2Var');
-            } else {
-                let gameId = localStorage.getItem('gameName2');
-                if (!gameId) {
-                    gameId = "Genshin Impact"
-                }
-                document.getElementById('name').value = gameId;
-                document.getElementById("client").value = localStorage.getItem('clientVar2');
-                document.getElementById("state").value = localStorage.getItem('stateVar2');
-                document.getElementById("details").value = localStorage.getItem('detailsVar2');
-                document.getElementById("largeImgTxt").value = localStorage.getItem('largeTxtVar2');
-                document.getElementById("largeImgIdt").value = localStorage.getItem('largeIdtVar2');
-                document.getElementById("smallImgTxt").value = localStorage.getItem('smallTxtVar2');
-                document.getElementById("smallImgIdt").value = localStorage.getItem('smallIdtVar2');
-                document.getElementById("btnUrl1").value = localStorage.getItem('btnUrl1Var2');
-                document.getElementById("btnUrl2").value = localStorage.getItem('btnUrl2Var2');
-                document.getElementById("btnTxt1").value = localStorage.getItem('btnTxt1Var2');
-                document.getElementById("btnTxt2").value = localStorage.getItem('btnTxt2Var2');
-            }
-        };
         window.addEventListener("load", function() {
-                RPCfunc();
+                let loadTxt = document.getElementById('loadingTxt')
+                let loadBar = document.getElementById('loading-bar')
+                let loadDiv = document.getElementById('loading')
                 countUpFromTime(Date.now());
-                document.getElementById('badgeTooltipText').innerText = `v${version} @ 20.06.22`
+                loadTxt.innerText = "Loading... (15%)"
+                loadBar.style.width = '12vw'
+                loadBar.style.opacity = "1"
                 toggleSaves()
-                toggleSaves()
+                loadTxt.innerText = "Loading... (55%)"
+                loadBar.style.width = '44vw'
+                setTimeout(() => {
+                    toggleSaves()
+                    loadTxt.innerText = "Loading... (87%)"
+                    loadBar.style.width = '69vw'
+                    document.getElementById('badgeTooltipText').innerText = `v${version} @ 20.06.22`
+                    loadTxt.innerText = "Loading... (100%)"
+                    loadBar.style.width = '80vw'
+                    setTimeout(() => {
+                        loadDiv.style.filter = "opacity(0)"
+                        setTimeout(() => {
+                            loadDiv.style.display='none'
+                        }, 400)
+                    }, 100)
+                }, 500)
         })
 
         const linethrough = () => {
@@ -264,7 +238,6 @@
             }
 
         };
-
 
         const toggleSaves = () => {
                 let doc = document
@@ -296,7 +269,6 @@
                     toggleSave = localStorage.getItem('selected')=='false'?false:true
                     console.log(toggleSave)
                     
-                    
                 } else if (!toggleSave) {
                     save1.setAttribute('data-selected', 'false')
                     save2.setAttribute('data-selected', 'true')
@@ -322,11 +294,8 @@
                     RPCfunc()
                     toggleSave = localStorage.getItem('selected')=='true'?true:false
                     console.log(toggleSave)
-                    
                 }
-
             }
-
             ipcRenderer.on('enableSaves', (arg, event) => {
                 let url1div = document.getElementById('savesMenu');
                 url1div.style.transition = "all 500ms ease";
@@ -429,6 +398,7 @@
 
         }
     </script>
+
     <!-- main HTML elements to recreate the rich presence preview-->
     <div id='bg'></div>
     <img src="./assets/Scrolling-Lines-Pink.gif" alt="Discord PFP" width="60" height="60", class='pfp' id='pfp'>
@@ -438,13 +408,10 @@
     <button type="button" class="elapsed thingy items" id="elapsed" readonly='true' unselectable="on" contenteditable="false" onselectstart="select=false" onclick='linethrough()'>00:01 Elapsed</button>
     <input type="text" class="btnTxt1 stuff items buttons" placeholder="Button Text 1" id="btnTxt1" value='Button Text 1' onclick="this.select()" onchange="RPCfunc()">
     <input type="text" class="btnTxt2 stuff items buttons" placeholder="Button Text 2" id="btnTxt2" value='Button Text 2' onclick="this.select()" onchange="RPCfunc()">
-
-
     <h3 class='nickname' id='nickname'> Testing Only</h3>
     <h4 class='username' id='username'> Test Account#0001</h4>
     <div class='images things' id='play'>Playing a game</div>
     <input type="text" class='genshin things' id='name' value='Genshin Impact' placeholder="Game Name" onclick="this.select()" onchange="RPCfunc()"></input>
-
     <img src='https://cdn.discordapp.com/app-assets/929391097824821318/929483644731551754.png' alt='paimon' width="60" height="60" class='paimon things' id='paimon' onclick="paimonClick()">
     <img src='assets/yae.png' alt='small' width="20" height="20" class='yae things' id='small' onclick='smallClick()'>
     <img src="./assets/circle.png" alt="circle" width="10" height="10", class='circle'>
@@ -455,8 +422,6 @@
         <div id="badgeTooltipText">v9.99.9 @ undefined</div>
         <div class='triangle'></div>
     </div> 
-    
-
     <img src="./assets/divider.png" alt="divider" width="230" height="1", class='divider'>
     <img src='./assets/cog-icon.png' alt='cog' width='15' height="15" class="cog things" id='cog1' onclick="url1func()">
     <img src='./assets/cog-icon.png' alt='cog' width='15' height="15" class="cog things" id='cog2' onclick="url2func()">
@@ -489,5 +454,9 @@
         <button type="button" class="closeBtn" onclick="toggleSaves()" id="toggleSaves">Toggle Saves</button>
         <button type="button" class="closeBtn" onclick="closeFunc(5)" id="closeBtn5">Close Menu</button>
     </div>
-</body>
+    <div id='loading'>
+        <div class='URL' id="loadingTxt">Loading... (0%)</div>
+        <button class='stuff items btnUrls' id='empty-bar'></button>
+        <button class='stuff items btnUrls' id='loading-bar'></button>
+    </div>
 </html>

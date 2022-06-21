@@ -384,6 +384,17 @@ body > * {
   transition: filter 400ms ease;
 }
 
+
+#loading {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,.9);
+  z-index: 1;
+  filter: opacity(1);
+  transition: filter 400ms ease;
+}
+
 #save1 {
   transform:  translateY(9.5em) translateX(10vw);
 }
@@ -410,6 +421,18 @@ body > * {
   transform: translateY(20.25em) translateX(20vw) scale(1.05);
 }
 
+#loadingTxt {
+  text-align: center;
+  transform: translateY(8em) translateX(30vw) scale(1);
+}
+
+#loading-bar {
+  border-width: 0em;
+  width: 0;
+  opacity: 0;
+  background-color: rgba(53, 56, 61, 0.5);
+  transition: all 1000ms ease;
+}
 
 .URL {
   position: absolute;
