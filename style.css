@@ -374,7 +374,7 @@ body > * {
   background-color: #696f79;
 }
 
-#Url1, #Url2, #paimonMenu, #smallMenu {
+#Url1, #Url2, #paimonMenu, #smallMenu, #savesMenu {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -383,6 +383,33 @@ body > * {
   filter: opacity(0);
   transition: filter 400ms ease;
 }
+
+#save1 {
+  transform:  translateY(9.5em) translateX(10vw);
+}
+
+#save2 {
+  transform:  translateY(11.5em) translateX(10vw);
+}
+
+#toggleSaves {
+  transition: all 400ms ease;
+  transform: translateY(17.25em) translateX(20vw) scale(1);
+}
+
+#toggleSaves:hover {
+  transform: translateY(17.25em) translateX(20vw) scale(1.05);
+}
+
+#closeBtn5 {
+  transition: all 400ms ease;
+  transform: translateY(20.25em) translateX(20vw) scale(1);
+}
+
+#closeBtn5:hover {
+  transform: translateY(20.25em) translateX(20vw) scale(1.05);
+}
+
 
 .URL {
   position: absolute;
@@ -435,16 +462,27 @@ body > * {
 }
 
 #closeBtn3, #closeBtn4 {
+  transition: all 400ms ease;
   transform: translateY(18em) translateX(20vw) scale(1);
+}
+
+#closeBtn3:hover, #closeBtn4:hover {
+  transform: translateY(18em) translateX(20vw) scale(1.05);
 }
 
 .largeImgIdt, .smallImgIdt {
   transform: translateY(12em) translateX(10vw) scale(1);
 }
 
+[data-selected='true'] {
+  transition: all 200ms ease;
+  background-color: #35383d;
+}
+
+
 .closeBtn:hover{
   --btnClr: #fa14ad;
-  transform: translateY(15em) translateX(20vw) scale(1.2);
+  transform: translateY(15em) translateX(20vw) scale(1.05);
   background: transparent;
   border: 0.05em solid var(--btnClr);
   color: var(--btnClr);

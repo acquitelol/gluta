@@ -18,8 +18,9 @@
                 localStorage.setItem(key, object[key]);
             });
         }
+
         // main initialization and global variables
-        let obj = null;
+        let obj;
         let iterations = 0;
         const path = require('path');
         const {
@@ -28,6 +29,8 @@
         } = require('electron');
         const {version} = require('./package.json')
         let isOr = false;
+        let toggleSave = localStorage.getItem('selected')==='true'?true:false
+        console.log(toggleSave)
 
         function countUpFromTime(countFrom) {
             // count up timer in the Rich Presence application which resets every 24 hours as per official discord RPC.
@@ -98,21 +101,46 @@
             ipcRenderer.send('asynchronous-message', obj);
 
             // receive message from main.js
-            const localObj = {
-                'clientVar': clientVar,
-                'stateVar': stateVar,
-                'detailsVar': detailsVar,
-                'largeTxtVar': largeTxtVar,
-                'largeIdtVar': largeIdtVar,
-                'smallTxtVar': smallTxtVar,
-                'smallIdtVar': smallIdtVar,
-                'btnUrl1Var': btnUrl1Var,
-                'btnUrl2Var': btnUrl2Var,
-                'btnTxt1Var': btnTxt1VarLol,
-                'btnTxt2Var': btnTxt2VarLol,
-                'gameName': gameName
-            };
-            setAllLocalStorage(localObj)
+
+            let elem1 = document.getElementById('save1')
+            let elem2 = document.getElementById('save2')
+
+            if (elem1.dataset.selected=='true') {
+                const localObj = {
+                    'clientVar': clientVar,
+                    'stateVar': stateVar,
+                    'detailsVar': detailsVar,
+                    'largeTxtVar': largeTxtVar,
+                    'largeIdtVar': largeIdtVar,
+                    'smallTxtVar': smallTxtVar,
+                    'smallIdtVar': smallIdtVar,
+                    'btnUrl1Var': btnUrl1Var,
+                    'btnUrl2Var': btnUrl2Var,
+                    'btnTxt1Var': btnTxt1VarLol,
+                    'btnTxt2Var': btnTxt2VarLol,
+                    'gameName': gameName
+                };
+                setAllLocalStorage(localObj)
+                elem1.innerText = gameName
+            } else {
+                const localObj = {
+                    'clientVar2': clientVar,
+                    'stateVar2': stateVar,
+                    'detailsVar2': detailsVar,
+                    'largeTxtVar2': largeTxtVar,
+                    'largeIdtVar2': largeIdtVar,
+                    'smallTxtVar2': smallTxtVar,
+                    'smallIdtVar2': smallIdtVar,
+                    'btnUrl1Var2': btnUrl1Var,
+                    'btnUrl2Var2': btnUrl2Var,
+                    'btnTxt1Var2': btnTxt1VarLol,
+                    'btnTxt2Var2': btnTxt2VarLol,
+                    'gameName2': gameName
+                };
+                setAllLocalStorage(localObj)
+                elem2.innerText = gameName
+            }
+            
 
             ipcRenderer.once('asynchronous-reply', (event, arg) => {
                 // collects variables of all selectors and arguments
@@ -170,33 +198,56 @@
             })
         }
         window.onload = function() {
-            let gameId = localStorage.getItem('gameName');
-            if (!gameId) {
-                gameId = "Genshin Impact"
+
+
+            let elem1 = document.getElementById('save1')
+            let elem2 = document.getElementById('save2')
+
+            if (elem1.dataset.selected=='true') {
+                let gameId = localStorage.getItem('gameName');
+                if (!gameId) {
+                    gameId = "Genshin Impact"
+                }
+                document.getElementById('name').value = gameId;
+                document.getElementById("client").value = localStorage.getItem('clientVar');
+                document.getElementById("state").value = localStorage.getItem('stateVar');
+                document.getElementById("details").value = localStorage.getItem('detailsVar');
+                document.getElementById("largeImgTxt").value = localStorage.getItem('largeTxtVar');
+                document.getElementById("largeImgIdt").value = localStorage.getItem('largeIdtVar');
+                document.getElementById("smallImgTxt").value = localStorage.getItem('smallTxtVar');
+                document.getElementById("smallImgIdt").value = localStorage.getItem('smallIdtVar');
+                document.getElementById("btnUrl1").value = localStorage.getItem('btnUrl1Var');
+                document.getElementById("btnUrl2").value = localStorage.getItem('btnUrl2Var');
+                document.getElementById("btnTxt1").value = localStorage.getItem('btnTxt1Var');
+                document.getElementById("btnTxt2").value = localStorage.getItem('btnTxt2Var');
+            } else {
+                let gameId = localStorage.getItem('gameName2');
+                if (!gameId) {
+                    gameId = "Genshin Impact"
+                }
+                document.getElementById('name').value = gameId;
+                document.getElementById("client").value = localStorage.getItem('clientVar2');
+                document.getElementById("state").value = localStorage.getItem('stateVar2');
+                document.getElementById("details").value = localStorage.getItem('detailsVar2');
+                document.getElementById("largeImgTxt").value = localStorage.getItem('largeTxtVar2');
+                document.getElementById("largeImgIdt").value = localStorage.getItem('largeIdtVar2');
+                document.getElementById("smallImgTxt").value = localStorage.getItem('smallTxtVar2');
+                document.getElementById("smallImgIdt").value = localStorage.getItem('smallIdtVar2');
+                document.getElementById("btnUrl1").value = localStorage.getItem('btnUrl1Var2');
+                document.getElementById("btnUrl2").value = localStorage.getItem('btnUrl2Var2');
+                document.getElementById("btnTxt1").value = localStorage.getItem('btnTxt1Var2');
+                document.getElementById("btnTxt2").value = localStorage.getItem('btnTxt2Var2');
             }
-
-            document.getElementById('name').value = gameId;
-            document.getElementById("client").value = localStorage.getItem('clientVar');
-            document.getElementById("state").value = localStorage.getItem('stateVar');
-            document.getElementById("details").value = localStorage.getItem('detailsVar');
-            document.getElementById("largeImgTxt").value = localStorage.getItem('largeTxtVar');
-            document.getElementById("largeImgIdt").value = localStorage.getItem('largeIdtVar');
-            document.getElementById("smallImgTxt").value = localStorage.getItem('smallTxtVar');
-            document.getElementById("smallImgIdt").value = localStorage.getItem('smallIdtVar');
-            document.getElementById("btnUrl1").value = localStorage.getItem('btnUrl1Var');
-            document.getElementById("btnUrl2").value = localStorage.getItem('btnUrl2Var');
-            document.getElementById("btnTxt1").value = localStorage.getItem('btnTxt1Var');
-            document.getElementById("btnTxt2").value = localStorage.getItem('btnTxt2Var');
-
         };
         window.addEventListener("load", function() {
                 RPCfunc();
                 countUpFromTime(Date.now());
                 document.getElementById('badgeTooltipText').innerText = `v${version} @ 20.06.22`
+                toggleSaves()
+                toggleSaves()
         })
 
-
-        function linethrough() {
+        const linethrough = () => {
             let item = document.getElementById('elapsed');
             if (!isOr) {
                 item.style.textDecorationLine = 'line-through';
@@ -213,6 +264,75 @@
             }
 
         };
+
+
+        const toggleSaves = () => {
+                let doc = document
+                let save1 = doc.getElementById('save1')
+                let save2 = doc.getElementById('save2')
+                if (toggleSave) {
+                    save2.setAttribute('data-selected', 'false')
+                    save1.setAttribute('data-selected', 'true')
+
+                    let gameId = localStorage.getItem('gameName');
+                    if (!gameId) {
+                        gameId = "Genshin Impact"
+                    }
+                    document.getElementById('name').value = gameId;
+                    document.getElementById("client").value = localStorage.getItem('clientVar');
+                    document.getElementById("state").value = localStorage.getItem('stateVar');
+                    document.getElementById("details").value = localStorage.getItem('detailsVar');
+                    document.getElementById("largeImgTxt").value = localStorage.getItem('largeTxtVar');
+                    document.getElementById("largeImgIdt").value = localStorage.getItem('largeIdtVar');
+                    document.getElementById("smallImgTxt").value = localStorage.getItem('smallTxtVar');
+                    document.getElementById("smallImgIdt").value = localStorage.getItem('smallIdtVar');
+                    document.getElementById("btnUrl1").value = localStorage.getItem('btnUrl1Var');
+                    document.getElementById("btnUrl2").value = localStorage.getItem('btnUrl2Var');
+                    document.getElementById("btnTxt1").value = localStorage.getItem('btnTxt1Var');
+                    document.getElementById("btnTxt2").value = localStorage.getItem('btnTxt2Var');
+
+                    localStorage.setItem('selected', false)
+                    RPCfunc()
+                    toggleSave = localStorage.getItem('selected')=='false'?false:true
+                    console.log(toggleSave)
+                    
+                    
+                } else if (!toggleSave) {
+                    save1.setAttribute('data-selected', 'false')
+                    save2.setAttribute('data-selected', 'true')
+
+                    let gameId = localStorage.getItem('gameName2');
+                    if (!gameId) {
+                        gameId = "Genshin Impact"
+                    }
+                    document.getElementById('name').value = gameId;
+                    document.getElementById("client").value = localStorage.getItem('clientVar2');
+                    document.getElementById("state").value = localStorage.getItem('stateVar2');
+                    document.getElementById("details").value = localStorage.getItem('detailsVar2');
+                    document.getElementById("largeImgTxt").value = localStorage.getItem('largeTxtVar2');
+                    document.getElementById("largeImgIdt").value = localStorage.getItem('largeIdtVar2');
+                    document.getElementById("smallImgTxt").value = localStorage.getItem('smallTxtVar2');
+                    document.getElementById("smallImgIdt").value = localStorage.getItem('smallIdtVar2');
+                    document.getElementById("btnUrl1").value = localStorage.getItem('btnUrl1Var2');
+                    document.getElementById("btnUrl2").value = localStorage.getItem('btnUrl2Var2');
+                    document.getElementById("btnTxt1").value = localStorage.getItem('btnTxt1Var2');
+                    document.getElementById("btnTxt2").value = localStorage.getItem('btnTxt2Var2');
+
+                    localStorage.setItem('selected', true)
+                    RPCfunc()
+                    toggleSave = localStorage.getItem('selected')=='true'?true:false
+                    console.log(toggleSave)
+                    
+                }
+
+            }
+
+            ipcRenderer.on('enableSaves', (arg, event) => {
+                let url1div = document.getElementById('savesMenu');
+                url1div.style.transition = "all 500ms ease";
+                url1div.style.filter = "opacity(1)";
+                url1div.style.zIndex = "1"
+            })
 
         ipcRenderer.on('clearCacheResponse', (event, arg) => {
             const clearObj = {
@@ -248,6 +368,7 @@
         ipcRenderer.on('errMsgDDtAlert', (event, arg) => {
             alert(arg)
         })
+
 
         const devPortalFunc = () => {
             shell.openExternal("https://discord.com/developers/applications");
@@ -299,11 +420,13 @@
                     let closeBtn = document.getElementById('closeBtn4');
                     closeBtn.parentElement.style.filter = "opacity(0)";
                     closeBtn.parentElement.style.zIndex = "-1";
+                } case 5: {
+                    let closeBtn = document.getElementById('closeBtn5');
+                    closeBtn.parentElement.style.filter = "opacity(0)";
+                    closeBtn.parentElement.style.zIndex = "-1";
                 }
-                
             }
 
-            
         }
     </script>
     <!-- main HTML elements to recreate the rich presence preview-->
@@ -343,24 +466,28 @@
         <button type="button" class="closeBtn" onclick="closeFunc(1)" id="closeBtn1" data-type="closeBtn">Close Menu</button>
     </div>
     <div id='Url2'>
-        <div id='box'></div>
         <div class='URL'>Input a URL:</div>
         <input class='btnUrl2 stuff items btnUrls' placeholder="Button Url 2" id='btnUrl2' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <button type="button" class="closeBtn" onclick="closeFunc(2)" id="closeBtn2" data-type="closeBtn">Close Menu</button>
     </div>
     <div id='paimonMenu'>
-        <div id='box'></div>
         <div class='paimonTxt URL'>Edit Large Image:</div>
         <input class='largeImgTxt stuff items btnUrls' placeholder="Large Image Text" id='largeImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <input class='largeImgIdt stuff items btnUrls' placeholder="Large Image Identifier" id='largeImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <button type="button" class="closeBtn" onclick="closeFunc(3)" id="closeBtn3" data-type="closeBtn">Close Menu</button>
     </div>
     <div id='smallMenu'>
-        <div id='box'></div>
         <div class='smallTxt URL'>Edit Small Image:</div>
         <input class='smallImgTxt stuff items btnUrls' placeholder="Small Image Text" id='smallImgTxt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <input class='smallImgIdt stuff items btnUrls' placeholder="Small Image Identifier" id='smallImgIdt' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <button type="button" class="closeBtn" onclick="closeFunc(4)" id="closeBtn4" data-type="closeBtn">Close Menu</button>
+    </div>
+    <div id='savesMenu'>
+        <div class='savesTxt URL'>Manage Saves:</div>
+        <button class='save1 stuff items btnUrls' id='save1' data-selected="true">Save 1</button>
+        <button class='save2 stuff items btnUrls' id='save2' data-selected="false">Save 2</button>
+        <button type="button" class="closeBtn" onclick="toggleSaves()" id="toggleSaves">Toggle Saves</button>
+        <button type="button" class="closeBtn" onclick="closeFunc(5)" id="closeBtn5">Close Menu</button>
     </div>
 </body>
 </html>

@@ -1,21 +1,20 @@
 // all variables and initializations
 const {app, BrowserWindow, ipcMain, Tray, Menu, nativeImage} = require('electron');
 const RPC = require("discord-rpc");
-const client = new RPC.Client({transport: "ipc"});
+let client = new RPC.Client({transport: "ipc"});
 const path = require('path');
 let mainWindow = null;
 let tray = null;
 let codeRun = false;
 let date;
 let {version} = require('./package.json');
+const { ipc } = require('discord-rpc/src/transports');
 let rpcState = true;
 let rpcLabel = '╸Toggle RPC╺ (✓)';
 let globalClient;
 
 // main window function
 const createWindow = () => {
-
-
     mainWindow = new BrowserWindow({
         width: 250,
         height: 360,
@@ -31,8 +30,6 @@ const createWindow = () => {
             contextIsolation: false,
             webSecurity: false,
         }
-        
-
     });
 
     // gets the window position
@@ -42,7 +39,7 @@ const createWindow = () => {
         const x = Math.round(trayBounds.x + (trayBounds.width / 2) - (windowBounds.width / 2));
         const y = Math.round(trayBounds.y + trayBounds.height);
         return { x, y };
-      };
+    };
     
     // shows the window
     showWindow = () => {
@@ -50,7 +47,7 @@ const createWindow = () => {
         mainWindow.setPosition(position.x, position.y, false);
         mainWindow.show();
         mainWindow.setVisibleOnAllWorkspaces(true);
-      };
+    };
     
     // function for right click menu in main window function scope
     rightClick = () => {
@@ -73,17 +70,22 @@ const createWindow = () => {
             }
         }
 
+        const openSavesMenu = () => {
+            mainWindow.webContents.send('enableSaves')
+        }
         const menu = [
-            { label: rpcLabel, click: toggle },
-            { label: 'Separator',       type: 'separator'},
-            { label: '╸Clear all Cache╺', click: clearCache },
+            { label: '╸Utilities╺', type: 'submenu', submenu: [
+                { label: rpcLabel, click: toggle },
+                { label: 'Separator',       type: 'separator'},
+                { label: '╸Clear all Cache╺', click: clearCache },
+                { label: 'Separator',       type: 'separator'},
+                { label: '╸Profiles╺', click: openSavesMenu},
+            ]},
             { label: 'Separator',       type: 'separator'},
             { label: '╸Quit Gluta╺', role: 'quit' },
         ];
         tray.popUpContextMenu(Menu.buildFromTemplate(menu))
     }
-
-
 
     // icon
     const image = nativeImage.createFromPath(
@@ -91,7 +93,6 @@ const createWindow = () => {
     );
     tray = new Tray(image.resize({ width: 20, height: 20 }));
     
-
     // metadata and extra settings
     tray.setToolTip(`Gluta v${version}`);
     tray.on('click', () => {
@@ -109,7 +110,6 @@ const createWindow = () => {
         date = Date.now();
         console.log(`Successfully Reloaded Application, and the date is ${date}`);
     })
-      
 };
 
 // extras
@@ -117,7 +117,6 @@ app.on('ready', function(){
     createWindow();
     app.dock.hide();
 });
-
 
 app.on(
     "window-all-closed",
@@ -129,11 +128,16 @@ app.on('browser-window-blur', (event, win) => {
     if (!win.webContents.isDevToolsFocused()) mainWindow.hide();
 })
 
-
 // receive message from index.html 
 console.log("Initialized a listener");
 ipcMain.on('asynchronous-message', (event, arg) => {
     setTimeout(() => {
+        if (globalClient) {
+            client.destroy();
+            client = new RPC.Client({transport: "ipc"});
+            globalClient = false;
+        }
+
         console.log( arg );
         // checks if it should set a new instance of the RPC or not.
         let instanceVar = true;
@@ -243,7 +247,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         });
         
         // logs into the client with the client ID to set the Rich presence
-        globalClient = clientVar
+        globalClient = true
         client.login({ clientId: clientVar })
     }, 100);
 });
