@@ -1,7 +1,7 @@
 {
   "name": "gluta",
   "productName": "Gluta",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "description": "A discord Rich Presence script built for Genshin Impact made to be as easy as possible to use.",
   "main": "main.js",
   "scripts": {
@@ -38,33 +38,7 @@
       ]
     }
   },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "all"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
-  },
+  "config": {},
   "dependencies": {
     "@electron/remote": "^2.0.1",
     "axios": "^0.25.0",
@@ -94,8 +68,8 @@
     "discord-rpc": "^4.0.1",
     "discord.js": "^13.6.0",
     "dominant-color": "^0.0.1",
-    "electron": "^16.0.8",
-    "electron-builder": "^22.14.5",
+    "electron": "^19.0.6",
+    "electron-builder": "^23.1.0",
     "electron-packager": "^15.4.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-util": "^0.17.2",

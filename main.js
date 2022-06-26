@@ -8,7 +8,6 @@ let tray = null;
 let codeRun = false;
 let date;
 let {version} = require('./package.json');
-const { ipc } = require('discord-rpc/src/transports');
 let rpcState = true;
 let rpcLabel = '╸Toggle RPC╺ (✓)';
 let globalClient;

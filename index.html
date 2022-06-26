@@ -11,14 +11,12 @@
     <script>
         const setAllLocalStorage = (object) => {
             const keys = Object.keys(object);
-            console.log(keys);
-            // iterate over object
-
+            console.table(object)
+            // iterate over array
             keys.forEach((key, index) => {
                 localStorage.setItem(key, object[key]);
             });
         }
-
         // main initialization and global variables
         let obj;
         let iterations = 0;
@@ -30,7 +28,6 @@
         const {version} = require('./package.json')
         let isOr = false;
         let toggleSave = localStorage.getItem('selected')==='true'?true:false
-        console.log(toggleSave)
 
         function countUpFromTime(countFrom) {
             // count up timer in the Rich Presence application which resets every 24 hours as per official discord RPC.
@@ -95,7 +92,12 @@
                 btnUrl2Var,
                 gameName
             } = obj;
-            console.log('Setting Rich Presence')
+            console.log(
+                '%c— %cSetting Rich Presence %c—',
+                'color: red; font-weight:bold;',
+                'color: white; font-weight:bold;',
+                'color: red; font-weight:bold;'
+            )
 
             // send data to main.js 
             ipcRenderer.send('asynchronous-message', obj);
@@ -182,15 +184,20 @@
                     let largeImgIdentifier = document.getElementById("largeImgIdt").value
                     let largeImgId;
                     let smallImgId;
-                    if (data[0].id == largeImgIdentifier) {
+
+                    if (data[0].id && data[1].id) {
+                        if (data[0].id == largeImgIdentifier) {
                         largeImgId = data[1].id;
                         smallImgId = data[0].id;
+                        } else {
+                            largeImgId = data[0].id;
+                            smallImgId = data[1].id;
+                        }
+                        largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
+                        smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                     } else {
-                        largeImgId = data[0].id;
-                        smallImgId = data[1].id;
+                        alert(new Error('There was an issue with the Client ID Images! They will be set to default for now.'))
                     }
-                    largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
-                    smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
                 });
             })
         }
@@ -209,7 +216,78 @@
                     toggleSaves()
                     loadTxt.innerText = "Loading... (87%)"
                     loadBar.style.width = '69vw'
-                    document.getElementById('badgeTooltipText').innerText = `v${version} @ 20.06.22`
+                    if (sessionStorage.getItem('version_gotten') != 'achieved') {
+                        const fetchData = require('node-fetch');
+                        let URL = `https://api.github.com/repos/acquitelol/gluta/releases/latest`;
+                        sessionStorage.setItem('version_gotten', 'achieved')
+                        fetchData(URL).then(async (response) => {
+                            let data = await response.json();
+                            let latestVersion;
+                            if (data['tag_name']) {
+                                latestVersion = data["tag_name"]
+                            } else {
+                                return
+                            }
+                            let currentVersion = version
+
+                            console.log(latestVersion, currentVersion)
+                            localStorage.setItem('latest', latestVersion)
+                            if (latestVersion != currentVersion) {
+                                let elem = document.getElementById('newUpdate')
+                                let updateDiv = document.getElementById("sub")
+                                let updateBadge = document.getElementById('badge2')
+                                let updateTooltip = document.getElementById('updateTooltipText')
+
+                                elem.setAttribute('data-version', latestVersion)
+                                updateTooltip.innerText = `Click here to update to ${latestVersion}!`;
+                                updateDiv.innerText = `Click here to update to version ${latestVersion}!`
+                                elem.style.transform = 'translateX(5vw) translateY(2vh) scale(1)'
+                                elem.style.opacity = '1'
+                                
+                                
+                                setTimeout(() => {
+                                    elem.style.transition = 'all 1000ms ease'
+                                    elem.style.opacity = '0'
+                                    elem.style.pointerEvents = "none"
+                                    updateBadge.style.transform = "translateX(12.25em) translateY(4em) scale(2)";
+                                    updateBadge.style.opacity = '1'
+                                }, 3000)
+                            }
+                        })
+                        
+                    } else {
+                        let latestVersion;
+                        if (localStorage.getItem('latest')) {
+                            latestVersion = localStorage.getItem('latest')
+                        } else {
+                            latestVersion = version
+                        }
+                        let currentVersion = version
+
+                        if (latestVersion != currentVersion) {
+                            let elem = document.getElementById('newUpdate')
+                            let updateDiv = document.getElementById("sub")
+                            let updateBadge = document.getElementById('badge2')
+                            let updateTooltip = document.getElementById('updateTooltipText')
+
+                            elem.setAttribute('data-version', latestVersion)
+                            updateTooltip.innerText = `Click here to update to v${latestVersion}!`;
+                            updateDiv.innerText = `Click here to update to v${latestVersion}!`
+                            elem.style.transform = 'translateX(5vw) translateY(2vh) scale(1)'
+                            elem.style.opacity = '1'
+                            
+                            
+                            setTimeout(() => {
+                                elem.style.transition = 'all 1000ms ease'
+                                elem.style.opacity = '0'
+                                elem.style.pointerEvents = "none"
+                                updateBadge.style.transform = "translateX(12.25em) translateY(4em) scale(2)";
+                                updateBadge.style.opacity = '1'
+                            }, 3000)
+                        }
+
+                    }
+                    document.getElementById('badgeTooltipText').innerText = `v${version} @ 26.06.22`
                     loadTxt.innerText = "Loading... (100%)"
                     loadBar.style.width = '80vw'
                     setTimeout(() => {
@@ -218,6 +296,7 @@
                             loadDiv.style.display='none'
                         }, 400)
                     }, 100)
+
                 }, 500)
         })
 
@@ -236,7 +315,6 @@
                 RPCfunc();
                 console.log(isOr)
             }
-
         };
 
         const toggleSaves = () => {
@@ -267,7 +345,6 @@
                     localStorage.setItem('selected', false)
                     RPCfunc()
                     toggleSave = localStorage.getItem('selected')=='false'?false:true
-                    console.log(toggleSave)
                     
                 } else if (!toggleSave) {
                     save1.setAttribute('data-selected', 'false')
@@ -293,7 +370,6 @@
                     localStorage.setItem('selected', true)
                     RPCfunc()
                     toggleSave = localStorage.getItem('selected')=='true'?true:false
-                    console.log(toggleSave)
                 }
             }
             ipcRenderer.on('enableSaves', (arg, event) => {
@@ -317,9 +393,23 @@
                 'btnTxt1Var': "",
                 'btnTxt2Var': "",
                 'gameName': "",
+                'clientVar2': "",
+                'stateVar2': "",
+                'detailsVar2': "",
+                'largeTxtVar2': "",
+                'largeIdtVar2': "",
+                'smallTxtVar2': "",
+                'smallIdtVar2': "",
+                'btnUrl1Var2': "",
+                'btnUrl2Var2': "",
+                'btnTxt1Var2': "",
+                'btnTxt2Var2': "",
+                'gameName2': "",
+                'version_gotten': "",
+                'latest': "",
+                'selected': 'false'
             };
             setAllLocalStorage(clearObj)
-
         })
 
         ipcRenderer.on('errMsgDDt', (event, arg) => {
@@ -341,6 +431,11 @@
 
         const devPortalFunc = () => {
             shell.openExternal("https://discord.com/developers/applications");
+        }
+
+        const latestRelease = () => {
+            let version = document.getElementById('newUpdate').getAttribute('data-version')
+            shell.openExternal(`https://github.com/acquitelol/gluta/releases/download/${version}/Gluta-${version}-arm64.dmg`);
         }
 
         const url1func = () => {
@@ -422,6 +517,11 @@
         <div id="badgeTooltipText">v9.99.9 @ undefined</div>
         <div class='triangle'></div>
     </div> 
+    <img src="./assets/nitro.png" alt="developer-badge" width="10" height="10", class='nitro' id='badge2' onclick="latestRelease()">
+    <div id="updateTooltipWrapper">
+        <div id="updateTooltipText">Click here to update to {version}</div>
+        <div class='triangle'></div>
+    </div> 
     <img src="./assets/divider.png" alt="divider" width="230" height="1", class='divider'>
     <img src='./assets/cog-icon.png' alt='cog' width='15' height="15" class="cog things" id='cog1' onclick="url1func()">
     <img src='./assets/cog-icon.png' alt='cog' width='15' height="15" class="cog things" id='cog2' onclick="url2func()">
@@ -458,5 +558,11 @@
         <div class='URL' id="loadingTxt">Loading... (0%)</div>
         <button class='stuff items btnUrls' id='empty-bar'></button>
         <button class='stuff items btnUrls' id='loading-bar'></button>
+    </div>
+    <div id='newUpdate' onclick="latestRelease()" data-version='undefined (yet)'>        
+        <div class="updateTxt heading" id="heading">A new <strong>Update</strong> is available! <span id="sparkle">✨</span></div>
+        <div class="update updateTxt" id="sub"><strong>Click here</strong> to update to {version}!</div>
+        <img src="./assets/code.png" alt="download-icon" width="50" height="50", class='codeIcon'>
+        <div id="click"></div>
     </div>
 </html>

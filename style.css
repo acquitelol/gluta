@@ -559,3 +559,131 @@ body > * {
 .badge:hover {
   transform: translateX(13.75em) translateY(4em) scale(2.25);
 }
+
+#newUpdate {
+  width: 90vw;
+  height: 12.5vh;
+  background-color: #0b0b0b;
+  color: white;
+  font-family: 'whitneybook';
+  font-size: 10px;
+  text-align: center;
+  transform: translateX(5vw) translateY(2vh) scale(0);
+  border-radius: 3vw;
+  border-width: 0.05em;
+  border-color: rgba(255,255,255,.1);
+  border-style: solid;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.741);
+  opacity: 0;
+  transition: all 600ms ease;
+}
+
+#newUpdate:hover {
+  background-color: #1f1f1f;
+}
+
+#newUpdate:hover > #heading {
+  transform: translateX(-2em) translateY(.5em);
+}
+
+#newUpdate:hover > #sub {
+  transform: translateX(-3em) translateY(.5em);
+}
+
+#newUpdate:hover > .codeIcon {
+  transform: translateY(-65%) translateX(100%) scale(0.75);
+  opacity: 1;
+}
+
+
+#click {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform: translateY(-75%);
+}
+
+strong {
+  font-family: 'whitneybold';
+  cursor: pointer;
+}
+
+#sparkle {
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.updateTxt {
+  margin: 0;
+  padding: 0;
+  transform: translateY(.5em);
+}
+
+.heading {
+  font-size: 12px;
+}
+
+
+#heading, #sub {
+  transition: all 600ms ease;
+}
+
+.codeIcon {
+  filter: invert(1);
+  position: absolute;
+  transform: translateY(-65%) translateX(100%) scale(0);
+  opacity: 0;
+  transition: all 600ms ease;
+}
+
+#badge2 {
+  transform: translateX(12.25em) translateY(4em) scale(0);
+  opacity: 0;
+  cursor: pointer;
+  transition: all 600ms ease;
+}
+
+#badge2:hover {
+  transform: translateX(12.25em) translateY(4em) scale(2.25);
+}
+
+#updateTooltipText {
+  width: 35vw;
+  text-align: center;
+  border: none;
+  resize: none;
+  outline: none;
+  border-radius: 0.3em;
+  font-family: 'whitneybook';
+  background-color: transparent;
+  text-shadow: 2px 2px 2px #0000005d;
+  color: white;
+  font-size: 12px;
+  background: #0f0d0d;
+  padding: 0.25em;
+  z-index: 2;
+  padding: 0.25em 0.5em;
+}
+
+#updateTooltipWrapper:after {
+  content: '';
+  position: absolute;
+  width: 0.85em;
+  height: 0.85em;
+  background: #0f0d0d;
+  border-radius: 0.15em;
+  transform: translateY(-.5em) translateX(5.25em) translateZ(-4em) rotateZ(45deg) scale(1);
+}
+
+#updateTooltipWrapper {
+  opacity: 0;
+  transition: all 300ms ease;
+  transform-origin: bottom;
+  transform: translateX(7em) translateY(0.75em) scale(0);
+}
+
+#badge2:hover + #updateTooltipWrapper {
+  opacity: 1;
+  transform: translateX(7em) translateY(0.5em) scale(1);
+}
