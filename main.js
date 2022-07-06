@@ -130,9 +130,9 @@ app.on('browser-window-blur', (event, win) => {
 // receive message from index.html 
 console.log("Initialized a listener");
 ipcMain.on('asynchronous-message', (event, arg) => {
-    setTimeout(() => {
+    setTimeout(async () => {
         if (globalClient) {
-            client.destroy();
+            await client.destroy();
             client = new RPC.Client({transport: "ipc"});
             globalClient = false;
         }
@@ -232,6 +232,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
             
             console.log("Successfully set Rich Presence!");
             // collects client information for setting avatar and username in preview
+            if (!client.user) return
             let { id, username, discriminator, avatar } = client.user;
             const userData = {
                 avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
@@ -246,8 +247,8 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         });
         
         // logs into the client with the client ID to set the Rich presence
-        globalClient = true
         client.login({ clientId: clientVar })
+        globalClient = true;
     }, 100);
 });
 

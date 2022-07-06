@@ -321,7 +321,7 @@ body > * {
   text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 14px;
-  transform: translateY(19.5em) translateX(1.1em);
+  transform: translateY(19.5em) translateX(1.2em);
 }
 
 .btnTxt2 {
@@ -337,7 +337,7 @@ body > * {
   text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 14px;
-  transform: translateY(22.25em) translateX(1.1em);
+  transform: translateY(22.25em) translateX(1.2em);
 }
 
 .cog {

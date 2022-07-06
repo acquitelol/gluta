@@ -50,7 +50,10 @@
                 mins = "0" + mins;
             if (secs < 10)
                 secs = "0" + secs;
-            elem.innerText = `${hours}:${mins}:${secs} Elapsed`;
+
+            if (hours < 1)
+                hours = ""
+            elem.innerText = `${hours}${hours==""?"":":"}${mins}:${secs} Elapsed`;
 
             clearTimeout(countUpFromTime.interval);
             countUpFromTime.interval = setTimeout(function() {
@@ -185,13 +188,13 @@
                     let largeImgId;
                     let smallImgId;
 
-                    if (data[0].id && data[1].id) {
-                        if (data[0].id == largeImgIdentifier) {
-                        largeImgId = data[1].id;
-                        smallImgId = data[0].id;
-                        } else {
+                    if (data[0].id && data[1].id && data[0].name) {
+                        if (data[0].name == largeImgIdentifier) {
                             largeImgId = data[0].id;
                             smallImgId = data[1].id;
+                        } else {
+                            largeImgId = data[1].id;
+                            smallImgId = data[0].id;
                         }
                         largeImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${largeImgId}.png`
                         smallImgIcn.src = `https://cdn.discordapp.com/app-assets/${clientVar}/${smallImgId}.png`
