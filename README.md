@@ -1,5 +1,5 @@
  # Gluta is A discord Rich Presence script built for Genshin Impact made to be as easy as possible to use.
- <div style='display:flex; left:50%; transform: translateX(-50%);'>
+ <div style='display:flex; transform: translateX(10em);'>
   <img width="350" alt="image" src="https://user-images.githubusercontent.com/94182437/178124803-b35da9dc-6ff7-415f-b7fa-c7bc1e3c49d1.png">
   <img width="350" alt="image" src="https://user-images.githubusercontent.com/94182437/178124808-fea4dbcc-dc81-47d7-888f-7de9350ac94f.png">
  </div>
