@@ -3,6 +3,12 @@
   <img width="350" alt="image" src="https://user-images.githubusercontent.com/94182437/178124803-b35da9dc-6ff7-415f-b7fa-c7bc1e3c49d1.png#gh-dark-mode-only" href='https://github.con/acquitelol/gluta/releases/latest'>
   <img width="350" alt="image" src="https://user-images.githubusercontent.com/94182437/178124808-fea4dbcc-dc81-47d7-888f-7de9350ac94f.png#gh-dark-mode-only" href='https://github.con/acquitelol/gluta/releases/latest'> 
  </div>
+ <div style='display: flex;' align='center'>
+  <img width="350" alt="image" src="https://user-images.githubusercontent.com/94182437/178125849-e9ba200f-c1e1-48cc-962f-8543d8b78090.png#gh-light-mode-only">
+  <img width="350" alt="image" src="https://user-images.githubusercontent.com/94182437/178125828-fc9ca815-3e93-452e-bdfa-569efed7dd61.png#gh-light-mode-only">
+ 
+
+ </div>
 
 
  To use it, it's as simple as this:
