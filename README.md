@@ -3,7 +3,7 @@
 
  To use it, it's as simple as this:
 
-Chapter 1: **Installing the program**.
+### Chapter 1: **Installing the program**.
  1. Download the DMG for your mac (usually under https://github.com/acquitelol/releases/latest/)
  2. Once it is done installing, open it and drag the application to the /Applications folder as asked
  3. Then, try to open the application. You might get a "“Gluta.app” can’t be opened because Apple cannot check it for malicious software." error, you can just Right Click > Open to bypass this and open Gluta.
@@ -26,7 +26,7 @@ Chapter 1: **Installing the program**.
  
  ((***Additional Info***))
  - Right click on the Tray Menu app (the white G) and go to ╸Utilities╺ > ╸Profiles╺.
- - From here, you can switch to the second profile, where you can set a seperate Rich Presence. To do this, just repeat the steps from [here](#chapter-2-filling-in-all-boxes)
+ - From here, you can switch to the second profile, where you can set a seperate RPC. To do this, refer to the steps from [here](#chapter-2-filling-in-all-boxes)
  - (This menu allows you to toggle between them at any time)
  - From ╸Utilities╺, you can also turn off the RPC and Clear the cache (Clears everything to default state, requires restart)
  - Please note that **all** boxes must be filled for the rich presence to begin.
