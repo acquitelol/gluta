@@ -24,44 +24,20 @@ Chapter 1: **Installing the program**.
  10. Click on the cog next to each of the buttons, and enter a URL that you would like the buttons to direct to (the URLs are forcefully set to begin with "https://", so please make sure you meet this criteria.)
  11. The rich presence should now be set!
  
- ((***Additional Steps***))
- 12. Right click on the Tray Menu app (the white G) and go to ╸Utilities╺ > ╸Profiles╺.
- 13. From here, you can switch to the second profile, where you can set a seperate Rich Presence. To do this, just repeat the steps from [here](#chapter-2-filling-in-all-boxes)
-
-### Place 1
-
-Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
-
-### Place 2
-
-Place one has the fun times of linking here, but I can also link back [here](#place-1).
-
-### Place's 3: other example
-
-Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).
-
-
- Here are some more things to keep in mind:
- 
- • Please note that **all** boxes must be filled for the rich presence to begin.
-
- • Please also note you must have the Regular, Canary, or PTB client open *before* you start the rich presence.
-
- • Please also note that the data which you input is saved to your cache, AKA it loads the Rich Presence automatically when you start the program.
+ ((***Additional Info***))
+ - Right click on the Tray Menu app (the white G) and go to ╸Utilities╺ > ╸Profiles╺.
+ - From here, you can switch to the second profile, where you can set a seperate Rich Presence. To do this, just repeat the steps from [here](#chapter-2-filling-in-all-boxes)
+ - (This menu allows you to toggle between them at any time)
+ - From ╸Utilities╺, you can also turn off the RPC and Clear the cache (Clears everything to default state, requires restart)
+ - Please note that **all** boxes must be filled for the rich presence to begin.
+ - Please also note you must have the Regular, Canary, or PTB client open *before* you start the rich presence.
+ - Please also note that the data which you input is saved to your cache, AKA it loads the Rich Presence automatically when you start the program.
    (THIS DOES NOT MEAN I CAN READ THE DATA YOU INPUT, the source code is here and you can read it if you like, I am in no way storing this data. It is
     only stored on your Local Device.)
-
- • As well as this, Please also note that the Timer/Stopwatch in the program is Clickable (It can be turned On and Off!).
- 
- • Also note that if it is not working, do CMD+OPT+I on your keyboard, and go to Console, where I have logged any empty boxes.
-
- • Furthermore, you can toggle the Rich Presence on and off by going into the Right Click Menu.
- 
- • Also, if you, for some reason, Reload or Quit Discord, you will have to Quit & Reopen Gluta for the Rich Presence to start again. (should be fine as it saves to cache.)
-
- • Lastly, Please note that the Preview in the program is just a *representation* and is not the actual Rich Presence, it was recreated with HTML + CSS
+ - Also note that if it is not working, do CMD+OPT+I on your keyboard, and go to Console, and report any Errors to /Issues.
+ - Furthermore, you can toggle the Rich Presence on and off by going into the Right Click Menu.
+ - Also, if you, for some reason, Reload or Quit Discord, you will have to Refresh Gluta (CMD+R) or quit&restart Gluta for the Rich Presence to start again. (should be fine as it saves to cache.)
+ - Lastly, Please note that the Preview in the program is just a *representation* and is not the actual Rich Presence, it was recreated with HTML + CSS
  as a vizualisation of the Rich Presence.
  
-
-(Here is a short video showing how to get it to work quickly incase you are stuck with something: https://bit.ly/gluta-setup)
 Made with **<3** by *acquite#0001* with help from *Roeegh#3643*!
