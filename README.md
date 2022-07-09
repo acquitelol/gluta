@@ -26,7 +26,7 @@
  
  ### ((***Additional Info***))
  #### Profiles
- - Right click on the Tray Menu app (the white G) and go to ╸Utilities╺ > ╸Profiles╺.
+ - Right click on the Tray Menu app (the white G) and go to **╸Utilities╺** > **╸Profiles╺**.
  - From here, you can switch to the second profile, where you can set a seperate RPC. To do this, refer to the steps from [here](#chapter-2-filling-in-all-boxes)
  - (This menu allows you to toggle between them at any time)
 
