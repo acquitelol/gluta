@@ -4,33 +4,41 @@
  To use it, it's as simple as this:
 
 Chapter 1: **Installing the program**.
- 1. Download the DMG for your mac (Intel or M1 aka arm64)
- 2. Once it is done installing, open it and drag the application to the Applications folder like shown
- 3. If you try to open it, it will not work straight away! You need to type CMD + SPACE on your keyboard
- 4. After this, type "Terminal" and click ENTER.
- 5. You will then be greeted with a terminal window.
- 6. Please make sure you have administrator permissions of the Mac before proceeding, it is required for the following commands
- 7. Type `xattr -cr /Applications/Gluta.app` or copy and paste it.
- 9. Type your password, and then try again. (Please note that a White "G" should appear at the top of your mac if it is working!)
- 10. If it still does not open, please wait for a little while, it will open eventually.
- 11. You will be greeted with a screen which shows empty boxes (hopefully!)
+ 1. Download the DMG for your mac (usually under https://github.com/acquitelol/releases/latest/)
+ 2. Once it is done installing, open it and drag the application to the /Applications folder as asked
+ 3. Then, try to open the application. You might get a "“Gluta.app” can’t be opened because Apple cannot check it for malicious software." error, you can just Right Click > Open to bypass this and open Gluta.
 
 **Please note that Gluta is a Menu Bar Application, not a full window.**
 
-Chapter 2: **Filling in all boxes**.
+### Chapter 2: **Filling in all boxes**.
 
- 1. Go to the Discord Developer Portal (https://discord.com/developers/applications) and create a New Application.
- 2. The name that you give this is the name of the Rich Presence, so be careful (calling it Genshin Impact is the best way to go)
+ 1. Go to the Discord Developer Portal (https://discord.com/developers/applications) or click on the Dice inside of Gluta, and create a New Application.
+ 2. The name that you give this Application is the name of the Rich Presence, so be careful (calling it Genshin Impact or something similar is the best way to go)
  3. Go to the oAuth2 tab and click "Copy" on the Client ID box.
  4. Open Gluta and paste the string in the empty "Client ID" box
- 5. Now customize the rich presence to your needs! Here are some things to keep in mind:
- 6. The default Large and Small image are clickable, to change the images you need to go back to the discord developer portal, and
-     click on the application name, then go to "Rich Presence" and then "Art Assets". once you are here, upload your Large and Small Image
-     and give them a name, then click Save.
- 7. Go back to gluta, and click on the default Images, the Large || Small Image hover is what will apppear when you hover over the image in Discord
- 8. The large || small image Identifier is what you called the image in the developer portal. Please make sure it is the exactly same
-     as the one in the Developer Portal (its Caps Sensitive!)
- 9. The URLs are shown by clicking on the little "cog" next to the button. They need to both start with 'https://'
+ 5. Now you can enter in your Game Name (default is Genshin Impact, change it to whatever you called your Application), State and Details
+ 6. Go back to the developer portal, and upload 2 images which are 512x512, and call them something you will remember.
+ 7. In Gluta, click on the large image placeholder, and change the Large Image Text to whatever you want the Large image to show when hovered, and change the large image identifier to whatever you called the image in the Developer Portal.
+ 8. Repeat this process for the small image.
+ 9. Enter a name for the Buttons, this is what will appear in Discord as the button
+ 10. Click on the cog next to each of the buttons, and enter a URL that you would like the buttons to direct to (the URLs are forcefully set to begin with "https://", so please make sure you meet this criteria.)
+ 11. The rich presence should now be set!
+ 
+ ((***Additional Steps***))
+ 12. Right click on the Tray Menu app (the white G) and go to ╸Utilities╺ > ╸Profiles╺.
+ 13. From here, you can switch to the second profile, where you can set a seperate Rich Presence. To do this, just repeat the steps from [here](#chapter-2-filling-in-all-boxes)
+
+### Place 1
+
+Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
+
+### Place 2
+
+Place one has the fun times of linking here, but I can also link back [here](#place-1).
+
+### Place's 3: other example
+
+Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).
 
 
  Here are some more things to keep in mind:
@@ -56,4 +64,4 @@ Chapter 2: **Filling in all boxes**.
  
 
 (Here is a short video showing how to get it to work quickly incase you are stuck with something: https://bit.ly/gluta-setup)
-Made with **<3** by *acquite#0001* with help from *eeradaa#3643*!
+Made with **<3** by *acquite#0001* with help from *Roeegh#3643*!
