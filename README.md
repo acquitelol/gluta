@@ -26,7 +26,7 @@
  
  ((***Additional Info***))
  - Right click on the Tray Menu app (the white G) and go to ╸Utilities╺ > ╸Profiles╺.
- - From here, you can switch to the second profile, where you can set a seperate RPC. To do this, refer to the steps from [here](#chapter-2-filling-in-all-boxes.)
+ - From here, you can switch to the second profile, where you can set a seperate RPC. To do this, refer to the steps from [here](#chapter-2-filling-in-all-boxes)
  - (This menu allows you to toggle between them at any time)
  - From ╸Utilities╺, you can also turn off the RPC and Clear the cache (Clears everything to default state, requires restart)
  - Please note that **all** boxes must be filled for the rich presence to begin.
