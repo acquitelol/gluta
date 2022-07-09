@@ -30,17 +30,25 @@
  - From here, you can switch to the second profile, where you can set a seperate RPC. To do this, refer to the steps from [here](#chapter-2-filling-in-all-boxes)
  - (This menu allows you to toggle between them at any time)
 
+ #### Utility Options
+ - From **╸Utilities╺**, 
+   - You can turn off the RPC with **╸Toggle RPC╺ (✓) || ╸Toggle RPC╺ (×)** 
+   - You can also **Clear the cache** (Clears everything to default state, requires restart) with **╸Clear all Cache╺**.
+ - **All** boxes must be filled for the Rich Presence to begin.
+ 
  #### Extras
- - From ╸Utilities╺, you can also turn off the RPC and Clear the cache (Clears everything to default state, requires restart)
- - Please note that **all** boxes must be filled for the rich presence to begin.
- - Please also note you must have the Regular, Canary, or PTB client open *before* you start the rich presence.
- - Please also note that the data which you input is saved to your cache, AKA it loads the Rich Presence automatically when you start the program.
-   (THIS DOES NOT MEAN I CAN READ THE DATA YOU INPUT, the source code is here and you can read it if you like, I am in no way storing this data. It is
-    only stored on your Local Device.)
- - Also note that if it is not working, do CMD+OPT+I on your keyboard, and go to Console, and report any Errors to /Issues.
+ - Note you must have the Regular, Canary, or PTB client open when you start the Rich Presence.
+ - Also note that the data which you input is saved to your cache, which means it loads the Rich Presence automatically when you start the program. 
+   - This means that i **cannot** read the data which you input
+   - It is only saved to your Local Storage
+   - The source code is public and may be accessed at will.
+ - Also note that if it is not working for any reason, do CMD+OPT+I on your keyboard, and go to theConsole, and report any Errors to /Issues.
  - Furthermore, you can toggle the Rich Presence on and off by going into the Right Click Menu.
- - Also, if you, for some reason, Reload or Quit Discord, you will have to Refresh Gluta (CMD+R) or quit&restart Gluta for the Rich Presence to start again. (should be fine as it saves to cache.)
+ - Also, if you, for some reason, Reload or Quit Discord, you will have to Refresh Gluta (CMD+R) or Quit&Restart Gluta (slower) for the Rich Presence to start again. (which should be fine as it saves to cache.)
  - Lastly, Please note that the Preview in the program is just a *representation* and is not the actual Rich Presence, it was recreated with HTML + CSS
- as a vizualisation of the Rich Presence.
+ as a vizualisation of the Rich Presence. The fact that it applies the Rich Presence to Discord when edited in the preview is just a consequence of using the Discord-RPC api. The program is not:
+   - Rendering HTML/CSS/JS from the official discord website
+   - Rendering Images of the RPC taken from Discord
+   - Rendering the Preview of the RPC in the Discord Developer Portal
  
 Made with **<3** by *acquite#0001* with help from *Roeegh#3643*!
