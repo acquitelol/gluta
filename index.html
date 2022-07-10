@@ -98,7 +98,7 @@
             console.log(
                 '%c— %cSetting Rich Presence %c—',
                 'color: red; font-weight:bold;',
-                'color: white; font-weight:bold;',
+                `color: ${window.matchMedia("(prefers-color-scheme: dark)").matches?'white':'black'}; font-weight:bold;`,
                 'color: red; font-weight:bold;'
             )
 
@@ -242,7 +242,7 @@
                                 let updateTooltip = document.getElementById('updateTooltipText')
 
                                 elem.setAttribute('data-version', latestVersion)
-                                updateTooltip.innerText = `Click here to update to ${latestVersion}!`;
+                                updateTooltip.innerText = `Update to ${latestVersion}!`;
                                 updateDiv.innerText = `Click here to update to version ${latestVersion}!`
                                 elem.style.transform = 'translateX(5vw) translateY(2vh) scale(1)'
                                 elem.style.opacity = '1'
@@ -274,7 +274,7 @@
                             let updateTooltip = document.getElementById('updateTooltipText')
 
                             elem.setAttribute('data-version', latestVersion)
-                            updateTooltip.innerText = `Click here to update to v${latestVersion}!`;
+                            updateTooltip.innerText = `Update to v${latestVersion}!`;
                             updateDiv.innerText = `Click here to update to v${latestVersion}!`
                             elem.style.transform = 'translateX(5vw) translateY(2vh) scale(1)'
                             elem.style.opacity = '1'
@@ -305,6 +305,7 @@
 
         const linethrough = () => {
             let item = document.getElementById('elapsed');
+            const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)")
             if (!isOr) {
                 item.style.textDecorationLine = 'line-through';
                 item.style.color = '#b0b0b0'
@@ -313,7 +314,7 @@
                 console.log(isOr)
             } else if (isOr) {
                 item.style.textDecorationLine = 'none';
-                item.style.color = '#FFFFFF'
+                item.style.color = darkThemeMq.matches?'#FFFFFF':'rgba(0,0,0,0.8)'
                 isOr = false;
                 RPCfunc();
                 console.log(isOr)
@@ -438,7 +439,7 @@
 
         const latestRelease = () => {
             let version = document.getElementById('newUpdate').getAttribute('data-version')
-            shell.openExternal(`https://github.com/acquitelol/gluta/releases/download/${version}/Gluta-${version}-arm64.dmg`);
+            shell.openExternal(`https://github.com/acquitelol/gluta/releases/download/${version}/Gluta-${version}.dmg`);
         }
 
         const url1func = () => {
@@ -522,7 +523,7 @@
     </div> 
     <img src="./assets/nitro.png" alt="developer-badge" width="10" height="10", class='nitro' id='badge2' onclick="latestRelease()">
     <div id="updateTooltipWrapper">
-        <div id="updateTooltipText">Click here to update to {version}</div>
+        <div id="updateTooltipText">Update to {version}</div>
         <div class='triangle'></div>
     </div> 
     <img src="./assets/divider.png" alt="divider" width="230" height="1", class='divider'>

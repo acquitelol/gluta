@@ -141,6 +141,10 @@ body > * {
   background: #850c8b;
 }
 
+#pfp, .nickname, .username, .client_id, .genshin, body {
+  transition: all 400ms ease;
+}
+
 #pfp {
   border-radius: 50%;
   border-style: solid;
@@ -162,17 +166,15 @@ body > * {
 .nickname {
   border-radius: 8px;
   font-family: 'whitneybook';
-  text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 16px;
   text-align: left;
-  transform: translateY(4.5em) translateX(1em); 
+  transform: translateY(4.5em) translateX(1em);
 }
 
 .username {
   border-radius: 8px;
   font-family: 'whitneybook';
-  text-shadow: 2px 2px 2px #0000005d;
   color: #818386;
   font-size: 14px;
   text-align: left;
@@ -188,7 +190,6 @@ body > * {
   border-radius: .5em;
   font-family: 'whitneybook';
   background-color: rgba(0, 0, 0, 0.603);
-  text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 15px;
   text-align: center; 
@@ -209,8 +210,6 @@ body > * {
   font-size: 12px;
   border: none;
   resize: none;
-  outline: none;
-  text-shadow: 2px 2px 2px #00000008;
 }
 
 .devportal {
@@ -267,7 +266,6 @@ body > * {
   border-radius: 8px;
   font-family: 'whitneybook';
   background-color: transparent;
-  text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 12px;
   text-align: left; 
@@ -281,7 +279,6 @@ body > * {
   border-radius: 8px;
   font-family: 'whitneybook';
   background-color: transparent;
-  text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 12px;
   text-align: left; 
@@ -295,7 +292,6 @@ body > * {
   border-radius: 8px;
   font-family: 'whitneybook';
   background-color: transparent;
-  text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 12px;
   text-align: left; 
@@ -318,7 +314,6 @@ body > * {
   font-family: 'whitneybook';
   background-color: #4f545c;
   text-align: center;
-  text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 14px;
   transform: translateY(19.5em) translateX(1.2em);
@@ -334,7 +329,6 @@ body > * {
   font-family: 'whitneybook';
   background-color: #4f545c;
   text-align: center;
-  text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 14px;
   transform: translateY(22.25em) translateX(1.2em);
@@ -463,7 +457,6 @@ body > * {
   border-style: solid;
   font-family: 'whitneybook';
   background-color: rgba(0, 0, 0, 0.753);
-  text-shadow: 2px 2px 2px #0000005d;
   color: white;
   font-size: 15px;
   text-align: center; 
@@ -686,4 +679,58 @@ strong {
 #badge2:hover + #updateTooltipWrapper {
   opacity: 1;
   transform: translateX(7em) translateY(0.5em) scale(1);
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background: #fff;
+  }
+
+  .genshin, .username{
+    color: #656d74;
+  }
+
+  .nickname {
+    color: #202021;
+  }
+
+  #pfp, .circle {
+    border-color: #fff;
+  }
+  
+  .images {
+    color: #4f5660;
+  }
+
+  .client_id {
+    background-color: rgba(0, 0, 0, 0.150);
+    color: rgba(100, 100, 100, 1);
+    font-size: 15px;
+    text-align: center; 
+  }
+
+  .btnTxt1, .btnTxt2 {
+    background-color: rgba(0,0,0,.5);
+    color: rgba(255,255,255,0.9);
+  }
+
+  .btnTxt1::placeholder, .btnTxt2::placeholder {
+    color: rgba(255,255,255,0.5);
+  }
+
+  .btnTxt1:hover, .btnTxt2:hover {
+    background-color: rgba(0,0,0,.8);
+  }
+
+  .btnTxt1:hover::placeholder, .btnTxt2:hover::placeholder {
+    color: rgba(255,255,255,0.75)
+  }
+
+  .elapsed, .details, .state {
+    color: rgba(0,0,0,0.8);
+  }
+
+  .btnUrls {
+    background-color: rgba(0, 0, 0, 0.453);
+  }
 }
