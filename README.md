@@ -14,7 +14,7 @@
  To use it, it's as simple as this:
 
 ### Chapter 1: **Installing the program**.
- 1. Download the DMG for your mac (usually under https://github.com/acquitelol/releases/latest/)
+ 1. Download the DMG for your mac (usually under https://github.com/acquitelol/gluta/releases/latest/)
  2. Once it is done installing, open it and drag the application to the /Applications folder as asked
  3. Then, try to open the application. You might get a "Gluta.app can’t be opened because Apple cannot check it for malicious software." error, you can just Right Click > Open to bypass this and open Gluta normally.
 
