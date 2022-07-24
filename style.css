@@ -137,8 +137,10 @@ body > * {
 
 #bg {
   width: 100vw;
-  height: 3em;
+  height: 10em;
   background: #850c8b;
+  transform: translateY(-7em);
+
 }
 
 #pfp, .nickname, .username, .client_id, .genshin, body {
@@ -156,7 +158,7 @@ body > * {
 
 .circle {
   border-radius: 50%;
-  transform: translateY(4.25em) translateX(3.75em);
+  transform: translateY(4.15em) translateX(3.65em);
   border-style: solid;
   border-width: 3px;
   border-color: #201c1c;
@@ -186,7 +188,7 @@ body > * {
   height: 6vh;
   border: none;
   outline: none;
-  transform: translateY(10em) translateX(0.9em);
+  transform: translateY(9.75em) translateX(0.9em);
   border-radius: .5em;
   font-family: 'whitneybook';
   background-color: rgba(0, 0, 0, 0.603);
@@ -214,7 +216,7 @@ body > * {
 
 .devportal {
   border-radius: 50%;
-  transform: translateY(9.60em) translateX(13.35em) scale(1.05) rotateZ(0deg);
+  transform: translateY(9.35em) translateX(13.35em) scale(1.05) rotateZ(0deg);
   filter: invert(0.45);
   width: 1em;
   height: 1em;
@@ -231,13 +233,13 @@ body > * {
 .paimon {
   transition: all 300ms ease;
   border-radius: 0.5em;
-  transform: translateY(12.5em) translateX(1em);
+  transform: translateY(13em) translateX(1.05em);
 }
 
 .yae {
   transition: all 300ms ease;
   border-radius: 50%;
-  transform: translateY(15.25em) translateX(4em);
+  transform: translateY(15.5em) translateX(3.8em);
 }
 
 .paimon:hover, .yae:hover {
@@ -249,7 +251,7 @@ body > * {
   font-family: 'whitneybold';
   color: #DCDDDE;
   font-size: 14px;
-  transform: translateY(14.25em) translateX(6.4em);
+  transform: translateY(14.5em) translateX(6.05em);
   text-align: left; 
 }
 
@@ -269,7 +271,7 @@ body > * {
   color: white;
   font-size: 12px;
   text-align: left; 
-  transform: translateY(18.15em) translateX(7.5em);
+  transform: translateY(18.4em) translateX(7.15em);
 }
 
 .state {
@@ -282,7 +284,7 @@ body > * {
   color: white;
   font-size: 12px;
   text-align: left; 
-  transform: translateY(19.45em) translateX(7.5em);
+  transform: translateY(19.7em) translateX(7.15em);
 }
 
 .elapsed {
@@ -295,13 +297,13 @@ body > * {
   color: white;
   font-size: 12px;
   text-align: left; 
-  transform: translateY(20.75em) translateX(7.25em);
+  transform: translateY(21em) translateX(6.9em);
   transition: all 400ms ease;
 }
 
 .elapsed:hover {
   cursor: pointer;
-  transform: translateY(20.75em) translateX(7.25em) scale(1.01);
+  transform: translateY(21em) translateX(6.9em) scale(1.01);
 }
 
 .btnTxt1 {
@@ -310,13 +312,13 @@ body > * {
   border: 4px;
   resize: none;
   outline: none;
-  border-radius: 8px;
+  border-radius: 4px;
   font-family: 'whitneybook';
   background-color: #4f545c;
   text-align: center;
   color: white;
   font-size: 14px;
-  transform: translateY(19.5em) translateX(1.2em);
+  transform: translateY(20em) translateX(1.2em);
 }
 
 .btnTxt2 {
@@ -325,13 +327,13 @@ body > * {
   border: 4px;
   resize: none;
   outline: none;
-  border-radius: 8px;
+  border-radius: 4px;
   font-family: 'whitneybook';
   background-color: #4f545c;
   text-align: center;
   color: white;
   font-size: 14px;
-  transform: translateY(22.25em) translateX(1.2em);
+  transform: translateY(22.5em) translateX(1.2em);
 }
 
 .cog {
@@ -339,11 +341,11 @@ body > * {
 }
 
 #cog1 {
-  transform: translateY(17.5em) translateX(13em);
+  transform: translateY(17.95em) translateX(13em);
 }
 
 #cog2 {
-  transform: translateY(19.9em) translateX(13em);
+  transform: translateY(20.1em) translateX(13em);
 }
 
 .cog:hover {
@@ -368,7 +370,7 @@ body > * {
   background-color: #696f79;
 }
 
-#Url1, #Url2, #paimonMenu, #smallMenu, #savesMenu {
+#Url1, #Url2, #paimonMenu, #smallMenu, #savesMenu, #bannerMenu {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -378,7 +380,15 @@ body > * {
   transition: filter 400ms ease;
 }
 
-
+.bannerTxt {
+  position: absolute;
+  font-family: 'whitneybold';
+  color: #DCDDDE;
+  font-size: 14px;
+  height: fit-content;
+  text-align: center;
+  transform: translateY(8em) translateX(3em);
+}
 #loading {
   position: absolute;
   width: 100vw;

@@ -69,6 +69,12 @@ const createWindow = () => {
             }
         }
 
+        const banner = () => {
+            let response = "Successfully opened banner GUI";
+            mainWindow.webContents.send('setCustomBanner', response);
+            console.log(response)
+        }
+
         const openSavesMenu = () => {
             mainWindow.webContents.send('enableSaves')
         }
@@ -80,6 +86,8 @@ const createWindow = () => {
                 { label: 'Separator',       type: 'separator'},
                 { label: '╸Profiles╺', click: openSavesMenu},
             ]},
+            { label: 'Separator',       type: 'separator'},
+            { label: '╸Upload Banner╺', click: banner },
             { label: 'Separator',       type: 'separator'},
             { label: '╸Quit Gluta╺', role: 'quit' },
         ];
@@ -169,12 +177,12 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         if (!btnUrl1Var.startsWith('https://')) {
             let errMsg = "Button 1 Url is not a real URL. It needs to start with 'https://'";
             console.log(errMsg);
-            event.sender.send('errMsgDtt', errMsg );
+            event.sender.send('errMsgDttAlert', errMsg );
             return;
         } else if (!btnUrl2Var.startsWith('https://')) {
             let errMsg = "Button 2 Url is not a real URL. It needs to start with 'https://'";
             console.log(errMsg);
-            event.sender.send('errMsgDtt', errMsg );
+            event.sender.send('errMsgDttAlert', errMsg );
             return;
         }
 
@@ -227,13 +235,14 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         }
                     
         // sets the rich presence based on the "activity" object
-        client.on("ready", () => {
+        client.on("ready", (person) => {
             client.request("SET_ACTIVITY", {pid: process.pid, activity: activity});
             
             console.log("Successfully set Rich Presence!");
             // collects client information for setting avatar and username in preview
             if (!client.user) return
             let { id, username, discriminator, avatar } = client.user;
+
             const userData = {
                 avatarIcon: `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}?size=160`,
                 userID: username,
@@ -241,7 +250,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
             }
             // send message to index.html
             event.sender.send('asynchronous-reply', userData );
-            console.log(userData);
+            console.log(client.user);
             
         
         });

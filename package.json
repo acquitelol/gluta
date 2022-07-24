@@ -1,7 +1,7 @@
 {
   "name": "gluta",
   "productName": "Gluta",
-  "version": "1.6.53",
+  "version": "1.6.54",
   "description": "A discord Rich Presence script built for Genshin Impact made to be as easy as possible to use.",
   "main": "main.js",
   "scripts": {
@@ -41,19 +41,15 @@
   "config": {},
   "dependencies": {
     "@electron/remote": "^2.0.1",
-    "axios": "^0.25.0",
     "colorthief": "^2.3.2",
     "discord": "^0.8.2",
+    "discord-banner": "^1.6.7",
     "discord-rpc": "^4.0.1",
-    "discord.js": "^13.6.0",
-    "dominant-color": "^0.0.1",
     "electron-packager": "^15.4.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-util": "^0.17.2",
     "jshint": "^2.13.4",
-    "node-fetch": "^2.6.7",
-    "node-vibrant": "^3.2.1-alpha.1",
-    "vibrant": "^0.0.1"
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.63",
@@ -62,18 +58,13 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "@electron/remote": "^2.0.1",
-    "axios": "^0.25.0",
     "colorthief": "^2.3.2",
     "discord": "^0.8.2",
     "discord-rpc": "^4.0.1",
-    "discord.js": "^13.6.0",
-    "dominant-color": "^0.0.1",
     "electron": "^19.0.6",
     "electron-builder": "^23.1.0",
     "electron-packager": "^15.4.0",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-util": "^0.17.2",
-    "node-vibrant": "^3.2.1-alpha.1",
-    "vibrant": "^0.0.1"
+    "electron-util": "^0.17.2"
   }
 }

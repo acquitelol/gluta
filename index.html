@@ -64,6 +64,35 @@
             ipcRenderer.send('disableRpcCallback')
         }
 
+        function UploadBanner() {
+            let str = document.getElementById('bannerBtn').value
+            let banner = document.getElementById('bg')
+
+            console.log(str, banner)
+            if (!str.startsWith('https://')) {
+                let userID = localStorage.getItem('userID')
+                
+                try {
+                    let splitted = str.split('.', 1);
+                } catch {
+                    return console.log("Invalid ID")
+                }
+                if (!userID) {
+                    return console.log('Either set the RPC first, or use a full URL format.')
+                }
+
+                let final = `https://cdn.discordapp.com/banners/${userID}/${splitted}.${str.startsWith('a_')?"gif":'png'}?size=64`
+                banner.style.backgroundImage = `url(${final})`
+                localStorage.setItem('bannerURL', final)
+            } else {
+                let final = str
+                banner.style.backgroundImage = `url(${final})`
+                localStorage.setItem('bannerURL', final)
+            }
+           
+                
+        }
+
         function RPCfunc() {
             // main initalization of rich presence information set as an object
             const obj = {
@@ -159,6 +188,8 @@
                     userID,
                     userDisc
                 } = arg;
+
+                localStorage.setItem('userID', userID)
                 let largeImgIcn = document.getElementById('paimon');
                 let smallImgIcn = document.getElementById('small');
                 if (iterations < 1) {
@@ -167,10 +198,17 @@
                 }
                 // checks if the old avatar is the same as the new one; if it isnt, it sets the banner again.
                 profilePic.src = avatarIcon;
+                localStorage.setItem('pfpURL', avatarIcon)
                 profilePic.onload = () => {
                     ColorThief.getColor(avatarIcon)
                         .then(color => {
-                            bgImg.style.backgroundColor = "rgb(" + color + ")";
+                            let banner = localStorage.getItem('bannerURL')
+
+                            if (!banner) { 
+                                let bannerURL = "rgb(" + color + ")"; 
+                                bgImg.style.backgroundColor = bannerURL
+                                localStorage.setItem('bannerURL', bannerURL)
+                            }
                         })
                         .catch(err => {
                             console.log(err)
@@ -291,6 +329,17 @@
 
                     }
                     document.getElementById('badgeTooltipText').innerText = `v${version} @ 26.06.22`
+                    let banner = localStorage.getItem('bannerURL')
+                    let pfp = localStorage.getItem('pfpURL')
+
+                    if (banner) {
+                        let bg = document.getElementById('bg')
+                        bg.style.backgroundImage = banner.startsWith('https://')?`url(${banner})`:banner;
+                    }
+                    if (pfp) {
+                        let pfpIcon = document.getElementById('pfp')
+                        pfpIcon.src = pfp
+                    }
                     loadTxt.innerText = "Loading... (100%)"
                     loadBar.style.width = '80vw'
                     setTimeout(() => {
@@ -382,7 +431,13 @@
                 url1div.style.filter = "opacity(1)";
                 url1div.style.zIndex = "1"
             })
-
+            ipcRenderer.on('setCustomBanner', (arg, event) => {
+                let url1div = document.getElementById('bannerMenu');
+                url1div.style.transition = "all 500ms ease";
+                url1div.style.filter = "opacity(1)";
+                url1div.style.zIndex = "1"
+            })
+            
         ipcRenderer.on('clearCacheResponse', (event, arg) => {
             const clearObj = {
                 'clientVar': "",
@@ -492,6 +547,10 @@
                     let closeBtn = document.getElementById('closeBtn5');
                     closeBtn.parentElement.style.filter = "opacity(0)";
                     closeBtn.parentElement.style.zIndex = "-1";
+                } case 6: {
+                    let closeBtn = document.getElementById('closeBtn6');
+                    closeBtn.parentElement.style.filter = "opacity(0)";
+                    closeBtn.parentElement.style.zIndex = "-1";
                 }
             }
 
@@ -511,9 +570,9 @@
     <h4 class='username' id='username'> Test Account#0001</h4>
     <div class='images things' id='play'>Playing a game</div>
     <input type="text" class='genshin things' id='name' value='Genshin Impact' placeholder="Game Name" onclick="this.select()" onchange="RPCfunc()"></input>
-    <img src='https://cdn.discordapp.com/app-assets/929391097824821318/929483644731551754.png' alt='paimon' width="60" height="60" class='paimon things' id='paimon' onclick="paimonClick()">
+    <img src='https://cdn.discordapp.com/app-assets/929391097824821318/929483644731551754.png' alt='paimon' width="56" height="56" class='paimon things' id='paimon' onclick="paimonClick()">
     <img src='assets/yae.png' alt='small' width="20" height="20" class='yae things' id='small' onclick='smallClick()'>
-    <img src="./assets/circle.png" alt="circle" width="10" height="10", class='circle'>
+    <img src="./assets/circle.png" alt="circle" width="11" height="11", class='circle'>
     <img src="./assets/devportal.png" alt="discord-dev-portal" width="10" height="10", class='devportal' onclick="devPortalFunc()">
 
     <img src="./assets/badge-dev.png" alt="developer-badge" width="10" height="10", class='badge' id='badge'>
@@ -538,6 +597,11 @@
         <div class='URL'>Input a URL:</div>
         <input class='btnUrl2 stuff items btnUrls' placeholder="Button Url 2" id='btnUrl2' value="" onclick="this.select()" onchange="RPCfunc()"></input>
         <button type="button" class="closeBtn" onclick="closeFunc(2)" id="closeBtn2" data-type="closeBtn">Close Menu</button>
+    </div>
+    <div id='bannerMenu'>
+        <div class='bannerTxt'>Input a Custom Banner URL:</div>
+        <input class='btnUrl2 stuff items btnUrls' placeholder="Banner URL" id='bannerBtn' value="" onclick="this.select()" onchange="UploadBanner()"></input>
+        <button type="button" class="closeBtn" onclick="closeFunc(6)" id="closeBtn6" data-type="closeBtn">Close Menu</button>
     </div>
     <div id='paimonMenu'>
         <div class='paimonTxt URL'>Edit Large Image:</div>
