@@ -152,7 +152,7 @@ body > * {
   border-style: solid;
   border-width: 6px;
   border-color: #201c1c;
-
+  -webkit-user-drag: none;
   transform: translateY(1em) translateX(0.5em);
 }
 
@@ -162,6 +162,7 @@ body > * {
   border-style: solid;
   border-width: 3px;
   border-color: #201c1c;
+  -webkit-user-drag: none;
 }
 
 
@@ -200,7 +201,7 @@ body > * {
 .divider {
   width: 90vw;
   transform: translateX(0.75em) translateY(8.5em);
-  z-index: 0;
+  z-index: 1231241;
 }
 
 .images {
@@ -222,11 +223,12 @@ body > * {
   height: 1em;
   align-items: center;
   transition: all 600ms ease;
+  -webkit-user-drag: none;
 }
 
 .devportal:hover {
   cursor: pointer;
-  transform: translateY(9.6em) translateX(13.35em) scale(1.15);
+  transform: translateY(9.35em) translateX(13.35em) scale(1.15);
   filter: invert(1);
 }
 
@@ -234,12 +236,19 @@ body > * {
   transition: all 300ms ease;
   border-radius: 0.5em;
   transform: translateY(13em) translateX(1.05em);
+  -webkit-user-drag: none;
 }
 
 .yae {
   transition: all 300ms ease;
   border-radius: 50%;
-  transform: translateY(15.5em) translateX(3.8em);
+  border-style: solid;
+  border-width: 2px;
+  border-color: #201c1c;
+  background: #201c1c;
+  transform: translateY(15.7em) translateX(3.8em);
+  -webkit-user-drag: none;
+
 }
 
 .paimon:hover, .yae:hover {
@@ -342,10 +351,12 @@ body > * {
 
 #cog1 {
   transform: translateY(17.95em) translateX(13em);
+  -webkit-user-drag: none;
 }
 
 #cog2 {
   transform: translateY(20.1em) translateX(13em);
+  -webkit-user-drag: none;
 }
 
 .cog:hover {
@@ -354,12 +365,12 @@ body > * {
 
 #cog1:hover {
   filter: brightness(1.6);
-  transform: translateY(17.5em) translateX(13em) scale(1.25) rotateZ(25deg);
+  transform: translateY(17.95em) translateX(13em) scale(1.25) rotateZ(25deg);
 }
 
 #cog2:hover {
   filter: brightness(1.6);
-  transform: translateY(19.9em) translateX(13em) scale(1.25) rotateZ(25deg);
+  transform: translateY(20.1em) translateX(13em) scale(1.25) rotateZ(25deg);
 }
 
 .buttons {
@@ -518,6 +529,7 @@ body > * {
   transform: translateX(13.75em) translateY(4em) scale(2);
   cursor: pointer;
   transition: all 400ms ease;
+  -webkit-user-drag: none;
 }
 
 #badgeTooltipText {
@@ -596,6 +608,7 @@ body > * {
 #newUpdate:hover > .codeIcon {
   transform: translateY(-65%) translateX(100%) scale(0.75);
   opacity: 1;
+  -webkit-user-drag: none;
 }
 
 
@@ -645,6 +658,7 @@ strong {
   opacity: 0;
   cursor: pointer;
   transition: all 600ms ease;
+  -webkit-user-drag: none;
 }
 
 #badge2:hover {
